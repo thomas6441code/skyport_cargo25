@@ -1,0 +1,41 @@
+// Base form styles
+.form-control {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/50 transition;
+
+    &::placeholder {
+        @apply text-gray-400;
+    }
+}
+
+// Quote form specific
+.quote-form {
+    .form-group {
+        @apply mb-6;
+
+        label {
+            @apply block text-gray-700 font-medium mb-2;
+        }
+
+        .error-message {
+            @apply text-secondary text-sm mt-1;
+        }
+    }
+
+    .upload-area {
+        @apply border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition hover:border-primary;
+
+        &.dragging {
+            @apply border-primary bg-primary/5;
+        }
+    }
+}
+
+// Tracking input
+.tracking-input {
+    @apply pr-16; // Space for the track button
+
+    & + button {
+        right: 0.5rem;
+        transform: translateY(-50%);
+    }
+}

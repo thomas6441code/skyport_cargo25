@@ -1,0 +1,41 @@
+// Main header
+.main-header {
+    @apply shadow-md;
+
+    .logo {
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    // Mega menu dropdown
+    .mega-menu {
+        @apply absolute left-0 right-0 shadow-lg z-50 opacity-0 invisible transition-all duration-300;
+        transform: translateY(10px);
+
+        &.open {
+            @apply opacity-100 visible;
+            transform: translateY(0);
+        }
+    }
+
+    // Mobile menu
+    .mobile-menu {
+        @apply fixed inset-0 bg-white z-40 transform translate-x-full transition-transform;
+
+        &.open {
+            @apply translate-x-0;
+        }
+    }
+}
+
+// Tracking bar
+.tracking-bar {
+    @apply bg-primary-dark;
+
+    .tracking-input {
+        @apply focus:ring-2 focus:ring-accent focus:border-accent;
+    }
+}

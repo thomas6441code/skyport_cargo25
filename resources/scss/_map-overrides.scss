@@ -1,0 +1,38 @@
+// Leaflet map customizations
+.leaflet-container {
+    .leaflet-control {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .leaflet-popup {
+        .leaflet-popup-content {
+            min-width: 200px;
+
+            h3 {
+                @apply text-primary font-bold mb-2;
+            }
+
+            p {
+                @apply text-gray-600 text-sm;
+            }
+        }
+
+        .leaflet-popup-tip {
+            background: white;
+        }
+    }
+
+    // Custom route lines
+    .route-line {
+        stroke-dasharray: 5, 5;
+        animation: dash 30s linear infinite;
+    }
+
+    @keyframes dash {
+        to {
+            stroke-dashoffset: -100;
+        }
+    }
+}

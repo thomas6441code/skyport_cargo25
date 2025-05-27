@@ -1,0 +1,62 @@
+// Service cards
+.service-card {
+    @apply bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300;
+
+    &__icon {
+        @apply p-4 rounded-full bg-primary/10 text-primary;
+    }
+
+    &:hover {
+        @apply shadow-lg;
+
+        .service-card__icon {
+            @apply bg-primary text-white;
+        }
+    }
+}
+
+// Tracking stepper
+.tracking-stepper {
+    .step {
+        @apply relative pl-12;
+
+        &::before {
+            @apply absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200;
+            content: '';
+        }
+
+        &:first-child::before {
+            @apply top-6;
+        }
+
+        &:last-child::before {
+            @apply bottom-auto h-6;
+        }
+
+        &__icon {
+            @apply absolute left-0 flex items-center justify-center w-8 h-8 rounded-full;
+        }
+
+        &--completed {
+            .step__icon {
+                @apply bg-green-500 text-white;
+            }
+        }
+
+        &--current {
+            @apply bg-blue-50 border border-blue-100 rounded-lg;
+
+            .step__icon {
+                @apply bg-blue-600 text-white;
+            }
+        }
+    }
+}
+
+// Hero with video
+.hero-video {
+    &::after {
+        @apply absolute inset-0 bg-black/40;
+        content: '';
+    }
+}

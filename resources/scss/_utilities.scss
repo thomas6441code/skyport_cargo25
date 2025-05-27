@@ -1,0 +1,29 @@
+// Background patterns
+.bg-dots {
+    background-image: radial-gradient(currentColor 1px, transparent 1px);
+    background-size: 16px 16px;
+    @apply text-gray-100;
+}
+
+// Special borders
+.border-gradient {
+    position: relative;
+
+    &::before {
+        @apply absolute inset-0 rounded-lg p-px bg-gradient-to-r from-primary to-secondary;
+        content: '';
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+}
+
+// Responsive aspect ratios
+.aspect-video {
+    aspect-ratio: 16/9;
+}
+
+.aspect-square {
+    aspect-ratio: 1/1;
+}
