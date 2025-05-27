@@ -2,6 +2,8 @@
 /bootstrap/ssr
 /node_modules
 /public/build
+/public/images
+/public/videos
 /public/hot
 /public/storage
 /storage/*.key
@@ -22,3 +24,8 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+echo "public/images/*.jpg" >> .gitignore
+echo "public/images/*.png" >> .gitignore
+
+git add .gitignore
+git commit -m "Remove large image files from tracking"
