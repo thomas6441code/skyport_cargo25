@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 
 const Footer = () => {
     return (
@@ -64,7 +64,7 @@ const Footer = () => {
                             <li><a href="/" className="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
                             <li><a href="/about-us" className="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
                             <li><a href="/services" className="text-gray-400 hover:text-white transition-colors duration-300">Services</a></li>
-                            <li><a href="/get-quote" className="text-gray-400 hover:text-white transition-colors duration-300">Get Quote</a></li>
+                            <li><a href="/quotes" className="text-gray-400 hover:text-white transition-colors duration-300">Get Quote</a></li>
                             <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors duration-300">Contact</a></li>
                         </ul>
                     </div>
@@ -73,11 +73,11 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-4 text-indigo-400">Services</h3>
                         <ul className="space-y-2">
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Freight Shipping</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Warehousing</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Supply Chain</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Last Mile Delivery</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Custom Solutions</a></li>
+                            <li><a href="/services/air-freight" className="text-gray-400 hover:text-white transition-colors duration-300">Air Freight</a></li>
+                            <li><a href="/services/export-services" className="text-gray-400 hover:text-white transition-colors duration-300">Export Service</a></li>
+                            <li><a href="/services/customs-clearance" className="text-gray-400 hover:text-white transition-colors duration-300">Customs Clearance</a></li>
+                            <li><a href="/services/outsourcing" className="text-gray-400 hover:text-white transition-colors duration-300">Out Sourcing</a></li>
+                            <li><a href="/services/customs-clearance" className="text-gray-400 hover:text-white transition-colors duration-300">Custom Solutions</a></li>
                         </ul>
                     </div>
 
@@ -127,7 +127,6 @@ const Footer = () => {
                     <div className="flex space-x-6">
                         <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>
                         <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Terms of Service</a>
-                        <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Sitemap</a>
                     </div>
                 </div>
 

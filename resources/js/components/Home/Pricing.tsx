@@ -82,21 +82,20 @@ const Pricing: FC = () => {
                     {/* Billing Toggle */}
                     <div className="flex items-center justify-center mt-8">
                         <span className={`mr-4 font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                          Monthly
+                            Monthly
                         </span>
                         <button
                             type="button"
                             className="relative inline-flex h-6 w-11 items-center rounded-full bg-sky-600 transition-colors"
                             onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
                         >
-                          <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                  billingCycle === 'monthly' ? 'translate-x-1' : 'translate-x-6'
-                              }`}
-                          />
+                            <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${billingCycle === 'monthly' ? 'translate-x-1' : 'translate-x-6'
+                                    }`}
+                            />
                         </button>
                         <span className={`ml-4 font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                          Yearly <span className="text-sky-600">(Save 15%)</span>
+                            Yearly <span className="text-sky-600">(Save 15%)</span>
                         </span>
                     </div>
                 </div>
@@ -105,11 +104,10 @@ const Pricing: FC = () => {
                     {pricingPlans.map((plan) => (
                         <div
                             key={plan.id}
-                            className={`relative rounded-xl border-2 transition-all hover:shadow-lg ${
-                                plan.popular
+                            className={`relative rounded-xl border-2 transition-all hover:shadow-lg ${plan.popular
                                     ? 'border-sky-500 bg-white shadow-md scale-105'
                                     : 'border-gray-200 bg-white'
-                            }`}
+                                }`}
                             onClick={() => setSelectedPlan(plan.id)}
                         >
                             {plan.popular && (
@@ -128,12 +126,12 @@ const Pricing: FC = () => {
                                 <p className="text-gray-600 mb-5">{plan.description}</p>
 
                                 <div className="mb-6">
-                                  <span className="text-4xl font-bold text-gray-900">
-                                    ${billingCycle === 'monthly' ? plan.priceMonthly : plan.priceYearly}
-                                  </span>
-                                                    <span className="text-gray-500">
-                                    /{billingCycle === 'monthly' ? 'month' : 'year'}
-                                  </span>
+                                    <span className="text-4xl font-bold text-gray-900">
+                                        ${billingCycle === 'monthly' ? plan.priceMonthly : plan.priceYearly}
+                                    </span>
+                                    <span className="text-gray-500">
+                                        /{billingCycle === 'monthly' ? 'month' : 'year'}
+                                    </span>
                                 </div>
 
                                 <ul className="space-y-3 mb-8">
@@ -152,11 +150,10 @@ const Pricing: FC = () => {
                                 </ul>
 
                                 <button
-                                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                                        plan.popular
+                                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${plan.popular
                                             ? 'bg-sky-600 text-white hover:bg-sky-700'
                                             : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                                    }`}
+                                        }`}
                                 >
                                     {plan.cta}
                                 </button>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Menu, X, Phone, Mail, Plane, Ship, Warehouse, Globe, LucideMessageCircleQuestion} from 'lucide-react';
+import { Menu, X, Phone, Mail, Plane, Ship, Warehouse, Globe, LucideMessageCircleQuestion, Building2Icon } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
 type MegaMenuValue = 'mobile-services' | 'other-menu' | 'services' | null;
@@ -10,30 +10,39 @@ export default function Header() {
 
     const services = [
         { icon: <Plane className="w-5 h-5" />, title: 'Air Freight', items: ['Express Air', 'Charter Services', 'Perishables'] },
-        { icon: <Ship className="w-5 h-5" />, title: 'Ocean Freight', items: ['FCL', 'LCL', 'Bulk Cargo'] },
-        { icon: <Warehouse className="w-5 h-5" />, title: 'Logistics', items: ['Warehousing', 'Distribution', 'Inventory'] },
-        { icon: <Globe className="w-5 h-5" />, title: 'Customs', items: ['Clearance', 'Documentation', 'Compliance'] }
+        { icon: <Building2Icon className="w-5 h-5" />, title: 'Export Services', items: ['FCL', 'LCL', 'Bulk Cargo'] },
+        { icon: <Warehouse className="w-5 h-5" />, title: 'Out Sourcing', items: ['Warehousing', 'Distribution', 'Inventory'] },
+        { icon: <Globe className="w-5 h-5" />, title: 'Customs', items: ['Clearance', 'Documentation', 'Compliance', 'Support'] }
     ];
 
     return (
         <header className="bg-white/10 backdrop-blur-xs text-black shadow-md fixed top-0 w-full z-50 transition-all duration-300 hover:bg-white">
             {/* Top Contact Bar - Now with transparent hover effect */}
-            <div className="bg-gray-900/90 hover:bg-gray-900 p-2 text-white text-sm transition-all duration-300">
+            <div className="bg-black/90 hover:bg-black p-2 text-white text-sm transition-all duration-300">
                 <div className="container mx-auto px-4 py-2 flex justify-between items-center">
                     <div className="flex items-center space-x-4 text-sm">
-                        <a href="/#question" className="flex items-center hover:text-gray-300 transition-colors">
+                        <a href="/#question" className="flex md:hidden items-center hover:text-gray-300 transition-colors">
+                            <LucideMessageCircleQuestion className="w-4 h-4 mr-1" />
+                        </a>
+                        <a href="tel:+255764419171" className="flex md:hidden items-center hover:text-gray-300 transition-colors">
+                            <Phone className="w-4 h-4 mr-1" />
+                        </a>
+                        <a href="mailto:info@skyport.com" className="flex md:hidden items-center hover:text-gray-300 transition-colors">
+                            <Mail className="w-4 h-4 mr-1" />
+                        </a>
+                        <a href="/#question" className="md:flex  hidden items-center hover:text-gray-300 transition-colors">
                             <LucideMessageCircleQuestion className="w-4 h-4 mr-1" /> Faqs
                         </a>
-                        <a href="tel:+255764419171" className="flex items-center hover:text-gray-300 transition-colors">
+                        <a href="tel:+255764419171" className="md:flex hidden  items-center hover:text-gray-300 transition-colors">
                             <Phone className="w-4 h-4 mr-1" /> +255 764 419 171
                         </a>
-                        <a href="mailto:info@skyport.com" className="flex items-center hover:text-gray-300 transition-colors">
+                        <a href="mailto:info@skyport.com" className="md:flex  hidden  items-center hover:text-gray-300 transition-colors">
                             <Mail className="w-4 h-4 mr-1" /> info@skyport.com
                         </a>
                     </div>
                     <div className="hidden md:flex items-center space-x-4">
                         <span>Track Your Shipment</span>
-                        <Link href="/track" className="bg-indigo-600 hover:bg-indigo-700 px-3 py-1 rounded transition-colors">
+                        <Link href="/track" className=" bg-sky-600 text-white hover:text-gray-300 px-3 py-1 rounded transition-colors">
                             Track Now
                         </Link>
                     </div>
@@ -50,13 +59,13 @@ export default function Header() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex space-x-2 h-full">
-                        {['Home', 'About Us', 'Track', 'Services', 'Get Quote', 'Pricing', 'Contact'].map((item) => {
+                        {['Home', 'About Us', 'Tracking', 'Services', 'Get Quote', 'Pricing', 'Contact'].map((item) => {
                             if (item === 'Services') {
                                 return (
                                     <div
                                         key={item}
                                         className="group relative flex h-full items-center"
-                                        onMouseEnter={()  => {
+                                        onMouseEnter={() => {
                                             setMegaMenuOpen(item.toLowerCase() as MegaMenuValue);
                                         }}
                                     >
@@ -66,11 +75,39 @@ export default function Header() {
                                         <div className="absolute right-0 bottom-0 left-0 h-1 origin-left scale-x-0 transform bg-indigo-600 transition-transform group-hover:scale-x-100"></div>
                                     </div>
                                 );
-                            } else if (item === 'Pricing')  {
+                            } else if (item === 'Pricing') {
                                 return (
                                     <div key={item} className="relative h-full flex items-center group">
                                         <Link
                                             href={`/#${item.toLowerCase().replace(' ', '-')}`}
+                                            className="font-medium hover:text-indigo-600 transition-colors h-full flex items-center px-4 rounded-md bg-white/0 hover:bg-white/90"
+                                        >
+                                            {item}
+                                        </Link>
+                                        <div
+                                            className="absolute bottom-0 left-0 right-0 h-1 bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+                                        ></div>
+                                    </div>
+                                );
+                            } else if (item === 'Get Quote') {
+                                return (
+                                    <div key={item} className="relative h-full flex items-center group">
+                                        <Link
+                                            href='/quotes'
+                                            className="font-medium hover:text-indigo-600 transition-colors h-full flex items-center px-4 rounded-md bg-white/0 hover:bg-white/90"
+                                        >
+                                            {item}
+                                        </Link>
+                                        <div
+                                            className="absolute bottom-0 left-0 right-0 h-1 bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+                                        ></div>
+                                    </div>
+                                );
+                            } else if (item === 'Home') {
+                                return (
+                                    <div key={item} className="relative h-full flex items-center group">
+                                        <Link
+                                            href={`/`}
                                             className="font-medium hover:text-indigo-600 transition-colors h-full flex items-center px-4 rounded-md bg-white/0 hover:bg-white/90"
                                         >
                                             {item}
@@ -126,7 +163,7 @@ export default function Header() {
                                         {service.items.map((item, i) => (
                                             <li key={i}>
                                                 <Link
-                                                    href="#"
+                                                    href="/services"
                                                     className="text-gray-600 hover:text-indigo-600 hover:pl-2 transition-all flex items-center hover:bg-white/70 rounded p-1"
                                                 >
                                                     <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
@@ -184,7 +221,7 @@ export default function Header() {
                                             {service.items.map((item, i) => (
                                                 <li key={i}>
                                                     <Link
-                                                        href="#"
+                                                        href="/services"
                                                         className="block py-2 text-gray-600 hover:text-indigo-600 hover:bg-white/70 rounded px-2"
                                                         onClick={() => setMobileMenuOpen(false)}
                                                     >
@@ -198,12 +235,23 @@ export default function Header() {
                             </div>
                         )}
 
-                        {['About Us', 'Track', 'Get Quote', 'Pricing', 'Contact'].map((item) => {
+                        {['About Us', 'Tracking', 'Get Quote', 'Pricing', 'Contact'].map((item) => {
                             if (item === 'Pricing') {
                                 return (
                                     <Link
                                         key={item}
                                         href={`/#${item.toLowerCase().replace(' ', '-')}`}
+                                        className="py-3 px-4 rounded-md hover:bg-white text-lg font-medium"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        {item}
+                                    </Link>
+                                );
+                            } else if (item === 'Get Quote') {
+                                return (
+                                    <Link
+                                        key={item}
+                                        href={`/quotes`}
                                         className="py-3 px-4 rounded-md hover:bg-white text-lg font-medium"
                                         onClick={() => setMobileMenuOpen(false)}
                                     >

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\web\QuoteController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{
     TrackingController,
-    QuoteController
 };
 
 Route::prefix('v1')->group(function () {
@@ -11,3 +13,6 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/quotes/calculate', [QuoteController::class, 'calculate']);
 });
+
+
+

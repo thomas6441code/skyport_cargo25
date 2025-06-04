@@ -7,29 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
+    
     use HasFactory;
-
-    protected $fillable = [
-        'name',
-        'slug',
-        'description',
-        'type',
-        'transit_time',
-        'route',
-        'features',
-        'cargo_types',
-        'has_customs_support'
-    ];
 
     protected $casts = [
         'features' => 'array',
-        'cargo_types' => 'array',
-        'has_customs_support' => 'boolean'
+        'benefits' => 'array',
+        'process_steps' => 'array',
     ];
+
+    protected $fillable = [
+        'slug',
+        'title',
+        'image',
+        'description',
+        'long_description',
+        'features',
+        'benefits',
+        'process_steps'
+    ];
+
 
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     public function scopeAirFreight($query)

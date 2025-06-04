@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Contact;
+use App\Models\Message;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
@@ -40,12 +40,12 @@ class ContactController extends Controller
                 'department' => 'required|string',
             ]);
 
-            $contact = Contact::create($validated);
+            $message = Message::create($validated);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Thank you for your message! We will get back to you soon.',
-                'data' => $contact
+                'data' => $message
             ]);
 
         } catch (ValidationException $e) {

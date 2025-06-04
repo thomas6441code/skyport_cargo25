@@ -1,6 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const ImageSlider = ({ images }: { images: string[] }) => {
+
+interface Slide {
+    id: number;
+    title: string;
+    slide_url: string;
+}
+
+
+const ImageSlider = ({ images }: { images: Slide[] }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isZooming, setIsZooming] = useState(false);
     const [trackingNumber, setTrackingNumber] = useState('');
@@ -40,16 +48,14 @@ const ImageSlider = ({ images }: { images: string[] }) => {
                 {images.map((image, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out ${
-                            index === currentIndex ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0'
+                            }`}
                     >
                         <div
-                            className={`w-full h-full bg-cover bg-center transition-transform duration-1000 ${
-                                isZooming && index === currentIndex ? 'scale-110' : 'scale-100'
-                            }`}
+                            className={`w-full h-full bg-cover bg-center transition-transform duration-1000 ${isZooming && index === currentIndex ? 'scale-110' : 'scale-100'
+                                }`}
                             style={{
-                                backgroundImage: `url(${image})`,
+                                backgroundImage: `url(${image?.slide_url})`,
                                 transitionTimingFunction: index === currentIndex ?
                                     (isZooming ? 'ease-out' : 'ease-in') : 'linear'
                             }}
@@ -62,9 +68,8 @@ const ImageSlider = ({ images }: { images: string[] }) => {
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-4 z-30">
                 <form
                     onSubmit={handleTrackSubmit}
-                    className={`bg-white rounded-4xl shadow-2xl p-2 transition-all  duration-300 ${
-                        isInputFocused ? 'ring-2 ring-indigo-500' : ''
-                    }`}
+                    className={`bg-white rounded-4xl shadow-2xl p-2 transition-all  duration-300 ${isInputFocused ? 'ring-2 ring-indigo-500' : ''
+                        }`}
                 >
                     <div className="flex items-stretch z-30">
                         <div className="flex-grow flex items-center px-5 py-1 bg-gray-50 rounded-l-4xl">
@@ -126,11 +131,10 @@ const ImageSlider = ({ images }: { images: string[] }) => {
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`h-1.5 rounded-full transition-all duration-500 ${
-                                index === currentIndex
-                                    ? 'bg-white w-6 shadow-lg'
-                                    : 'bg-white/50 w-3 hover:bg-white/70'
-                            }`}
+                            className={`h-1.5 rounded-full transition-all duration-500 ${index === currentIndex
+                                ? 'bg-white w-6 shadow-lg'
+                                : 'bg-white/50 w-3 hover:bg-white/70'
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}

@@ -43,9 +43,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
-
             <SettingsLayout>
-                <div className="space-y-6">
+                <div className="space-y-4 text-black">
                     <HeadingSmall title="Profile information" description="Update your name and email address" />
 
                     <form onSubmit={submit} className="space-y-6">
@@ -104,8 +103,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             </div>
                         )}
 
-                        <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Save</Button>
+                        <div className="flex items-center gap-4 ">
+                            <Button className='bg-sky-200' disabled={processing}>Save</Button>
 
                             <Transition
                                 show={recentlySuccessful}

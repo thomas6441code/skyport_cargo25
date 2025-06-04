@@ -102,7 +102,7 @@ export default function QuotePage() {
                             </div>
 
                             <div className="lg:w-1/3">
-                                <div className="bg-white rounded-xl shadow-md overflow-hidden p-2 sticky top-4">
+                                <div className="bg-white rounded-xl shadow-md overflow-hidden p-2 sticky top-40">
                                     <QuoteProcess
                                         steps={[
                                             'Fill out the quote form',
@@ -111,7 +111,7 @@ export default function QuotePage() {
                                             'We handle the rest!'
                                         ]}
                                     />
-                                    <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+                                    <div className="m-3 bg-blue-50 p-4 rounded-lg">
                                         <h3 className="font-bold text-blue-800 mb-2">Need Help?</h3>
                                         <p className="text-sm text-gray-600 mb-3">
                                             Our logistics experts are available 24/7 to assist with your quote.

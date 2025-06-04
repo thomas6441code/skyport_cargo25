@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
-import {useRef, useEffect, RefObject} from 'react';
-import {Link} from "@inertiajs/react";
+import { useRef, useEffect } from 'react';
+import { Link } from "@inertiajs/react";
 
 export default function HeroWithVideo() {
 
@@ -37,7 +37,7 @@ export default function HeroWithVideo() {
                         style={{ filter: 'brightness(0.8)' }}
                     >
                         <source
-                            src="/videos/earth.mp4"
+                            src="/videosd/earth.mp4"
                             type="video/mp4"
                         />
                     </video>

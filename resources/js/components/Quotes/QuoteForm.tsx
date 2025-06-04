@@ -170,11 +170,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="name"
                             name="name"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.name ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.name ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.name}
-                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             required
                         />
                     </div>
@@ -196,11 +195,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="email"
                             id="email"
                             name="email"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.email ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.email ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.email}
-                            onChange={(e) => setFormData({...formData, email: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
                         />
                     </div>
@@ -222,11 +220,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="tel"
                             id="phone"
                             name="phone"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.phone ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.phone ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.phone}
-                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             required
                         />
                     </div>
@@ -248,11 +245,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="location"
                             name="location"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.location ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.location ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.location}
-                            onChange={(e) => setFormData({...formData, location: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                             required
                         />
                     </div>
@@ -274,11 +270,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="zipCode"
                             name="zipCode"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.zipCode ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.zipCode ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.zipCode}
-                            onChange={(e) => setFormData({...formData, zipCode: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
                             required
                         />
                     </div>
@@ -301,11 +296,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="origin"
                             name="origin"
-                            className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.origin ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.origin ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.origin}
-                            onChange={(e) => setFormData({...formData, origin: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
                             required
                         />
                     </div>
@@ -324,11 +318,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="destination"
                             name="destination"
-                            className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.destination ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.destination ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.destination}
-                            onChange={(e) => setFormData({...formData, destination: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
                             required
                         />
                     </div>
@@ -350,11 +343,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             <select
                                 id="cargoType"
                                 name="cargoType"
-                                className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                    submissionState.fieldErrors?.cargoType ? 'border-red-500' : 'border-gray-300'
-                                }`}
+                                className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.cargoType ? 'border-red-500' : 'border-gray-300'
+                                    }`}
                                 value={formData.cargoType}
-                                onChange={(e) => setFormData({...formData, cargoType: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, cargoType: e.target.value })}
                                 required
                             >
                                 {cargoTypes.map((type) => (
@@ -385,11 +377,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="date"
                             id="readyDate"
                             name="readyDate"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.readyDate ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.readyDate ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.readyDate}
-                            onChange={(e) => setFormData({...formData, readyDate: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, readyDate: e.target.value })}
                             required
                         />
                     </div>
@@ -411,11 +402,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="weight"
                             name="weight"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.weight ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.weight ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.weight}
-                            onChange={(e) => setFormData({...formData, weight: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                             required
                         />
                     </div>
@@ -437,11 +427,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             type="text"
                             id="dimensions"
                             name="dimensions"
-                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                                submissionState.fieldErrors?.dimensions ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.dimensions ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             value={formData.dimensions}
-                            onChange={(e) => setFormData({...formData, dimensions: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
                             required
                         />
                     </div>
@@ -461,11 +450,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                         id="cargoDescription"
                         name="cargoDescription"
                         rows={3}
-                        className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                            submissionState.fieldErrors?.cargoDescription ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.cargoDescription ? 'border-red-500' : 'border-gray-300'
+                            }`}
                         value={formData.cargoDescription}
-                        onChange={(e) => setFormData({...formData, cargoDescription: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, cargoDescription: e.target.value })}
                         required
                     />
                 </div>
@@ -484,11 +472,10 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                         id="specialRequirements"
                         name="specialRequirements"
                         rows={2}
-                        className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                            submissionState.fieldErrors?.specialRequirements ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`block w-full pl-3 pr-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${submissionState.fieldErrors?.specialRequirements ? 'border-red-500' : 'border-gray-300'
+                            }`}
                         value={formData.specialRequirements}
-                        onChange={(e) => setFormData({...formData, specialRequirements: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, specialRequirements: e.target.value })}
                     />
                 </div>
                 {submissionState.fieldErrors?.specialRequirements && (
@@ -498,8 +485,8 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
 
             {/* Success Message */}
             {submissionState.success && (
-                <div className="bg-green-50 border-l-4 border-green-500 p-2 rounded-3xl mb-6">
-                    <div className="flex">
+                <div className="bg-green-50 border-green-500 p-2 rounded-xl mb-6">
+                    <div className="flex backdrop-blur-xs">
                         <div className="flex-shrink-0">
                             <CheckCircle2 className="h-5 w-5 text-green-500" />
                         </div>
@@ -507,7 +494,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                             <h3 className="text-sm ml-3 font-medium text-green-800">
                                 Success!
                             </h3>
-                            <div className="mt-2 text-sm text-green-700">
+                            <div className="mt-2 ml-3 text-sm text-green-700">
                                 {submissionState.message}
                             </div>
                         </div>
@@ -517,8 +504,8 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
 
             {/* Error Message */}
             {submissionState.error && (
-                <div className="bg-red-50 border-l-4 border-red-500 p-2 rounded-3xl mb-6">
-                    <div className="flex">
+                <div className="bg-red-50 border-red-500 p-2 rounded-xl mb-6">
+                    <div className="flex backdrop-blur-xs">
                         <div className="flex-shrink-0">
                             <XCircle className="h-5 w-5 text-red-500" />
                         </div>
@@ -540,9 +527,8 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                 <button
                     type="submit"
                     disabled={submissionState.loading}
-                    className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-                        submissionState.loading ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
+                    className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${submissionState.loading ? 'opacity-70 cursor-not-allowed' : ''
+                        }`}
                 >
                     {submissionState.loading ? (
                         <>

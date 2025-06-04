@@ -64,7 +64,7 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
         try {
-            const res = await fetch(route('contact.store'), {
+            const res = await fetch(route('message.store'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,7 +92,13 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                 }
 
                 // Handle other errors
-                console.log(data.message || 'Failed to submit form');
+                setSubmissionState({
+                    loading: false,
+                    success: false,
+                    error: 'An unexpected error occurred',
+                    message: data.message || 'Failed to submit form!',
+                    fieldErrors: {}
+                });
             }
 
             // Success case
@@ -139,13 +145,12 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                                 <input
                                     type="text"
-                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
-                                        submissionState.fieldErrors?.name
-                                            ? 'border-red-500'
-                                            : 'border-gray-300'
-                                    }`}
+                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.name
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                        }`}
                                     value={formData.name}
-                                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     required
                                 />
                             </div>
@@ -163,13 +168,12 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                                 <input
                                     type="email"
-                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
-                                        submissionState.fieldErrors?.email
-                                            ? 'border-red-500'
-                                            : 'border-gray-300'
-                                    }`}
+                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.email
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                        }`}
                                     value={formData.email}
-                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     required
                                 />
                             </div>
@@ -188,13 +192,12 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                             <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                             <input
                                 type="tel"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
-                                    submissionState.fieldErrors?.phone
-                                        ? 'border-red-500'
-                                        : 'border-gray-300'
-                                }`}
+                                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.phone
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                                    }`}
                                 value={formData.phone}
-                                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             />
                         </div>
                         {submissionState.fieldErrors?.phone && (
@@ -211,13 +214,12 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                             <NotebookPen className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                             <input
                                 type="text"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
-                                    submissionState.fieldErrors?.subject
-                                        ? 'border-red-500'
-                                        : 'border-gray-300'
-                                }`}
+                                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.subject
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                                    }`}
                                 value={formData.subject}
-                                onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                             />
                         </div>
                         {submissionState.fieldErrors?.subject && (
@@ -234,13 +236,12 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                             <div className="relative">
                                 <BoxSelectIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                                 <select
-                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
-                                        submissionState.fieldErrors?.department
-                                            ? 'border-red-500'
-                                            : 'border-gray-300'
-                                    }`}
+                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.department
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                        }`}
                                     value={formData.department}
-                                    onChange={(e) => setFormData({...formData, department: e.target.value})}
+                                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                                 >
                                     {departments.map((dept, index) => (
                                         <option key={index} value={dept}>{dept}</option>
@@ -261,13 +262,12 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                         <div className="relative">
                             <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                             <textarea
-                                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary min-h-[150px] ${
-                                    submissionState.fieldErrors?.message
-                                        ? 'border-red-500'
-                                        : 'border-gray-300'
-                                }`}
+                                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary min-h-[150px] ${submissionState.fieldErrors?.message
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                                    }`}
                                 value={formData.message}
-                                onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                 required
                             />
                         </div>
@@ -280,7 +280,7 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
 
                     {/* Form-wide error message */}
                     {submissionState.error && (
-                        <div className="bg-red-50 border-l-4 border-red-500 p-4 py-2 rounded-3xl mb-6">
+                        <div className="bg-red-50 border-red-500 p-4 py-2 rounded-xl mb-6">
                             <div className="flex">
                                 <div className="flex-shrink-0">
                                     <XCircle className="h-5 w-5 text-red-500" />
@@ -290,7 +290,7 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                                         {submissionState.error}
                                     </h3>
                                     {submissionState.message && (
-                                        <div className="mt-2 text-sm text-red-700">
+                                        <div className="text-sm text-red-700">
                                             {submissionState.message}
                                         </div>
                                     )}
@@ -301,7 +301,7 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
 
                     {/* Success message */}
                     {submissionState.success && (
-                        <div className="bg-green-50 border-l-4 border-green-500 p-4 py-2 rounded-3xl mb-6">
+                        <div className="bg-green-50 border-green-500 p-4 py-2 rounded-xl mb-6">
                             <div className="flex">
                                 <div className="flex-shrink-0">
                                     <CheckCircle2 className="h-5 w-5 text-green-500" />
@@ -310,7 +310,7 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                                     <h3 className="text-sm font-medium text-green-800">
                                         Success!
                                     </h3>
-                                    <div className="mt-2 text-sm text-green-700">
+                                    <div className="text-sm text-green-700">
                                         {submissionState.message}
                                     </div>
                                 </div>
@@ -322,9 +322,8 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                     <button
                         type="submit"
                         disabled={submissionState.loading}
-                        className={`w-full md:w-[35%] bg-cyan-700 text-white py-3 px-4 rounded-lg hover:bg-cyan-600 transition-colors font-medium ${
-                            submissionState.loading ? 'opacity-70 cursor-not-allowed' : ''
-                        }`}
+                        className={`w-full md:w-[35%] bg-cyan-700 text-white py-3 px-4 rounded-lg hover:bg-cyan-600 transition-colors font-medium ${submissionState.loading ? 'opacity-70 cursor-not-allowed' : ''
+                            }`}
                     >
                         {submissionState.loading ? (
                             <span className="flex items-center justify-center gap-2">

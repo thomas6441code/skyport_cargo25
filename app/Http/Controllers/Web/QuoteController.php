@@ -19,11 +19,22 @@ class QuoteController extends Controller
 {
     public function index()
     {
-    return Inertia::render('QuotePage', [
+        return Inertia::render('QuotePage', [
         'defaultOrigin' => 'China',
             'defaultDestination' => 'Tanzania',
             'cargoTypes' => config('services.cargo_types')
         ]);
+    }
+
+    public function indexquotes()
+    {
+        $quotes = Quote::all();
+        return response()->json($quotes, 201);
+    }
+
+    public function adminindex()
+    {
+        return Inertia::render('admin/quotes/QuotesAdmin');
     }
 
     public function create()
@@ -75,11 +86,11 @@ class QuoteController extends Controller
             try {
                 Mail::to($quote->email)->send(new QuoteConfirmation($quote));
 
-                Mail::to('hopeshayo1@gmail.com')->send(new NewQuoteNotification($quote));
+                Mail::to('skyportlogistics25@gmail.com')->send(new NewQuoteNotification($quote));
             } catch (\Exception $e) {
 
                 Log::error('Email sending failed: ' . $e->getMessage());
-                // Continue processing even if email fails
+
             }
 
             return response()->json([
@@ -101,7 +112,7 @@ class QuoteController extends Controller
                 'error_details' => config('app.debug') ? $e->getMessage() : null
             ], 500);
         }
-    }
+    } 
 
 }
 

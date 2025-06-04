@@ -11,7 +11,7 @@ export default function TrackingPage() {
         trackingNumber: 'SKY123456789',
         origin: 'Shanghai, China',
         destination: 'Dar es Salaam, Tanzania',
-        status: 'In Transit',
+        status: 'Departed Origin',
         estimatedDelivery: '2023-12-15',
         history: [
             {
@@ -27,8 +27,8 @@ export default function TrackingPage() {
                 location: 'Shanghai (PVG)',
                 timestamp: '2023-12-11 14:15',
                 description: 'Flight SKY882 to Dar es Salaam',
-                completed: true,
-                active: false
+                completed: false,
+                active: true
             },
             {
                 status: 'In Transit',
@@ -36,7 +36,7 @@ export default function TrackingPage() {
                 timestamp: 'Estimated 2023-12-12 08:00',
                 description: 'Currently in air',
                 completed: false,
-                active: true
+                active: false
             },
             {
                 status: 'Arrived Destination',
