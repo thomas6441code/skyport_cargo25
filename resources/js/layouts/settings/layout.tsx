@@ -17,11 +17,6 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/password',
         icon: null,
     },
-    {
-        title: 'Appearance',
-        href: '/settings/appearance',
-        icon: null,
-    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
@@ -46,7 +41,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                             <Button
                                 key={`${item.href}-${index}`}
                                 size="sm"
-                                variant="default"
+                                variant="secondary"
                                 asChild
                                 className={cn('w-full justify-start', {
                                     'bg-sky-300': currentPath === item.href,

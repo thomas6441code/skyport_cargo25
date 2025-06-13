@@ -1,18 +1,11 @@
 import HeroWithVideos from '@/components/Home/HeroWithVideos';
 import ServiceCards from '@/components/common/ServiceCards';
-import { Rocket, Package, MapPin, Heart } from "lucide-react";
 import { StatsBanner } from "@/components/common/StatsBanner";
 import TestimonialSection from "@/components/common/Testimonials";
 import MainLayout from "@/layouts/MainLayout";
 import ImageSlider from "@/components/common/Slider";
 import Pricing from "@/components/Home/Pricing";
 import FaqSection from '@/components/common/Faqs';
-
-const images: string[] = [
-    "/imagesd/sebastian.jpg",
-    "/imagesd/3d-technology.jpg",
-    "/images/transport-logistics.webp",
-];
 
 interface Slide {
     id: number;
@@ -27,7 +20,7 @@ interface Testimonial {
     'content': string;
     'rating': number;
     'image': string;
-};
+}
 
 interface Faqs {
     'id': number;
@@ -35,40 +28,41 @@ interface Faqs {
     'answer': string;
 }
 
+interface Stats {
+    value: string;
+    label: string;
+    icon: string;
+}
 
-const stats = [
-    {
-        value: '72h',
-        label: 'Fastest Delivery',
-        icon: <Rocket className="h-8 w-8" />,
-    },
-    {
-        value: '100+',
-        label: 'Monthly Shipments',
-        icon: <Package className="h-8 w-8" />,
-    },
-    {
-        value: '5',
-        label: 'Warehouse Locations',
-        icon: <MapPin className="h-8 w-8" />,
-    },
-    {
-        value: '98%',
-        label: 'Customer Satisfaction',
-        icon: <Heart className="h-8 w-8" />,
-    }
-];
+interface Service {
+    slug: string;
+    image: string;
+    icon: string;
+    title: string;
+    description: string;
+    features: string[];
+    link: string;
+    long_Description?: string;
+    benefits?: string[];
+    process_Steps?: string[];
+}
 
-export default function HomePage({ testimonials, slides, faqs }: { testimonials: Testimonial[]; slides: Slide[]; faqs: Faqs[] }) {
+interface Props {
+    faqs: Faqs[];
+    stats: Stats[];
+    slides: Slide[];
+    services: Service[];
+    testimonials: Testimonial[];
+}
 
-
+export default function HomePage({ testimonials, slides, faqs, stats, services }: Props) {
     return (
         <MainLayout>
             <ImageSlider images={slides} />
 
             <StatsBanner stats={stats} />
 
-            <ServiceCards />
+            <ServiceCards services={services} />
 
             <HeroWithVideos />
 
@@ -80,7 +74,7 @@ export default function HomePage({ testimonials, slides, faqs }: { testimonials:
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 bg-sky-700 text-white">
+            <section className="py-16 bg-sky-500 text-white">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold mb-6">Ready to Ship With Us?</h2>
                     <p className="text-sky-100 max-w-2xl mx-auto mb-8">

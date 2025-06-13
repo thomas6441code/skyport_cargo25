@@ -21,50 +21,73 @@ const TrackingInput = ({ className = '', initialValue = '' }) => {
     };
 
     return (
-        <div className={`${className}`}>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-                <label htmlFor="tracking-number" className="block text-sm font-medium text-gray-700 mb-1">
-                    Track Your Shipment
-                </label>
-                <div className="flex shadow-sm rounded-md">
-                    <input
-                        type="text"
-                        id="tracking-number"
-                        value={trackingNumber}
-                        onChange={(e) => setTrackingNumber(e.target.value)}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        className={`flex-1 min-w-0 block w-full px-4 py-3 rounded-l-md border ${
-                            isFocused
-                                ? 'border-indigo-500 ring-2 ring-indigo-500 ring-opacity-50'
-                                : 'border-gray-300'
-                        } ${
-                            trackingNumber && !isValid ? 'border-red-500' : ''
-                        } focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                        placeholder="Enter your tracking number"
-                        aria-describedby="tracking-number-helper"
-                    />
-                    <button
-                        type="submit"
-                        disabled={!isValid}
-                        className={`inline-flex items-center px-4 py-3 border border-l-0 text-sm font-medium rounded-r-md ${
-                            isValid
-                                ? 'bg-indigo-600 text-white hover:bg-indigo-700 border-indigo-600'
-                                : 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                        } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                    >
-                        Track
-                    </button>
-                </div>
+        <div className={`${className} w-full`}>
+            <div className={`md:w-full w-[20rem] md:px-3 px-2`}>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className={`bg-white rounded-4xl shadow-2xl md:p-2 p-1  transition-all  duration-300 ${isFocused ? 'ring-2 ring-indigo-500' : 'ring-1 ring-gray-200'
+                        }`}
+                >
+
+                    <div className="flex items-stretch">
+                        <div className="flex-grow flex items-center md:px-3 px-2 py-1 bg-gray-50 rounded-l-4xl">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="md:h-6 h-5 md:w-6 w-5 text-gray-400 md:mr-3 mr-1"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                                />
+                            </svg>
+                            <input
+                                type="text"
+                                value={trackingNumber}
+                                onChange={(e) => setTrackingNumber(e.target.value)}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => setIsFocused(false)}
+                                placeholder="Enter tracking number (e.g. CNTZ123456789)"
+                                className="flex-grow bg-transparent outline-none text-gray-800 placeholder-gray-400 rounded-l-lg md:text-lg  md:py-4 py-2"
+                            />
+                        </div>
+                        <div className="bg-gray-50 flex items-center justify-center rounded-r-4xl">
+                            <button
+                                type="submit"
+                                className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white md:px-4 px-3 py-2 md:py-3 rounded-4xl font-medium transition-all duration-300 flex items-center"
+                            >
+                                <span className="hidden md:flex">Track</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="md:h-5 h-4 w-4 md:w-5 ml-2"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
                 {trackingNumber && !isValid && (
                     <p className="mt-2 text-sm text-red-600" id="tracking-number-error">
                         Please enter a valid tracking number
                     </p>
                 )}
-                <p className="mt-2 text-sm text-gray-500" id="tracking-number-helper">
+                <p className="mt-3 text-sm text-gray-500" id="tracking-number-helper">
                     Usually 10-30 characters long, found in your confirmation email
                 </p>
-            </form>
+            </div>
         </div>
     );
 };

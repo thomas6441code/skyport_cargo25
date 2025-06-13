@@ -1,11 +1,11 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { PencilIcon, PlusIcon, TrashIcon, ArrowUpDownIcon, SearchIcon } from 'lucide-react';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 
 interface Office {
     id: number;
-    coordinates: [string, string];
+    coordinates: [number, number];
     country: string;
     city: string;
     address?: string;
@@ -113,7 +113,7 @@ export default function officesIndex({ offices }: Props) {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="text-sm text-gray-900 dar:text-gray-200 line-clamp-2 max-w-xs">
-                                                {office.coordinates}
+                                                Latitude: {office.coordinates[0]}, <br /> Longitude: {office.coordinates[1]}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -157,7 +157,7 @@ export default function officesIndex({ offices }: Props) {
                     </div>
                 </div>
 
-                {/* Pagination would go here */}
+
                 {offices.length === 0 && (
                     <div className="text-center py-12">
                         <div className="text-gray-500 dar:text-gray-400">
@@ -172,6 +172,7 @@ export default function officesIndex({ offices }: Props) {
                         </Link>
                     </div>
                 )}
+
             </div>
         </AppLayout>
     );

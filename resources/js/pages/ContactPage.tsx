@@ -3,55 +3,31 @@ import MainLayout from "@/layouts/MainLayout";
 import ContactOffices from "@/components/Contact/ContactOffices";
 import ContactMap from "@/components/Contact/ContactMap";
 
-interface Departments {
+interface offices {
+    id: number;
+    coordinates: [number, number];
+    country: string;
+    city: string;
+    address?: string;
+    email?: string;
+    phone?: string;
+    hours?: string;
+    color?: string;
+}
+
+interface departments {
     'id': number;
     'name': string;
     'description': string;
 }
 
-interface Offices {
-    'id': number;
-    'question': string;
-    'answer': string;
-}
-
-interface FetchingState {
-    loading: boolean;
-    success: boolean;
-    error: string | null;
-    message: string;
-    fieldErrors: Record<string, string[]>;
+interface OfficeProps {
+    offices?: offices[];
+    departments?: departments[];
 }
 
 
-
-export default function ContactPage() {
-
-
-    const offices = [
-        {
-            id: 1,
-            coordinates: [31.2304, 121.4737] as [number, number],
-            country: 'China',
-            city: 'Shanghai',
-            address: '123 Cargo Avenue',
-            email: 'info@skyport.com',
-            phone: '+86 21 1234 5678',
-            hours: 'Mon-Fri: 8:00AM - 6:00PM',
-            color: '#0056b3'
-        },
-        {
-            id: 2,
-            coordinates: [-6.7924, 39.2083] as [number, number],
-            country: 'Tanzania',
-            email: 'info@skyport.com',
-            city: 'Dar es Salaam',
-            address: 'Lumumba Street, M/Mmoja',
-            phone: '+255 76 441 9171',
-            hours: 'Mon-Fri: 9:00AM - 5:00PM',
-            color: '#e31937'
-        }
-    ];
+const ContactPage: React.FC<OfficeProps> = ({ offices, departments }) => {
 
     return (
         <MainLayout>
@@ -112,7 +88,7 @@ export default function ContactPage() {
                     </div>
 
                     <div
-                        className="absolute border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-2 z-30">
+                        className="absolute hidden md:flex border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-2 z-30">
                         <h2 className="text-2xl text-black md:text-4xl py-5 text-center w-full font-bold">
                             Get in Touch with Us
                         </h2>
@@ -124,12 +100,7 @@ export default function ContactPage() {
                     <div className="flex flex-col lg:flex-row gap-12 mb-16">
                         <div className="lg:w-1/2">
                             <ContactForm
-                                departments={[
-                                    'Sales Inquiries',
-                                    'Customer Support',
-                                    'Operations',
-                                    'Customs Assistance'
-                                ]}
+                                departments={departments}
                             />
                         </div>
 
@@ -157,3 +128,5 @@ export default function ContactPage() {
         </MainLayout>
     );
 }
+
+export default ContactPage;

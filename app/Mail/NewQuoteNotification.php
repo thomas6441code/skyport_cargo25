@@ -2,28 +2,56 @@
 
 namespace App\Mail;
 
+use App\Models\Quote;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Quote;
 
 class NewQuoteNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $quote;
+    /**
+     * Create a new message instance.
+     */
+    public function __construct(
+        public Quote $quote,
+    ) {}
 
-    public function __construct(Quote $quote)
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
     {
-        $this->quote = $quote;
+        return new Envelope(
+            subject: 'New Quote Request Received',
+        );
     }
 
-    public function build()
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
     {
-        return $this->subject('New Quote Request Received')
-            ->markdown('emails.new_quote_notification')
-            ->with([
+
+        return new Content(
+            view: 'emails.new-quote-notification',
+            with: [
                 'quote' => $this->quote,
-            ]);
+            ],
+        );
     }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+
 }

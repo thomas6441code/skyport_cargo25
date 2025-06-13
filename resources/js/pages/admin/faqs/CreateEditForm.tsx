@@ -3,19 +3,33 @@ import { useForm } from '@inertiajs/react';
 import { Textarea } from '@/components/Form/TextArea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { OptionIcon } from 'lucide-react';
+
+interface faq {
+    id?: number;
+    question: string;
+    answer: string;
+    category: string;
+};
+
+
+interface service {
+    id: number;
+    title: string;
+};
 
 interface FaqsFormProps {
-    faq?: {
-        id?: number;
-        question: string;
-        answer: string;
-    };
+
+    service: service[];
+    faq: faq;
+
 }
 
-const FaqForm: React.FC<FaqsFormProps> = ({ faq }) => {
+const FaqForm: React.FC<FaqsFormProps> = ({ faq, service }) => {
     const { data, setData, post, put, processing, errors } = useForm({
         question: faq?.question || '',
         answer: faq?.answer || '',
+        category: faq?.category || '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -47,7 +61,7 @@ const FaqForm: React.FC<FaqsFormProps> = ({ faq }) => {
                     />
 
                     <Textarea
-                        label="Answer...*"
+                        label="Answer *"
                         value={data.answer}
                         onChange={(e) => setData('answer', e.target.value)}
                         error={errors.answer}
@@ -55,6 +69,26 @@ const FaqForm: React.FC<FaqsFormProps> = ({ faq }) => {
                         required
                         placeholder="Detailed answer of the question"
                     />
+
+                    <label className="block text-sm text-gray-700 mb-1">Category *</label>
+                    <div className="relative">
+                        <OptionIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <select
+                            className={`w-full pl-10 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-200 ${errors?.category
+                                ? 'border-red-500'
+                                : 'border-gray-300'
+                                }`}
+                            value={data.category || ''}
+                            onChange={(e) => setData({ ...data, category: e.target.value })}
+                        >
+                            <option value="">Select a category</option>
+                            <option value="0">Tracking Faq</option>
+                            {service.map((dept) => (
+                                <option key={dept.id} value={dept.id}>{dept.title} Faq</option>
+                            ))}
+                        </select>
+                    </div>
+
 
                 </CardContent>
             </Card>

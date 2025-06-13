@@ -3,14 +3,25 @@ import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 
-interface Faqs {
-    id: number;
+
+interface faq {
+    id?: number;
     question: string;
     answer: string;
-}
+    category: string;
+};
 
-interface Props {
-    faqs: Faqs[];
+
+interface service {
+    id: number;
+    title: string;
+};
+
+interface FaqsProps {
+
+    services: service[];
+    faqs: faq[];
+
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -20,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function faqsIndex({ faqs }: Props) {
+export default function faqsIndex({ faqs, services }: FaqsProps) {
     const { flash } = usePage().props as { flash?: { success?: string } };
 
     return (
@@ -28,6 +39,14 @@ export default function faqsIndex({ faqs }: Props) {
             <Head title="Faqs" />
 
             <div className="px-4 py-8">
+
+                {/* Flash messages */}
+                {flash?.success && (
+                    <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+                        {flash.success}
+                    </div>
+                )}
+
                 {/* Header with actions */}
                 <div className="sm:flex sm:items-center sm:justify-between mb-8">
                     <div className="mb-4 sm:mb-0">
@@ -47,14 +66,6 @@ export default function faqsIndex({ faqs }: Props) {
                     </div>
                 </div>
 
-                {/* Flash messages */}
-                {flash?.success && (
-                    <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
-                        {flash.success}
-                    </div>
-                )}
-
-
                 {/* faqs table */}
                 <div className="bg-white dar:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
                     <div className="overflow-x-auto">
@@ -62,10 +73,16 @@ export default function faqsIndex({ faqs }: Props) {
                             <thead className="bg-gray-50 dar:bg-gray-700">
                                 <tr>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
+                                        Id
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
                                         Question
                                     </th>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
                                         Answer
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
+                                        Category
                                     </th>
                                     <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
                                         Actions
@@ -73,11 +90,16 @@ export default function faqsIndex({ faqs }: Props) {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 ">
-                                {faqs.map((faq) => (
+                                {faqs.map((faq, index: number) => (
                                     <tr key={faq.id} className="hover:bg-gray-50 dar:hover:bg-gray-700/50">
+                                        <td className="px-6 py-4">
+                                            <div className="text-sm text-gray-900 dar:text-gray-200 line-clamp-2 max-w-xs">
+                                                {index + 1}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <div className="ml-4">
+                                                <div className="">
                                                     <div className="text-sm font-medium text-gray-900 dar:text-white">
                                                         {faq.question}
                                                     </div>
@@ -87,6 +109,17 @@ export default function faqsIndex({ faqs }: Props) {
                                         <td className="px-6 py-4">
                                             <div className="text-sm text-gray-900 dar:text-gray-200 line-clamp-2 max-w-xs">
                                                 {faq.answer}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="text-sm text-gray-900 dar:text-gray-200 line-clamp-2 max-w-xs">
+                                                {services.map((service) => (
+                                                    <>
+                                                        {service.id === parseInt(faq.category) && service.title}
+                                                    </>
+                                                ))}
+
+                                                {faq.category == '0' && 'Tracking'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -120,7 +153,7 @@ export default function faqsIndex({ faqs }: Props) {
                 {faqs.length === 0 && (
                     <div className="text-center py-12">
                         <div className="text-gray-500 dar:text-gray-400">
-                            No faqs found. Create your first service!
+                            No faqs found. Create your first Faq!
                         </div>
                         <Link
                             href={route('admin.faqs.create')}

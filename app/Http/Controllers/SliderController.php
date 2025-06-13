@@ -33,7 +33,7 @@ class SliderController extends Controller
         try {
             $request->validate([
                 'title' => 'required|string|max:255',
-                'slide_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+                'slide_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:3555'
             ]);
     
             $image = $request->file('slide_url');
@@ -73,7 +73,7 @@ class SliderController extends Controller
         try {
             $request->validate([
                 'title' => 'string|max:255',
-                'slide_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+                'slide_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:3555'
             ]);
     
             if ($request->hasFile('slide_url')) {

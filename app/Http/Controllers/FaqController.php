@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Faq;
+use App\Models\Stat;
 use Inertia\Inertia;
+use App\Models\Service;
+use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
@@ -17,23 +19,26 @@ class FaqController extends Controller
 
     public function index()
     {
-       $faqs = Faq::all();
 
        return Inertia::render('admin/faqs/FaqsAdmin', [
-        'faqs' => Faq::latest()->get()
+        'faqs' => Faq::latest()->get(),
+        'services' => Service::select('id','title')->get(),
         ]);
     }
 
     // Show create form
     public function create()
     {
-        return Inertia::render('admin/faqs/Create');
+        return Inertia::render('admin/faqs/Create',[
+            'service' => Service::select('id','title')->get(),
+        ]);
     }
 
     // Store new faqs
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'category' => 'required|string|max:55',
             'answer' => 'required|string|max:255',
             'question' => 'required|string|max:500',
         ]);
@@ -47,7 +52,8 @@ class FaqController extends Controller
     public function edit(Faq $faq)
     {
         return Inertia::render('admin/faqs/Edit', [
-            'faq' => $faq
+            'faq' => $faq,
+            'service' => Service::select('id','title')->get(),
         ]);
     }
 
@@ -55,6 +61,7 @@ class FaqController extends Controller
     public function update(Request $request, Faq $faq)
     {
         $validated = $request->validate([
+            'category' => 'required|string|max:55',
             'answer' => 'required|string|max:255',
             'question' => 'required|string|max:255',
         ]);

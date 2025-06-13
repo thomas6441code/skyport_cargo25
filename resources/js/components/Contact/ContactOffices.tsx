@@ -1,7 +1,7 @@
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import React from "react";
 
-interface Office {
+interface offices {
     id: number;
     coordinates: [number, number];
     country: string;
@@ -13,46 +13,17 @@ interface Office {
     color?: string;
 }
 
-interface  ContactOfficeProps{
-    offices?: Office[];
+interface ContactOfficeProps {
+    offices?: offices[];
 }
 
-const ContactOffices: React.FC<ContactOfficeProps> = ({ offices = [] })=> {
-    // Default offices if none provided
-    const defaultOffices: Office[ ] = [
-        {
-            id: 1,
-            coordinates: [31.2304, 121.4737] as [number, number],
-            country: 'China',
-            city: 'Shanghai',
-            address: '123 Cargo Avenue',
-            email: 'info@skyport.com',
-            phone: '+86 21 1234 5678',
-            hours: 'Mon-Fri: 8:00AM - 6:00PM',
-            color: '#0056b3'
-        },
-        {
-            id: 2,
-            coordinates: [-6.7924, 39.2083] as [number, number],
-            country: 'Tanzania',
-            email: 'info@skyport.com',
-            city: 'Dar es Salaam',
-            address: 'Lumumba Street, M/Mmoja',
-            phone: '+255 76 441 9171',
-            hours: 'Mon-Fri: 9:00AM - 5:00PM',
-            color: '#e31937'
-        }
-    ];
-
-
-    const displayOffices = offices.length > 0 ? offices : defaultOffices;
-
+const ContactOffices: React.FC<ContactOfficeProps> = ({ offices = [] }) => {
     return (
         <div className="space-y-8">
             <h2 className="text-2xl font-bold mb-6">Our Offices</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {displayOffices.map((office) => (
+                {offices.map((office) => (
                     <div key={office.id} className="bg-white p-6 rounded-xl shadow-md">
                         <h3 className="text-xl font-bold mb-4">
                             <span className="text-gray-600">{office.country}</span> • {office.city}

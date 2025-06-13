@@ -20,6 +20,7 @@ class Service extends Model
         'slug',
         'title',
         'image',
+        'icon',
         'description',
         'long_description',
         'features',
@@ -33,9 +34,12 @@ class Service extends Model
         return $query->where('is_featured', true);
     }
 
-    public function getRouteKeyName()
+    // app/Models/Service.php
+    public function resolveRouteBinding($value, $field = null)
     {
-        return 'slug';
+        return $this->where('id', $value)
+            ->orWhere('slug', $value)
+            ->firstOrFail();
     }
 
     public function scopeAirFreight($query)

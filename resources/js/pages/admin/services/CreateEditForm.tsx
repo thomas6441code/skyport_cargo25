@@ -1,364 +1,437 @@
-import React, { useState } from 'react';
 import { useForm } from '@inertiajs/react';
-import { TextInput } from '@/components/Form/TextInput';
-import { Textarea } from '@/components/Form/TextArea';
-import { Button } from '@/components/ui/button';
-import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { useState, useCallback, ChangeEvent } from 'react';
+import IconComponent from '@/components/common/IconComponent';
+import { XCircle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 interface ServiceFormProps {
     service?: {
         id?: number;
         title: string;
         image: string;
+        icon: string;
         description: string;
         long_description: string;
         features: string[];
         benefits: string[];
         process_steps: string[];
-        status?: 'active' | 'draft';
-        featured?: boolean;
     };
 }
 
+interface SubmissionState {
+    loading: boolean;
+    success: boolean;
+    error: string | null;
+    message: string;
+    fieldErrors: Record<string, string[]>;
+}
+
 const ServiceForm: React.FC<ServiceFormProps> = ({ service }) => {
-    const { data, setData, post, put, processing, errors } = useForm({
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState(service?.image || '');
+    const { data, setData, processing } = useForm({
         title: service?.title || '',
         image: service?.image || '',
+        icon: service?.icon || '',
         description: service?.description || '',
         long_description: service?.long_description || '',
         features: service?.features || [''],
         benefits: service?.benefits || [''],
         process_steps: service?.process_steps || [''],
-        status: service?.status || 'draft',
-        featured: service?.featured || false,
+    });
+    const [submissionState, setSubmissionState] = useState<SubmissionState>({
+        loading: false,
+        success: false,
+        error: null,
+        message: '',
+        fieldErrors: {}
     });
 
-    const [expandedSections, setExpandedSections] = useState({
-        features: true,
-        benefits: true,
-        process: true,
-    });
 
-    const handleSubmit = (e: React.FormEvent) => {
+
+    const handleImageChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            setData('image', '');
+
+            // Create preview URL
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    }, []);
+
+
+    console.log(submissionState.fieldErrors)
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setSubmissionState({
+            loading: true,
+            success: false,
+            error: null,
+            message: '',
+            fieldErrors: {}
+        });
+
+        const formData = new FormData();
+
+        formData.append('title', data.title);
+        formData.append('icon', data.icon);
+        formData.append('description', data.description);
+        formData.append('long_description', data.long_description);
+
         if (service?.id) {
-            put(route('admin.services.update', service.id));
-        } else {
-            post(route('admin.services.store'));
+
+            formData.append('_method', 'PUT');
+
+        }
+
+        data.benefits.forEach((benefit, index) => {
+            if (benefit.trim() !== '') {
+                formData.append(`benefits[${index}]`, benefit);
+            }
+        });
+
+        data.features.forEach((feature, index) => {
+            if (feature.trim() !== '') {
+                formData.append(`features[${index}]`, feature);
+            }
+        });
+
+        data.process_steps.forEach((process_step, index) => {
+            if (process_step.trim() !== '') {
+                formData.append(`process_steps[${index}]`, process_step);
+            }
+        });
+
+        // Handle image file
+        if (imageFile) {
+            formData.append('image', imageFile);
+        } else if (data.image) {
+            formData.append('existing_image', data.image);
+        }
+
+        try {
+            const url = service?.id
+                ? route('admin.services.update', service.id)
+                : route('admin.services.store');
+
+
+            console.log(formData.entries())
+
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                },
+                credentials: 'include',
+            });
+
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                if (response.status === 422 && responseData.errors) {
+                    setSubmissionState({
+                        loading: false,
+                        success: false,
+                        error: 'Please fix the form errors',
+                        message: 'Please correct the highlighted fields',
+                        fieldErrors: responseData.errors
+                    });
+                    return;
+                }
+                throw new Error(responseData.message || 'Request failed');
+            }
+
+            // Handle successful response
+            window.location.href = route('admin.services.index');
+
+        } catch (error) {
+            setSubmissionState({
+                loading: false,
+                success: false,
+                error: `Failed to ${service?.id ? 'update' : 'create'} service.`,
+                message: error instanceof Error ? error.message : 'Service request failed! Please try again.',
+                fieldErrors: {}
+            });
         }
     };
 
-    const addField = (field: 'features' | 'benefits' | 'process_steps') => {
+    const handleArrayChange = (field: 'features' | 'benefits' | 'process_steps', index: number, value: string) => {
+        const newArray = [...data[field]];
+        newArray[index] = value;
+        setData(field, newArray);
+    };
+
+    const addArrayItem = (field: 'features' | 'benefits' | 'process_steps') => {
         setData(field, [...data[field], '']);
     };
 
-    const removeField = (field: 'features' | 'benefits' | 'process_steps', index: number) => {
-        const newFields = [...data[field]];
-        newFields.splice(index, 1);
-        setData(field, newFields);
-    };
-
-    const handleFieldChange = (field: 'features' | 'benefits' | 'process_steps', index: number, value: string) => {
-        const newFields = [...data[field]];
-        newFields[index] = value;
-        setData(field, newFields);
-    };
-
-    const toggleSection = (section: keyof typeof expandedSections) => {
-        setExpandedSections(prev => ({
-            ...prev,
-            [section]: !prev[section]
-        }));
-    };
-
-    const moveItem = (field: 'features' | 'benefits' | 'process_steps', index: number, direction: 'up' | 'down') => {
-        const newFields = [...data[field]];
-        if (direction === 'up' && index > 0) {
-            [newFields[index], newFields[index - 1]] = [newFields[index - 1], newFields[index]];
-        } else if (direction === 'down' && index < newFields.length - 1) {
-            [newFields[index], newFields[index + 1]] = [newFields[index + 1], newFields[index]];
-        }
-        setData(field, newFields);
+    const removeArrayItem = (field: 'features' | 'benefits' | 'process_steps', index: number) => {
+        const newArray = [...data[field]];
+        newArray.splice(index, 1);
+        setData(field, newArray);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white">
-            <Card className='bg-white text-black'>
-                <CardHeader>
-                    <CardTitle className='text-black'>Basic Information</CardTitle>
-                </CardHeader>
-                <CardContent className="grid gap-6 bg-wite">
-                    <TextInput
-                        label="Service Title"
+        <form onSubmit={handleSubmit} className="space-y-6 text-black" encType="multipart/form-data">
+            <div className='grid md:grid-cols-3 gap-4'>
+                {/* Title */}
+                <div>
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                        Title*
+                    </label>
+                    <input
+                        type="text"
+                        id="title"
                         value={data.title}
                         onChange={(e) => setData('title', e.target.value)}
-                        error={errors.title}
-                        required
-
+                        className="mt-2 block px-3 py-3 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                     />
+                    {submissionState.fieldErrors.title && (
+                        <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.title[0]}</p>
+                    )}
+                </div>
 
-                    <TextInput
-                        label="Image URL"
-                        value={data.image}
-                        onChange={(e) => setData('image', e.target.value)}
-                        error={errors.image}
-                        required
-                        placeholder="https://example.com/image.jpg"
-                    />
+                {/* Icon Selection */}
+                <div>
+                    <label htmlFor="icon" className="block text-sm font-medium text-gray-700">
+                        Icon*
+                    </label>
+                    <div className='flex flex-1 items-center gap-4'>
+                        <input
+                            id="icon"
+                            value={data.icon}
+                            onChange={(e) => setData('icon', e.target.value)}
+                            className="mt-1 px-3 py-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        />
+                        {data.icon && (
+                            <div className='text-sky-900'>
+                                <IconComponent icon={data.icon} />
+                            </div>
+                        )}
+                    </div>
+                    {submissionState.fieldErrors.icon && (
+                        <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.icon[0]}</p>
+                    )}
+                </div>
 
-                    {data.image && (
-                        <div className="flex justify-center">
+                {/* Image Upload */}
+                <div>
+                    <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                        Image*
+                    </label>
+                    <div className="mt-1 px-3 py-2 flex items-center">
+                        {imagePreview && (
                             <img
-                                src={data.image}
-                                alt="Service preview"
-                                className="h-40 rounded-lg object-cover border"
-                                onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = 'https://placehold.co/400x200?text=Image+URL+Invalid';
-                                }}
+                                src={imagePreview}
+                                alt="Preview"
+                                className="h-16 w-16 object-cover rounded-md mr-4"
                             />
-                        </div>
-                    )}
-
-                    <Textarea
-                        label="Short Description"
-                        value={data.description}
-                        onChange={(e) => setData('description', e.target.value)}
-                        error={errors.description}
-                        rows={3}
-                        required
-                        placeholder="A brief description that will appear in listings"
-                    />
-
-                    <Textarea
-                        label="Long Description"
-                        value={data.long_description}
-                        onChange={(e) => setData('long_description', e.target.value)}
-                        error={errors.long_description}
-                        rows={5}
-                        required
-                        placeholder="Detailed description of the service"
-                    />
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="featured"
-                                checked={data.featured}
-                                onChange={(e) => setData('featured', e.target.checked)}
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            />
-                            <Label htmlFor="featured" className="ml-2">
-                                Featured Service
-                            </Label>
-                        </div>
+                        )}
+                        <input
+                            type="file"
+                            id="image"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        />
                     </div>
-                </CardContent>
-            </Card>
-
-            <Card className=" bg-wite  text-black">
-                <CardHeader className="cursor-pointer" onClick={() => toggleSection('features')}>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Features</CardTitle>
-                        {expandedSections.features ? <ChevronUp /> : <ChevronDown />}
-                    </div>
-                </CardHeader>
-                {expandedSections.features && (
-                    <CardContent className="space-y-4">
-                        {data.features.map((feature, index) => (
-                            <div key={index} className="flex items-center gap-2">
-                                <div className="flex-1 flex gap-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => moveItem('features', index, 'up')}
-                                        disabled={index === 0}
-                                        className="text-gray-400 hover:text-gray-600 disabled:opacity-30"
-                                    >
-                                        <ChevronUp className="h-4 w-4" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => moveItem('features', index, 'down')}
-                                        disabled={index === data.features.length - 1}
-                                        className="text-gray-400 hover:text-gray-600 disabled:opacity-30"
-                                    >
-                                        <ChevronDown className="h-4 w-4" />
-                                    </button>
-                                    <Input
-                                        type="text"
-                                        value={feature}
-                                        onChange={(e) => handleFieldChange('features', index, e.target.value)}
-                                        required
-                                        placeholder="Feature description"
-                                    />
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => removeField('features', index)}
-                                    className="text-red-500 hover:text-red-700"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => addField('features')}
-                            className="gap-2"
-                        >
-                            <Plus className="h-4 w-4" />
-                            Add Feature
-                        </Button>
-                    </CardContent>
+                </div>
+                {submissionState.fieldErrors.image && (
+                    <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.image[0]}</p>
                 )}
-            </Card>
-
-            <Card className=" bg-wite  text-black">
-                <CardHeader className="cursor-pointer" onClick={() => toggleSection('process')}>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Process Steps</CardTitle>
-                        {expandedSections.process ? <ChevronUp /> : <ChevronDown />}
-                    </div>
-                </CardHeader>
-                {expandedSections.process && (
-                    <CardContent className="space-y-4">
-                        {data.process_steps.map((proces, index) => (
-                            <div key={index} className="flex items-center gap-2">
-                                <div className="flex-1 flex gap-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => moveItem('process_steps', index, 'up')}
-                                        disabled={index === 0}
-                                        className="text-gray-400 hover:text-gray-600 disabled:opacity-30"
-                                    >
-                                        <ChevronUp className="h-4 w-4" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => moveItem('process_steps', index, 'down')}
-                                        disabled={index === data.process_steps.length - 1}
-                                        className="text-gray-400 hover:text-gray-600 disabled:opacity-30"
-                                    >
-                                        <ChevronDown className="h-4 w-4" />
-                                    </button>
-                                    <Input
-                                        type="text"
-                                        value={proces}
-                                        onChange={(e) => handleFieldChange('process_steps', index, e.target.value)}
-                                        required
-                                        placeholder="Process description"
-                                    />
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => removeField('process_steps', index)}
-                                    className="text-red-500 hover:text-red-700"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => addField('process_steps')}
-                            className="gap-2"
-                        >
-                            <Plus className="h-4 w-4" />
-                            Add Process
-                        </Button>
-                    </CardContent>
-                )}
-            </Card>
-
-            <Card className="bg-wite text-black">
-                <CardHeader className="cursor-pointer" onClick={() => toggleSection('benefits')}>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Benefits</CardTitle>
-                        {expandedSections.benefits ? <ChevronUp /> : <ChevronDown />}
-                    </div>
-                </CardHeader>
-                {expandedSections.benefits && (
-                    <CardContent className="space-y-4">
-                        {data.benefits.map((feature, index) => (
-                            <div key={index} className="flex items-center gap-2">
-                                <div className="flex-1 flex gap-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => moveItem('benefits', index, 'up')}
-                                        disabled={index === 0}
-                                        className="text-gray-400 hover:text-gray-600 disabled:opacity-30"
-                                    >
-                                        <ChevronUp className="h-4 w-4" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => moveItem('benefits', index, 'down')}
-                                        disabled={index === data.benefits.length - 1}
-                                        className="text-gray-400 hover:text-gray-600 disabled:opacity-30"
-                                    >
-                                        <ChevronDown className="h-4 w-4" />
-                                    </button>
-                                    <Input
-                                        type="text"
-                                        value={feature}
-                                        onChange={(e) => handleFieldChange('benefits', index, e.target.value)}
-                                        required
-                                        placeholder="Benefit description"
-                                    />
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => removeField('benefits', index)}
-                                    className="text-red-500 hover:text-red-700"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => addField('benefits')}
-                            className="gap-2"
-                        >
-                            <Plus className="h-4 w-4" />
-                            Add Benefits
-                        </Button>
-                    </CardContent>
-                )}
-            </Card>
-
-            {/* Repeat similar Card structure for Benefits and Process Steps sections */}
-
-            <div className="flex justify-end gap-4">
-                <Button
-                    type="button"
-                    variant="outline"
-                    className='bg-gray-300 hover:bg-gray-400 text-black'
-                    onClick={() => window.history.back()}
-                >
-                    Cancel
-                </Button>
-                <Button type="submit" className='bg-blue-700 hover:bg-blue-600 text-white' disabled={processing}>
-                    {processing ? (
-                        <span className="flex items-center">
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            {service?.id ? 'Updating...' : 'Creating...'}
-                        </span>
-                    ) : (
-                        service?.id ? 'Update Service' : 'Create Service'
-                    )}
-                </Button>
             </div>
+
+            {/* Description */}
+            <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    Short Description*
+                </label>
+                <textarea
+                    id="description"
+                    rows={3}
+                    value={data.description}
+                    onChange={(e) => setData('description', e.target.value)}
+                    className="mt-1 px-3 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                />
+                {submissionState.fieldErrors.description && (
+                    <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.description[0]}</p>
+                )}
+            </div>
+
+            {/* Long Description */}
+            <div>
+                <label htmlFor="long_description" className="block text-sm font-medium text-gray-700">
+                    Detailed Description*
+                </label>
+                <textarea
+                    id="long_description"
+                    rows={5}
+                    value={data.long_description}
+                    onChange={(e) => setData('long_description', e.target.value)}
+                    className="mt-1 px-3 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                />
+                {submissionState.fieldErrors.long_description && (
+                    <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.long_description[0]}</p>
+                )}
+            </div>
+
+            <div className='grid md:grid-cols-3 gap-4'>
+                {/* Features */}
+                <div>
+                    <label className="block font-medium text-gray-700">Features*</label>
+                    {data.features.map((feature, index) => (
+                        <div key={index} className="mt-2 flex items-center gap-2">
+                            <input
+                                type="text"
+                                value={feature}
+                                onChange={(e) => handleArrayChange('features', index, e.target.value)}
+                                className="flex-1 block px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeArrayItem('features', index)}
+                                className="inline-flex items-center px-2 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            >
+                                ×
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => addArrayItem('features')}
+                        className="mt-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                        Add Feature
+                    </button>
+                    {submissionState.fieldErrors.features && (
+                        <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.features[0]}</p>
+                    )}
+                </div>
+
+                {/* Benefits */}
+                <div>
+                    <label className="block font-medium text-gray-700">Benefits*</label>
+                    {data.benefits.map((benefit, index) => (
+                        <div key={index} className="mt-2 flex items-center gap-2">
+                            <input
+                                type="text"
+                                value={benefit}
+                                onChange={(e) => handleArrayChange('benefits', index, e.target.value)}
+                                className="flex-1 block px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeArrayItem('benefits', index)}
+                                className="inline-flex items-center px-2 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            >
+                                ×
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => addArrayItem('benefits')}
+                        className="mt-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                        Add Benefit
+                    </button>
+                    {submissionState.fieldErrors.benefits && (
+                        <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.benefits[0]}</p>
+                    )}
+                </div>
+
+                {/* Process Steps */}
+                <div>
+                    <label className="block font-medium text-gray-700">Process Steps*</label>
+                    {data.process_steps.map((step, index) => (
+                        <div key={index} className="mt-2 flex items-center gap-2">
+                            <input
+                                type="text"
+                                value={step}
+                                onChange={(e) => handleArrayChange('process_steps', index, e.target.value)}
+                                className="flex-1 block px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeArrayItem('process_steps', index)}
+                                className="inline-flex items-center px-2 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            >
+                                ×
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => addArrayItem('process_steps')}
+                        className="mt-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                        Add Process Step
+                    </button>
+                    {submissionState.fieldErrors.process_steps && (
+                        <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.process_steps[0]}</p>
+                    )}
+                </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-end">
+                <button
+                    type="submit"
+                    disabled={processing}
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                >
+                    {processing ? 'Saving...' : service?.id ? 'Update Service' : 'Create Service'}
+                </button>
+            </div>
+
+            {/* Success Message */}
+            {submissionState.success && (
+                <div className="bg-green-50 border-green-500 p-2 rounded-xl mb-6">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        </div>
+                        <div className="">
+                            <h3 className="text-sm ml-3 font-medium text-green-800">
+                                Success!
+                            </h3>
+                            <div className="text-sm ml-3 text-green-700">
+                                {submissionState.message}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Error Message */}
+            {submissionState.error && (
+                <div className="bg-red-50 border-red-500 p-2 rounded-xl mb-6">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <XCircle className="h-5 w-5 text-red-500" />
+                        </div>
+                        <div className="">
+                            <h3 className="text-sm font-medium ml-3 text-red-800">
+                                {submissionState.error}
+                            </h3>
+                            {submissionState.message && (
+                                <div className="ml-3 text-sm text-red-700">
+                                    {submissionState.message}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </form>
     );
 };

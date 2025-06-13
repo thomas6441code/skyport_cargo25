@@ -1,11 +1,25 @@
 import MainLayout from '@/layouts/MainLayout';
-import {Link} from "@inertiajs/react";
-import {ArrowRight } from "lucide-react";
+import { Link } from "@inertiajs/react";
+import { ArrowRight } from "lucide-react";
 import TrackingInput from "@/components/Tracking/TrackingInput";
 import TrackingHelp from "@/components/Tracking/TrackingHelp";
 import TrackingStepper from "@/components/Tracking/TrackingStepper";
 
-export default function TrackingPage() {
+interface faq {
+    id: number;
+    question: string;
+    answer: string;
+    category: string;
+};
+
+
+interface TrackProps {
+
+    faqs: faq[];
+
+}
+
+export default function TrackingPage({ faqs }: TrackProps) {
     // Sample data - replace with real API calls
     const sampleTrackingData = {
         trackingNumber: 'SKY123456789',
@@ -49,6 +63,8 @@ export default function TrackingPage() {
         ]
     };
 
+    console.log(faqs)
+
     return (
         <MainLayout>
 
@@ -61,7 +77,7 @@ export default function TrackingPage() {
                         <div
                             className={`w-full h-full bg-cover object-cover inset-0 absolute bg-center transition-transform duration-1000`}
                             style={{
-                                backgroundImage: `url('/images/worldwide.jpg')`,
+                                backgroundImage: `url('/images/worldwid.jpg')`,
                                 filter: 'brightness(0.8)'
                             }}
                         />
@@ -81,7 +97,7 @@ export default function TrackingPage() {
                         <div className="max-w-5xl pt-5 relative z-10">
                             <h1 className="text-3xl md:mt-3 lg:text-6xl font-bold leading-tight">
                                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
-                                     Track Your Shipment
+                                    Track Your Shipment
                                 </span>
                             </h1>
 
@@ -98,26 +114,29 @@ export default function TrackingPage() {
                     </div>
                 </div>
 
-                <div className="absolute border-gradient-to-b from-bg-white to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-4 z-30">
+                <div className="absolute hidden border-gradient-to-b from-bg-white to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-2xl px-4 z-30">
                     <h1 className="text-2xl text-black md:text-4xl py-5 text-center w-full font-bold" >
                         Your Shipments
                     </h1>
                 </div>
             </div>
 
+
             <div className="bg-white py-16 text-black">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-4xl mx-auto items-center">
                         <div className="text-center mb-12">
                             <p className="text-lg text-gray-600">
                                 Enter your tracking number to get real-time updates
                             </p>
                         </div>
 
-                        <TrackingInput
-                            className="mb-12"
-                            initialValue={sampleTrackingData.trackingNumber}
-                        />
+                        <div className='mx-auto max-w-2xl'>
+                            <TrackingInput
+                                className="mb-12"
+                                initialValue={sampleTrackingData.trackingNumber}
+                            />
+                        </div>
 
                         {sampleTrackingData.trackingNumber && (
                             <>
@@ -142,16 +161,8 @@ export default function TrackingPage() {
                         )}
 
                         <TrackingHelp
-                            faqs={[
-                                {
-                                    question: "How long does it take to update tracking information?",
-                                    answer: "Tracking updates occur in real-time as scans are processed at each facility."
-                                },
-                                {
-                                    question: "My tracking hasn't updated in 24 hours, what should I do?",
-                                    answer: "Contact our customer support team with your tracking number for assistance."
-                                }
-                            ]}
+                            faqs={faqs}
+                            title='Tracking related Questions.'
                         />
                     </div>
                 </div>

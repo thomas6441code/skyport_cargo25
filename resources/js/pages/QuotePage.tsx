@@ -4,30 +4,20 @@ import { QuoteProcess } from "@/components/Quotes/QuoteProcess";
 import { Link } from "@inertiajs/react";
 import { ArrowRight } from "lucide-react";
 
-const cargoTypes = [
-    {
-        id: 'general',
-        name: 'General Cargo',
-        description: 'Boxed, palletized, or crated goods'
-    },
-    {
-        id: 'perishable',
-        name: 'Perishable Goods',
-        description: 'Food, flowers, pharmaceuticals requiring temperature control'
-    },
-    {
-        id: 'hazardous',
-        name: 'Hazardous Materials',
-        description: 'Chemicals, batteries, flammable materials (special handling required)'
-    },
-    {
-        id: 'oversized',
-        name: 'Oversized Cargo',
-        description: 'Large items exceeding standard container dimensions'
-    }
-];
+interface cargotype {
+    id: number;
+    name: string;
+    description: string;
+}
 
-export default function QuotePage() {
+
+interface cargoTypeProps {
+    cargoTypes: cargotype[],
+}
+
+export default function QuotePage({ cargoTypes }: cargoTypeProps) {
+
+    console.log(cargoTypes)
     return (
         <MainLayout>
             {/* Top Section */}
@@ -38,7 +28,7 @@ export default function QuotePage() {
                         <div
                             className={`w-full h-full bg-cover object-cover inset-0 absolute bg-center transition-transform duration-1000`}
                             style={{
-                                backgroundImage: `url('/images/3d-technology.jpg')`,
+                                backgroundImage: `url('/images/3d-hnology.jpg')`,
                                 filter: 'brightness(0.8)'
                             }}
                         />
@@ -72,7 +62,7 @@ export default function QuotePage() {
                     </div>
                 </div>
 
-                <div className="absolute border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-4 z-30">
+                <div className="absolute hidden md:flex border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-4 z-30">
                     <h1 className="text-2xl text-black md:text-4xl py-5 text-center w-full font-bold" >
                         Get a Freight Quote
                     </h1>

@@ -42,7 +42,7 @@ const ImageSlider = ({ images }: { images: Slide[] }) => {
     };
 
     return (
-        <div className="relative w-full h-[50vh] md:min-h-[615px] shadow-2xl z-30">
+        <div className="relative w-full h-[50vh] md:min-h-[700px] shadow-2xl z-30">
             {/* Slides container */}
             <div className="relative w-full h-full overflow-hidden">
                 {images.map((image, index) => (
@@ -55,7 +55,7 @@ const ImageSlider = ({ images }: { images: Slide[] }) => {
                             className={`w-full h-full bg-cover bg-center transition-transform duration-1000 ${isZooming && index === currentIndex ? 'scale-110' : 'scale-100'
                                 }`}
                             style={{
-                                backgroundImage: `url(${image?.slide_url})`,
+                                backgroundImage: `url(/images/slides/${image?.slide_url})`,
                                 transitionTimingFunction: index === currentIndex ?
                                     (isZooming ? 'ease-out' : 'ease-in') : 'linear'
                             }}
@@ -65,17 +65,17 @@ const ImageSlider = ({ images }: { images: Slide[] }) => {
             </div>
 
             {/* Bottom Tracking Input - New Design */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-4 z-30">
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 md:w-full w-[20rem] max-w-3xl md:px-4 px-2 z-30">
                 <form
                     onSubmit={handleTrackSubmit}
-                    className={`bg-white rounded-4xl shadow-2xl p-2 transition-all  duration-300 ${isInputFocused ? 'ring-2 ring-indigo-500' : ''
+                    className={`bg-white rounded-4xl shadow-2xl md:p-2 p-1  transition-all  duration-300 ${isInputFocused ? 'ring-2 ring-indigo-500' : ''
                         }`}
                 >
                     <div className="flex items-stretch z-30">
-                        <div className="flex-grow flex items-center px-5 py-1 bg-gray-50 rounded-l-4xl">
+                        <div className="flex-grow flex items-center md:px-5 px-2 py-1 bg-gray-50 rounded-l-4xl">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 text-gray-400 mr-3"
+                                className="md:h-6 h-5 md:w-6 w-5 text-gray-400 md:mr-3 mr-1"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -94,18 +94,18 @@ const ImageSlider = ({ images }: { images: Slide[] }) => {
                                 onFocus={() => setIsInputFocused(true)}
                                 onBlur={() => setIsInputFocused(false)}
                                 placeholder="Enter tracking number (e.g. CNTZ123456789)"
-                                className="flex-grow bg-transparent outline-none text-gray-800 placeholder-gray-400 rounded-l-lg md:text-lg  py-4"
+                                className="flex-grow bg-transparent outline-none text-gray-800 placeholder-gray-400 rounded-l-lg md:text-lg  md:py-4 py-2"
                             />
                         </div>
                         <div className="bg-gray-50 flex items-center justify-center rounded-r-4xl">
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white px-6 py-4 rounded-4xl font-medium transition-all duration-300 flex items-center"
+                                className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white md:px-6 px-3 py-2 md:py-4 rounded-4xl font-medium transition-all duration-300 flex items-center"
                             >
                                 <span className="hidden md:flex">Track</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 ml-2"
+                                    className="md:h-5 h-4 w-4 md:w-5 ml-2"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                 >
@@ -125,7 +125,7 @@ const ImageSlider = ({ images }: { images: Slide[] }) => {
             </div>
 
             {/* Slide indicator */}
-            <div className="absolute bottom-28 left-0 right-0">
+            <div className="absolute bottom-16 left-0 right-0">
                 <div className="flex justify-center space-x-3">
                     {images.map((_, index) => (
                         <button

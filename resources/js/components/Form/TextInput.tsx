@@ -37,7 +37,7 @@ export const TextInput: React.FC<TextInputProps> = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className={`block w-full px-4 py-2 h-12 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${error ? 'border-red-500' : ''}`}
+                className={`block w-full px-4 py-2 h-12 rounded-md border border-gray-200 shadow-sm focus:border-indigo-300 focus:ring-indigo-300 sm:text-sm ${error ? 'border-red-500' : ''}`}
             />
             <InputError message={error} className="mt-1" />
         </div>

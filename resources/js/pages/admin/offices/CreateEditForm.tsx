@@ -64,7 +64,7 @@ const OfficeForm: React.FC<OfficeProps> = ({ office }) => {
                 <CardHeader>
                     <CardTitle className='text-black'>Basic Offices Information</CardTitle>
                 </CardHeader>
-                <CardContent className="grid gap-6 bg-wite">
+                <CardContent className="grid grid-cols-3 gap-6 bg-wite">
                     <TextInput
                         label="Country Title"
                         value={data.country}
@@ -125,52 +125,52 @@ const OfficeForm: React.FC<OfficeProps> = ({ office }) => {
                         placeholder='Eq.(#3BADE2)'
 
                     />
+                    {expandedSections.coordinates && (
+                        <>
+                            <div className="flex-col items-center gap-2">
+                                <label htmlFor='Coordinates' className="block text-sm font-medium text-gray-700 mb-1">
+                                    Latitude Coordinates<span className="text-red-500"> *</span>
+                                </label>
+                                <div className="flex-1 flex gap-2">
+                                    <Input
+                                        type="number"
+                                        step="any"
+                                        value={data.coordinates[0]}
+                                        onChange={(e) => handleFieldChange(0, parseFloat(e.target.value))}
+                                        required
+                                        className={`block w-full px-4 py-2 h-12 rounded-md border border-gray-200 shadow-sm focus:border-indigo-300 focus:ring-indigo-300 sm:text-sm ${(errors as Record<string, string>)['coordinates.1'] ? 'border-red-500' : ''}`}
+                                        placeholder="Latitude Coordinates"
+                                    />
+                                </div>
+                                {(errors as Record<string, string>)['coordinates.0'] && (
+                                    <p className="text-sm text-red-600">{(errors as Record<string, string>)['coordinates.0']}</p>
+                                )}
+                            </div>
 
+                            <div className="flex-col items-center gap-2">
+                                <label htmlFor='Coordinates' className="block text-sm font-medium text-gray-700 mb-1">
+                                    Longitude Coordinates<span className="text-red-500"> *</span>
+                                </label>
+                                <div className="flex-1 flex gap-2">
+                                    <Input
+                                        type="number"
+                                        step="any"
+                                        value={data.coordinates[1]}
+                                        onChange={(e) => handleFieldChange(1, parseFloat(e.target.value))}
+                                        required
+                                        className={`block w-full px-4 py-2 h-12 rounded-md border border-gray-200 shadow-sm focus:border-indigo-300 focus:ring-indigo-300 sm:text-sm ${(errors as Record<string, string>)['coordinates.1'] ? 'border-red-500' : ''}`}
+                                        placeholder="Longitude Coordinates"
+                                    />
+                                </div>
+                                {(errors as Record<string, string>)['coordinates.1'] && (
+                                    <p className="text-sm text-red-600">{(errors as Record<string, string>)['coordinates.1']}</p>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </CardContent>
             </Card>
 
-            <Card className=" bg-wite  text-black">
-                <CardHeader className="cursor-pointer" onClick={() => toggleSection('coordinates')}>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>coordinates</CardTitle>
-                        {expandedSections.coordinates ? <ChevronUp /> : <ChevronDown />}
-                    </div>
-                </CardHeader>
-                {expandedSections.coordinates && (
-                    <CardContent className="space-y-4">
-                        <div className="flex-col items-center gap-2">
-                            <div className="flex-1 flex gap-2">
-                                <Input
-                                    type="number"
-                                    step="any"
-                                    value={data.coordinates[0]}
-                                    onChange={(e) => handleFieldChange(0, parseFloat(e.target.value))}
-                                    required
-                                    placeholder="Latitude Coordinates"
-                                />
-                            </div>
-                            {(errors as Record<string, string>)['coordinates.0'] && (
-                                <p className="text-sm text-red-600">{(errors as Record<string, string>)['coordinates.0']}</p>
-                            )}
-                        </div>
-                        <div className="flex-col items-center gap-2">
-                            <div className="flex-1 flex gap-2">
-                                <Input
-                                    type="number"
-                                    step="any"
-                                    value={data.coordinates[1]}
-                                    onChange={(e) => handleFieldChange(1, parseFloat(e.target.value))}
-                                    required
-                                    placeholder="Longitude Coordinates"
-                                />
-                            </div>
-                            {(errors as Record<string, string>)['coordinates.1'] && (
-                                <p className="text-sm text-red-600">{(errors as Record<string, string>)['coordinates.1']}</p>
-                            )}
-                        </div>
-                    </CardContent>
-                )}
-            </Card>
 
             <div className="flex justify-end gap-4">
                 <Button

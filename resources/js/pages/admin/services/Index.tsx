@@ -1,21 +1,26 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { PencilIcon, PlusIcon, TrashIcon, ArrowUpDownIcon, SearchIcon } from 'lucide-react';
+import { PencilIcon, PlusIcon, TrashIcon, BookOpenCheck } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
-import { Input } from '@/components/ui/input';
 import { BreadcrumbItem } from '@/types';
 import { useState } from 'react';
 import { Button } from '@headlessui/react';
 import ServiceDetailModal from './ServiceDetailsModel';
+import IconComponent from '@/components/common/IconComponent';
 
 interface Service {
-    id: number;
+    id?: number;
     title: string;
     slug: string;
     image: string;
+    icon: string;
     description: string;
+    long_description: string;
+    features: string[];
+    benefits: string[];
+    process_steps: string[];
     status?: 'active' | 'draft';
     featured?: boolean;
-}
+};
 
 interface Props {
     services: Service[];
@@ -80,6 +85,9 @@ export default function ServicesIndex({ services }: Props) {
                             <thead className="bg-gray-50 dar:bg-gray-700">
                                 <tr>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
+                                        S/Image
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
                                         Service
                                     </th>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dar:text-gray-300 uppercase tracking-wider">
@@ -92,19 +100,21 @@ export default function ServicesIndex({ services }: Props) {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 ">
                                 {services.map((service) => (
-                                    <tr key={service.id} className="hover:bg-gray-50 dar:hover:bg-gray-700/50">
+                                    <tr key={service.id} className="hover:bg-gray-50 ">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center rounded-md max-w-[10rem]">
+                                                <div className="block text-gray-500 h-24 w-full bg-gray-100 rounded-md sm:text-sm">
+                                                    <img
+                                                        src={service.image}
+                                                        className="w-full h-full rounded-md object-cover"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <div className="flex-shrink-0 h-10 w-10">
-                                                    <img
-                                                        className="h-10 w-10 rounded-lg object-cover"
-                                                        src={service.image}
-                                                        alt={service.title}
-                                                        onError={(e) => {
-                                                            const target = e.target as HTMLImageElement;
-                                                            target.src = 'https://placehold.co/100x100?text=Service';
-                                                        }}
-                                                    />
+                                                <div className="flex-shrink-0 h-10 rounded-md text-cyan-600 w-10">
+                                                    <IconComponent icon={service.icon} />
                                                 </div>
                                                 <div className="ml-4">
                                                     <div className="text-sm font-medium text-gray-900 dar:text-white">
@@ -135,13 +145,14 @@ export default function ServicesIndex({ services }: Props) {
                                                 </Link>
                                                 <Button
                                                     key={service.id}
+                                                    title='View'
                                                     onClick={() => openModal(service)}
-                                                    className="cursor-pointer p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                                                    className="text-orange-600 hover:text-orange-900 p-1 rounded-md hover:bg-orange-50"
                                                     role="button"
                                                     tabIndex={0}
                                                     onKeyDown={(e) => e.key === 'Enter' && openModal(service)}
                                                 >
-                                                    <PencilIcon className="h-4 w-4" />
+                                                    <BookOpenCheck className="h-4 w-4" />
                                                 </Button>
                                                 <Link
                                                     method="delete"

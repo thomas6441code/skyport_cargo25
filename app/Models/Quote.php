@@ -22,6 +22,7 @@ class Quote extends Model
         'weight',
         'dimensions',
         'ready_date',
+        'is_answered',
         'special_requirements'
     ];
 

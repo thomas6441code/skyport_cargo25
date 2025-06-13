@@ -48,6 +48,10 @@ export interface NavGroup {
     items: NavItem[];
 }
 
+declare module 'lucide-react' {
+    export const icons: Record<string, React.ComponentType<LucideProps>>;
+}
+
 export interface NavItem {
     title: string;
     href: string;

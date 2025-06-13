@@ -56,7 +56,7 @@ const MessageTable: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('/api/messages');
+            const response = await fetch('/admin/message');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -75,7 +75,7 @@ const MessageTable: React.FC = () => {
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-            const response = await fetch(`/api/messages/read/${id}`, {
+            const response = await fetch(`/admin/messages/read/${id}`, {
                 method: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken || '',
@@ -98,7 +98,7 @@ const MessageTable: React.FC = () => {
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-            const response = await fetch(`/api/messages/unread/${id}`, {
+            const response = await fetch(`/admin/messages/unread/${id}`, {
                 method: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken || '',
@@ -121,7 +121,7 @@ const MessageTable: React.FC = () => {
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-            const response = await fetch(`/api/messages/${id}`, {
+            const response = await fetch(`/admin/messages/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken || '',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Office;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class OfficeController extends Controller
@@ -14,7 +15,8 @@ class OfficeController extends Controller
     public function index()
     {
         return Inertia::render('admin/offices/Index', [
-            'offices' => Office::all()
+            'offices' => Office::all(),
+            'departments' => Department::all(),
         ]);
     }
 
@@ -91,8 +93,9 @@ class OfficeController extends Controller
             'phone' => 'required|string|max:255',
             'hours' => 'required|string|max:255',
             'color' => 'required|string|max:255',
-            'coordinates' => 'required|array',
-            'coordinates.*' => 'string|max:255',
+            'coordinates' => 'required|array|size:2',
+            'coordinates.0' => 'required|numeric|between:-90,90',
+            'coordinates.1' => 'required|numeric|between:-180,180',
         ]);
 
         $office->update($validated);

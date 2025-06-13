@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use App\Models\Service;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,11 +21,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
-       // Route::model('service', Service::class);
-        //Route::bind('service', function($value){
-        //    return Service::where('slug', $value)->firstOrFail();
-       // });
+        
+        // Custom binding for Service (works with both ID and slug)
+        Route::bind('service', function ($value) {
+            return Service::where('id', $value)
+                ->orWhere('slug', $value)
+                ->firstOrFail();
+        });
+        
 
     }
 }

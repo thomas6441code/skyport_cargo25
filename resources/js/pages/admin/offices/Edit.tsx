@@ -4,9 +4,9 @@ import AppLayout from '@/layouts/app-layout';
 import OfficeForm from './CreateEditForm';
 
 interface OfficeProps {
-    offices?: {
+    office?: {
         id: number;
-        coordinates: [string, string];
+        coordinates: [number, number];
         country: string;
         city: string;
         address?: string;
@@ -17,14 +17,15 @@ interface OfficeProps {
     }
 }
 
-const OfficeEdit: React.FC<OfficeProps> = ({ offices }) => {
+const OfficeEdit: React.FC<OfficeProps> = ({ office }) => {
+
     return (
         <AppLayout>
             <Head title={`Edit Office`} />
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-2xl font-bold text-gray-900 mb-8">Edit office</h1>
                 <div className="bg-white shadow rounded-lg p-6">
-                    <OfficeForm office={offices} />
+                    <OfficeForm office={office} />
                 </div>
             </div>
         </AppLayout>

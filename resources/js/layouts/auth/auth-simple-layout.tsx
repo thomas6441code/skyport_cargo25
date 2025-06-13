@@ -14,18 +14,17 @@ export default function AuthSimpleLayout({ children, title }: PropsWithChildren<
             <div className="absolute inset-0 bg-black/30"></div>
 
             {/* Content Overlay */}
-            <div className="relative z-10">
-                <div className="bg-backdrop-blur bg-black/10 flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+            <div className="relative z-10 bg-backdrop-blur bg-black/90 ">
+                <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
                     <div className="w-full max-w-sm">
                         <div className="flex flex-col gap-8">
                             <div className="flex flex-col items-center gap-4">
                                 {/* Logo */}
-                                <Link  href="/" className="flex items-center space-x-2">
-                                    <img src="/flogo.svg" alt="SKYPORT CARGO" className="h-20"/>
+                                <Link href="/" className="flex items-center space-x-2">
+                                    <img src="/flogo.svg" alt="SKYPORT CARGO" className="h-20" />
                                 </Link>
 
-                                <div className="space-y-2 mt-3 text-center">
-                                    <h1 className="text-xl font-medium">{title}</h1>
+                                <div className="space-y-2 mt-10 text-center">
                                 </div>
                             </div>
                             {children}

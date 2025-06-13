@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Mail, Check, X, Search, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { Mail, Check, Search, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { type BreadcrumbItem } from '@/types';
 
 interface Quote {
@@ -35,9 +35,6 @@ export default function AdminQuotesPage() {
     const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
-    const [emailContent, setEmailContent] = useState('');
-    const [emailSubject, setEmailSubject] = useState('Regarding Your Shipping Quote');
     const [sortConfig, setSortConfig] = useState<{ key: keyof Quote; direction: 'ascending' | 'descending' } | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const quotesPerPage = 10;
@@ -60,7 +57,7 @@ export default function AdminQuotesPage() {
         setLoading(true);
         try {
             // Replace with your actual API endpoint
-            const response = await fetch('/api/quotes');
+            const response = await fetch('/admin/quote');
             const data = await response.json();
             setQuotes(data);
             setFilteredQuotes(data);
@@ -73,40 +70,25 @@ export default function AdminQuotesPage() {
 
     const markAsAnswered = async (id: number) => {
         try {
-            await fetch(`/api/quotes/${id}`, {
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            await fetch(`/admin/quotes/mark-answered/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken || '',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify({ is_answered: true }),
+                credentials: 'include',
             });
+
             fetchQuotes();
         } catch (error) {
             console.error('Error updating quote:', error);
         }
     };
 
-    const sendEmail = async () => {
-        if (!selectedQuote) return;
-
-        try {
-            await fetch('/api/send-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    to: selectedQuote.email,
-                    subject: emailSubject,
-                    content: emailContent
-                }),
-            });
-            markAsAnswered(selectedQuote.id);
-            setSelectedQuote(null);
-        } catch (error) {
-            console.error('Error sending email:', error);
-        }
-    };
 
     const requestSort = (key: keyof Quote) => {
         let direction: 'ascending' | 'descending' = 'ascending';
@@ -296,13 +278,14 @@ export default function AdminQuotesPage() {
                                                             </span>
                                                         )}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <button
-                                                            onClick={() => setSelectedQuote(quote)}
-                                                            className="text-indigo-600 hover:text-indigo-900 mr-4"
+                                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm flex gap-5 items-center font-medium">
+                                                        <Link
+                                                            href={route('admin.quotes.EmailQuotes', quote.id)}
+                                                            className="text-indigo-600 hover:text-indigo-900"
+                                                            title="Email Answer"
                                                         >
                                                             <Mail className="h-5 w-5" />
-                                                        </button>
+                                                        </Link>
                                                         {!quote.is_answered && (
                                                             <button
                                                                 onClick={() => markAsAnswered(quote.id)}
@@ -384,91 +367,6 @@ export default function AdminQuotesPage() {
                         )}
                     </div>
                 </div>
-
-                {/* Email Modal */}
-                {selectedQuote && (
-                    <div className="fixed inset-0 backdrop-blur-xs text-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="p-6">
-                                <h2 className="text-xl font-bold mb-4">Send Email to {selectedQuote.name}</h2>
-
-                                <div className="mb-6">
-                                    <h3 className="text-lg font-medium mb-2">Quote Details</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <div>
-                                            <p className="text-sm text-gray-500">Origin</p>
-                                            <p className="font-medium">{selectedQuote.origin}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-gray-500">Destination</p>
-                                            <p className="font-medium">{selectedQuote.destination}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-gray-500">Cargo Type</p>
-                                            <p className="font-medium">{selectedQuote.cargo_type}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-gray-500">Weight</p>
-                                            <p className="font-medium">{selectedQuote.weight} kg</p>
-                                        </div>
-                                    </div>
-                                    {selectedQuote.special_requirements && (
-                                        <div>
-                                            <p className="text-sm text-gray-500">Special Requirements</p>
-                                            <p className="font-medium">{selectedQuote.special_requirements}</p>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="mb-4">
-                                    <label htmlFor="email-subject" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Subject
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="email-subject"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                        value={emailSubject}
-                                        onChange={(e) => setEmailSubject(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="mb-6">
-                                    <label htmlFor="email-content" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Message
-                                    </label>
-                                    <textarea
-                                        id="email-content"
-                                        rows={8}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                        value={emailContent}
-                                        onChange={(e) => setEmailContent(e.target.value)}
-                                        placeholder={`Dear ${selectedQuote.name},\n\nThank you for your quote request...`}
-                                    ></textarea>
-                                </div>
-
-                                <div className="flex justify-end space-x-3">
-                                    <button
-                                        onClick={() => {
-                                            setSelectedQuote(null);
-                                            setEmailContent('');
-                                            setEmailSubject('Regarding Your Shipping Quote');
-                                        }}
-                                        className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        onClick={sendEmail}
-                                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                                    >
-                                        Send Email
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
         </AppLayout>
 

@@ -69,8 +69,8 @@ export default function ServiceShow({ services, featureIcons }: ServiceShowProps
                 </Head>
 
                 {/* Hero Section */}
-                <div className="relative bg-gray-900 rounded-br-full pb-10">
-                    <div className="absolute inset-0 overflow-hidden rounded-br-full">
+                <div className="relative bg-gray-900 rounded-br-[80%] md:rounded-br-full py-14">
+                    <div className="absolute inset-0 overflow-hidden rounded-br-[80%] md:rounded-br-full">
                         <img
                             src={services.service?.image}
                             alt={services.service?.title}
@@ -80,10 +80,10 @@ export default function ServiceShow({ services, featureIcons }: ServiceShowProps
                     </div>
                     <div className="relative mt-16 max-w-7xl mx-auto py-24 px-6 lg:px-8">
                         <div className="max-w-2xl">
-                            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                            <h1 className="text-4xl font-bold  tracking-tight text-white sm:text-5xl lg:text-6xl">
                                 {services.service?.title}
                             </h1>
-                            <p className="mt-6 text-xl text-gray-300">
+                            <p className="mt-6 text-xl md:w-full w-[80%] text-gray-300">
                                 {services.service?.description}
                             </p>
                             <div className="mt-8 flex gap-4">

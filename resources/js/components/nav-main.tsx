@@ -6,12 +6,12 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
     return (
         <SidebarGroup className="px-2 py-0">
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+            <SidebarGroupLabel className='text-gray-500'>Platform</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
-                            className='hover:bg-sky-200'
+                            className='hover:bg-sky-200 text-black'
                             asChild isActive={item.href === page.url}
                             tooltip={{ children: item.title }}
                         >

@@ -107,7 +107,7 @@ const Footer = () => {
                                 <svg className="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                +255 (764) 141-9171
+                                +255 (746) 696-695
                             </p>
                             <p className="flex items-center">
                                 <svg className="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +122,7 @@ const Footer = () => {
                 {/* Bottom strip */}
                 <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
                     <p className="text-gray-500 text-sm my-4 md:mb-0">
-                        © {new Date().getFullYear()} SKYPORT. All rights reserved.
+                        © {new Date().getFullYear()} SkyPort. All rights reserved.
                     </p>
                     <div className="flex space-x-6">
                         <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>

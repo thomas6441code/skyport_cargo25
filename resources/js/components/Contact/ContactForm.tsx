@@ -7,19 +7,25 @@ import {
     NotebookPen,
     CheckCircle2,
     XCircle,
-    BoxSelectIcon,
-    LoaderCircleIcon
+    LoaderCircleIcon,
+    OptionIcon
 } from 'lucide-react';
 
-interface ContactFormProps {
-    departments?: string[];
+interface Department {
+    'id': number;
+    'name': string;
+    'description': string;
+}
+
+interface FormProps {
+    departments?: Department[];
 }
 
 interface FormData {
     name: string;
     email: string;
     phone: string;
-    department: string;
+    department?: string;
     subject: string;
     message: string;
 }
@@ -32,12 +38,12 @@ interface SubmissionState {
     fieldErrors: Record<string, string[]>;
 }
 
-export default function ContactForm({ departments = [] }: ContactFormProps) {
+const ContactForm: React.FC<FormProps> = ({ departments = [] }) => {
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
         phone: '',
-        department: departments[0] || '',
+        department: '',
         subject: '',
         message: ''
     });
@@ -79,7 +85,6 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
             const data = await res.json();
 
             if (!res.ok) {
-                // Handle validation errors (status 422)
                 if (res.status === 422 && data.errors) {
                     setSubmissionState({
                         loading: false,
@@ -91,7 +96,6 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                     return;
                 }
 
-                // Handle other errors
                 setSubmissionState({
                     loading: false,
                     success: false,
@@ -101,7 +105,6 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                 });
             }
 
-            // Success case
             setSubmissionState({
                 loading: false,
                 success: true,
@@ -110,12 +113,11 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                 fieldErrors: {}
             });
 
-            // Reset form
             setFormData({
                 name: '',
                 email: '',
                 phone: '',
-                department: departments[0] || '',
+                department: '',
                 subject: '',
                 message: ''
             });
@@ -234,17 +236,18 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
                         <div>
                             <label className="block text-gray-700 mb-2">Department</label>
                             <div className="relative">
-                                <BoxSelectIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                                <OptionIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                                 <select
-                                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.department
+                                    className={`w-full pl-10 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${submissionState.fieldErrors?.department
                                         ? 'border-red-500'
                                         : 'border-gray-300'
                                         }`}
-                                    value={formData.department}
+                                    value={formData.department || ''}
                                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                                 >
-                                    {departments.map((dept, index) => (
-                                        <option key={index} value={dept}>{dept}</option>
+                                    <option value="">Select a department</option>
+                                    {departments.map((dept) => (
+                                        <option key={dept.id} value={dept.name}>{dept.name}</option>
                                     ))}
                                 </select>
                             </div>
@@ -339,3 +342,5 @@ export default function ContactForm({ departments = [] }: ContactFormProps) {
         </div>
     );
 }
+
+export default ContactForm;

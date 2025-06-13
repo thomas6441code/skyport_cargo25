@@ -1,10 +1,18 @@
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import {
+    Sidebar, SidebarContent, SidebarFooter,
+    SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem
+} from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Folder, GalleryThumbnails, GitPullRequestIcon, LayoutGrid, LocateFixed, LucideGitPullRequestDraft, MessageCircleIcon, SettingsIcon, ShieldQuestion, Users2Icon, WorkflowIcon } from 'lucide-react';
+import {
+    Atom, ChartBarDecreasingIcon,
+    Folder, GalleryThumbnails, LayoutGrid, LocateFixed,
+    LucideGitPullRequestDraft, MessageCircleIcon, PackageOpen, SettingsIcon,
+    ShieldQuestion, StarIcon, Users2Icon, WorkflowIcon
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -34,9 +42,19 @@ const mainNavItems: NavItem[] = [
         icon: ShieldQuestion,
     },
     {
-        title: 'Team Members',
+        title: 'Stats',
+        href: '/admin/stats',
+        icon: Atom,
+    },
+    {
+        title: 'Team-Members',
         href: '/admin/teams',
         icon: Users2Icon,
+    },
+    {
+        title: 'Testimonials',
+        href: '/admin/testimonials',
+        icon: StarIcon,
     },
     {
         title: 'Slides',
@@ -44,9 +62,19 @@ const mainNavItems: NavItem[] = [
         icon: GalleryThumbnails,
     },
     {
+        title: 'Departments',
+        href: '/admin/departments',
+        icon: ChartBarDecreasingIcon,
+    },
+    {
         title: 'Offices',
         href: '/admin/offices',
         icon: LocateFixed,
+    },
+    {
+        title: 'CargoTypes',
+        href: '/admin/cargotypes',
+        icon: PackageOpen,
     },
 ];
 
@@ -58,14 +86,14 @@ const footerNavItems: NavItem[] = [
     },
     {
         title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
+        href: 'https://github.com/thomas6441code/SkyPort_Repoo',
         icon: Folder,
     },
 ];
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" className='rounded-lg' variant="sidebar" >
+        <Sidebar collapsible="icon" className='rounded-lg shadow-2xl' variant="sidebar" >
             <SidebarHeader className='backdrop-blur-xs' >
                 <SidebarMenu>
                     <SidebarMenuItem>

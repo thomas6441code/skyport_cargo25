@@ -51,7 +51,7 @@ const teamsAdmin: FC = () => {
 
     const fetchteams = async () => {
         try {
-            const response = await fetch('/api/teams');
+            const response = await fetch('/admin/team');
 
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
@@ -101,8 +101,8 @@ const teamsAdmin: FC = () => {
 
         try {
             const url = editingMember
-                ? `/api/teams/${editingMember.id}`
-                : '/api/teams';
+                ? `/admin/teams/${editingMember.id}`
+                : '/admin/teams';
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
@@ -168,7 +168,7 @@ const teamsAdmin: FC = () => {
         setName(member.name);
         setRole(member.role);
         setBio(member.bio);
-        setPreview(`/images/teamsd/${member.image_url}`);
+        setPreview(`${member.image_url}`);
     };
 
     const handleDelete = async (id: number) => {
@@ -181,7 +181,7 @@ const teamsAdmin: FC = () => {
         });
 
         try {
-            const response = await fetch(`/api/teams/${id}`, {
+            const response = await fetch(`/admin/teams/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
@@ -245,8 +245,8 @@ const teamsAdmin: FC = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Members" />
-            <div className="min-h-screen bg-gray-100 text-black p-6 ">
-                <div className="max-w-6xl mx-auto">
+            <div className="min-h-screen bg-gray-100 text-black py-8 p-4">
+                <div className="max-w-7xl mx-auto">
                     <div className="mb-4 sm:mb-0 sticky top-20 mb-2">
                         <h1 className="text-2xl font-bold text-gray-900 dar:text-white">Members Management</h1>
                         <p className="mt-1 text-sm text-gray-500 dar:text-gray-400">
@@ -254,9 +254,9 @@ const teamsAdmin: FC = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 ">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
                         {/* Form Section */}
-                        <div className="bg-white rounded-lg shadow-md p-6 lg:col-span-1 sticky top-38 max-h-fit">
+                        <div className="bg-white rounded-lg shadow-md p-6 lg:col-span-1 md:max-h-fit md:sticky md:top-38">
                             <h2 className="text-xl font-semibold mb-4">
                                 {editingMember ? 'Edit Member' : 'Add New Member'}
                             </h2>
@@ -428,7 +428,7 @@ const teamsAdmin: FC = () => {
                                         <div key={team.id} className="border rounded-lg overflow-hidden">
                                             <div className="relative h-40 bg-gray-200">
                                                 <img
-                                                    src={`/images/teamsu/${team.image_url}`}
+                                                    src={`${team.image_url}`}
                                                     alt={team.name}
                                                     className="w-full h-full object-cover"
                                                 />

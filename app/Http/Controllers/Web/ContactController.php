@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use Inertia\Inertia;
+use App\Models\Office;
 use App\Models\Message;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
@@ -12,19 +14,12 @@ class ContactController extends Controller
 {
     public function index()
     {
+        $department = Department::all();
+        $offices = Office::all();
+
         return Inertia::render('ContactPage', [
-            'offices' => [
-                'china' => [
-                    'address' => '123 Cargo Ave, Shanghai, China',
-                    'phone' => '+86 21 1234 5678',
-                    'email' => 'china@skyportcargo.com'
-                ],
-                'tanzania' => [
-                    'address' => '456 Logistics St, Dar es Salaam, Tanzania',
-                    'phone' => '+255 22 987 6543',
-                    'email' => 'tanzania@skyportcargo.com'
-                ]
-            ]
+            'offices' => $offices,
+            'departments' => $department,
         ]);
     }
 

@@ -194,18 +194,18 @@ const SlidesAdmin = ({ slides }: { slides: Slide[] }) => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Slides" />
-            <div className="min-h-screen bg-gray-100 text-black p-6 ">
-                <div className="max-w-6xl mx-auto">
-                    <div className="mb-4 sm:mb-0 sticky top-20 mb-2">
-                        <h1 className="text-2xl font-bold text-gray-900 dar:text-white">Slides Management</h1>
+            <div className="min-h-screen bg-gray-100 text-black p-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-4 sm:mb-0 md:sticky md:top-20 mb-2">
+                        <h1 className="text-2xl font-bold text-gray-900">Slides Management</h1>
                         <p className="mt-1 text-sm text-gray-500 dar:text-gray-400">
                             Manage all available slides in your system.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 ">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Form Section */}
-                        <div className="bg-white rounded-lg shadow-md p-6 lg:col-span-1 md:max-h-fit sticky top-38">
+                        <div className="bg-white rounded-lg shadow-md p-6 lg:col-span-1 md:max-h-fit md:sticky md:top-38">
                             <h2 className="text-xl font-semibold mb-4">
                                 {editingSlide ? 'Edit Slide' : 'Add New Slide'}
                             </h2>
@@ -348,7 +348,7 @@ const SlidesAdmin = ({ slides }: { slides: Slide[] }) => {
                                         <div key={slide.id} className="border rounded-lg overflow-hidden">
                                             <div className="relative h-40 bg-gray-200">
                                                 <img
-                                                    src={`/images/slidesu/${slide.slide_url}`}
+                                                    src={`/images/slides/${slide.slide_url}`}
                                                     alt={slide.title}
                                                     className="w-full h-full object-cover"
                                                 />

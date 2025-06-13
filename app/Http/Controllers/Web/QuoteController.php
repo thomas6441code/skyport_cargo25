@@ -7,6 +7,8 @@ ini_set('display_errors', 1);
 
 use Inertia\Inertia;
 use App\Models\Quote;
+use App\Models\CargoType;
+use App\Mail\QuoteReply;
 use Illuminate\Http\Request;
 use App\Mail\QuoteConfirmation;
 use App\Mail\NewQuoteNotification;
@@ -19,10 +21,9 @@ class QuoteController extends Controller
 {
     public function index()
     {
+
         return Inertia::render('QuotePage', [
-        'defaultOrigin' => 'China',
-            'defaultDestination' => 'Tanzania',
-            'cargoTypes' => config('services.cargo_types')
+            'cargoTypes'=> CargoType::all(),
         ]);
     }
 
@@ -39,16 +40,26 @@ class QuoteController extends Controller
 
     public function create()
     {
+
+
         return Inertia::render('QuotePage', [
             'defaultOrigin' => 'China',
             'defaultDestination' => 'Tanzania',
-            'cargoTypes' => config('services.cargo_types')
+            'cargoTypes' => CargoType::all(),
+        ]);
+    }
+
+    public function Emailindex( Quote $quote)
+    {
+        return Inertia::render('admin/quotes/EmailQuotes', [
+            'quote' => $quote,
         ]);
     }
 
     public function store(Request $request)
     {
         try {
+
             $validated = $request->validate( [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
@@ -82,22 +93,27 @@ class QuoteController extends Controller
             ];
 
             $quote = Quote::create($quoteData);
-
+            
             try {
-                Mail::to($quote->email)->send(new QuoteConfirmation($quote));
 
-                Mail::to('skyportlogistics25@gmail.com')->send(new NewQuoteNotification($quote));
+                Mail::to('hopeshayo1@gmail.com')->send(new NewQuoteNotification($quote));
+                
+                Mail::to($quote->email)->send(new QuoteConfirmation($quote));
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Thank you for your quote request! We will contact you shortly.',
+                    'data' => $quote
+                ]);
+
             } catch (\Exception $e) {
 
-                Log::error('Email sending failed: ' . $e->getMessage());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email sending failed: ' . $e->getMessage(),
+                ]);
 
             }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Thank you for your quote request! We will contact you shortly.',
-                'data' => $quote
-            ]);
 
         } catch (ValidationException $e) {
             return response()->json([
@@ -112,7 +128,47 @@ class QuoteController extends Controller
                 'error_details' => config('app.debug') ? $e->getMessage() : null
             ], 500);
         }
-    } 
+    }
+    
+    public function sendEmail(Request $request)
+    {
+        $validated = $request->validate([
+            'to' => 'required|email',
+            'subject' => 'required|string|max:255',
+            'content' => 'required|string',
+            'quote_id' => 'required|exists:quotes,id',
+        ]);
+    
+        $quote = Quote::findOrFail($validated['quote_id']);
+    
+        try {
+            Mail::to($validated['to'])
+            ->send(new QuoteReply(
+                $quote,
+                $validated['subject'],
+                $validated['content']
+            ));
+
+            // Mark quote as answered
+            $quote->update(['is_answered' => true]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Email sent successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send email: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function markAsAnswered(Quote $quote)
+    {
+        $quote->update(['is_answered' => true]);
+        
+        return back()->with('success', 'Quote marked as answered');
+    }
 
 }
-

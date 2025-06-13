@@ -16,7 +16,7 @@ export default function Header() {
     ];
 
     return (
-        <header className="bg-white/10 backdrop-blur-xs text-black shadow-md fixed top-0 w-full z-50 transition-all duration-300 hover:bg-white">
+        <header className="bg-white/5 backdrop-blur-xs text-black shadow-md fixed top-0 w-full z-50 transition-all duration-300 hover:bg-white">
             {/* Top Contact Bar - Now with transparent hover effect */}
             <div className="bg-black/90 hover:bg-black p-2 text-white text-sm transition-all duration-300">
                 <div className="container mx-auto px-4 py-2 flex justify-between items-center">

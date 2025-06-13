@@ -40,12 +40,13 @@ class MemberController extends Controller
                 $filename = time().'_'.Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)).'.'.$extension;
                 
                 $image->move(public_path('images/member'), $filename);
+
         
                 $member = Member::create([
                     'name' => $request->name,
                     'role' => $request->role,
                     'bio' => $request->bio,
-                    'image_url' => $filename
+                    'image_url' => '/images/member/' . $filename,
                 ]);
         
                 return response()->json([
@@ -82,7 +83,7 @@ class MemberController extends Controller
         
                 if ($request->hasFile('image_url')) {
                     // Delete old image
-                    $oldimage = public_path('images/member/'). $member->image_url;
+                    $oldimage = $member->image_url;
                     if (file_exists($oldimage)) {
                         unlink($oldimage);
                     }
@@ -93,7 +94,7 @@ class MemberController extends Controller
                     $filename = time().'_'.Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)).'.'.$extension;
                     
                     $image->move(public_path('images/member'), $filename);
-                    $member->image_url = $filename;
+                    $member->image_url = '/images/member/' . $filename;
                 }
         
                 $member->name = $request->name ?? $member->name;
@@ -126,7 +127,7 @@ class MemberController extends Controller
             try {
     
                  // Delete old image
-                 $oldimage = public_path('images/member/'). $member->image_url;
+                 $oldimage = $member->image_url;
                  if (file_exists($oldimage)) {
                     unlink($oldimage);
                  }

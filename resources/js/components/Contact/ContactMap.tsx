@@ -5,18 +5,21 @@ import { DivIcon } from 'leaflet';
 import React, { ReactNode } from 'react';
 
 // Type definitions
-interface Office {
+
+interface offices {
     id: number;
     coordinates: [number, number];
     country: string;
     city: string;
     address?: string;
+    email?: string;
     phone?: string;
+    hours?: string;
     color?: string;
 }
 
 interface ContactMapProps {
-    offices?: Office[];
+    offices?: offices[];
     className?: string;
     showRoute?: boolean;
     mapStyle?: React.CSSProperties;
@@ -38,13 +41,13 @@ const createCustomIcon = (iconColor: string = '#0056b3'): DivIcon => {
 };
 
 const ContactMap: React.FC<ContactMapProps> = ({
-                                                   offices = [],
-                                                   className = '',
-                                                   showRoute = true,
-                                                   mapStyle = { height: '500px', width: '100%' }
-                                               }) => {
+    offices = [],
+    className = '',
+    showRoute = true,
+    mapStyle = { height: '500px', width: '100%' }
+}) => {
     // Default offices if none provided
-    const defaultOffices: Office[] = [
+    const defaultOffices: offices[] = [
         {
             id: 1,
             coordinates: [31.2304, 121.4737], // Shanghai
@@ -74,7 +77,7 @@ const ContactMap: React.FC<ContactMapProps> = ({
         window.open(`https://maps.google.com?q=${coords.join(',')}`);
     };
 
-    const renderPopupContent = (office: Office): ReactNode => (
+    const renderPopupContent = (office: offices): ReactNode => (
         <div className="min-w-[200px] space-y-2">
             <h3 className="font-bold text-lg">{office.city}</h3>
             <div className="flex items-center text-gray-600">

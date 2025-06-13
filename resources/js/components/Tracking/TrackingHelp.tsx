@@ -4,19 +4,20 @@ interface Faqs {
     'id': number;
     'question': string;
     'answer': string;
+    'category': string;
 }
 
-const TrackingHelp = ({ faqs }: { faqs: Faqs[] }) => {
-    const [activeIndex, setActiveIndex] = useState(null);
+const TrackingHelp = ({ faqs, title }: { faqs: Faqs[], title: string }) => {
+    const [activeIndex, setActiveIndex] = useState(10);
 
     const toggleAccordion = (index: number) => {
-        setActiveIndex(activeIndex === index ? null : index);
+        setActiveIndex(activeIndex === index ? 10 : index);
     };
 
     return (
         <div className="bg-white rounded-lg shadow-md text-black overflow-hidden ">
             <h3 className="text-lg font-semibold bg-gray-100 px-4 py-3 border-b border-gray-200">
-                Questions related to air cargo between China and Tanzania.
+                {title}
             </h3>
             <div className="divide-y divide-gray-200">
                 {faqs.map((faq: any, index: number) => (

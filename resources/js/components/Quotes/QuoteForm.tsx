@@ -11,14 +11,14 @@ import {
     Loader2,
     CheckCircle2,
     XCircle,
-    AlertOctagon, InfoIcon
+    InfoIcon
 } from 'lucide-react';
 
 interface QuoteFormProps {
     defaultOrigin?: string;
     defaultDestination?: string;
     cargoTypes?: {
-        id: string;
+        id: number;
         name: string;
         description: string;
     }[];
@@ -57,7 +57,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
         zipCode: '',
         origin: defaultOrigin,
         destination: defaultDestination,
-        cargoType: cargoTypes[0]?.id || '',
+        cargoType: cargoTypes[0].name || '',
         cargoDescription: '',
         weight: '',
         dimensions: '',
@@ -131,7 +131,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                 zipCode: '',
                 origin: defaultOrigin,
                 destination: defaultDestination,
-                cargoType: cargoTypes[0]?.id || '',
+                cargoType: cargoTypes[0]?.name || '',
                 cargoDescription: '',
                 weight: '',
                 dimensions: '',
@@ -331,7 +331,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                 </div>
 
                 {/* Cargo Type */}
-                {cargoTypes.length > 0 && (
+                {cargoTypes?.length > 0 && (
                     <div>
                         <label htmlFor="cargoType" className="block text-sm font-medium text-gray-700">
                             Cargo Type
@@ -350,13 +350,13 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                                 required
                             >
                                 {cargoTypes.map((type) => (
-                                    <option key={type.id} value={type.id}>{type.name}</option>
+                                    <option key={type.id} value={type.name}>{type.name}</option>
                                 ))}
                             </select>
                         </div>
                         <p className="text-xs mt-2 text-gray-500 flex items-center">
                             <InfoIcon className="mr-1 h-4 w-4 text-gray-500" />
-                            {cargoTypes.find(t => t.id === formData.cargoType)?.description}
+                            {cargoTypes.find(t => t.name === formData.cargoType)?.description}
                         </p>
                         {submissionState.fieldErrors?.cargoType && (
                             <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.cargoType[0]}</p>

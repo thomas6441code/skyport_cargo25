@@ -1,44 +1,21 @@
-import { Plane, Warehouse, BookmarkCheck as BookmarkCheckIcon, CircleArrowOutDownRight as LucideCircleArrowOutDownRight, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
 
 interface Service {
-    icon: React.ReactNode;
+    slug: string;
+    image: string;
+    icon: string;
     title: string;
     description: string;
     features: string[];
     link: string;
+    long_Description?: string;
+    benefits?: string[];
+    process_Steps?: string[];
 }
 
-const services: Service[] = [
-    {
-        icon: <Plane size={24} />,
-        title: "Air  Freight",
-        description: "Express air cargo solutions between China and Tanzania",
-        features: ["24-48hr transit", "Customs clearance", "Real-time tracking"],
-        link: "/services/air-freight"
-    },
-    {
-        icon: <Warehouse size={24} />,
-        title: "Export Services",
-        description: "Secure storage and distribution solutions",
-        features: ["Bonded warehouses", "Inventory management", "Pick & pack"],
-        link: "/services/export-services"
-    }, {
-        icon: <BookmarkCheckIcon size={24} />,
-        title: "Customer Clearance",
-        description: "Cost-effective sea shipping for large shipments",
-        features: ["FCL/LCL options", "Port-to-port", "Cargo insurance"],
-        link: "/services/customs-clearance"
-    },
-    {
-        icon: <LucideCircleArrowOutDownRight size={24} />,
-        title: "Out  Sourcing",
-        description: "Cost-effective sea shipping for large shipments",
-        features: ["FCL/LCL options", "Port-to-port", "Cargo insurance"],
-        link: "/services/outsourcing"
-    },
-];
-
-const ServicesCards = () => {
+const ServicesCards = ({ services }: { services: Service[] }) => {
     return (
         <section className="relative py-10 overflow-hidden bg-white">
             {/* Diagonal background */}
@@ -48,7 +25,7 @@ const ServicesCards = () => {
 
             <div className="container mx-auto px-4 text-white max-w-7xl">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="text-center mb-20">
+                    <div className="text-center mb-16">
                         <h2 className="text-3xl font-bold text-black mb-4">OUR SERVICES</h2>
                         <div className="w-32 h-1.5 bg-gradient-to-r from-sky-500 to-blue-600 mx-auto mb-6 rounded-full"></div>
                         <p className="text-xl text-gray-800 max-w-3xl mx-auto">
@@ -57,30 +34,28 @@ const ServicesCards = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                        {services.map((service, index) => (
-                            <div className='relative'>
-                                <ServiceCard key={index} service={service} index={index} />
+                        {services?.map((service, index) => (
+                            <div key={service.slug} className="relative h-full"> {/* Added h-full here */}
+                                <ServiceCard service={service} index={index} />
+
                                 {/* Decorative elements */}
                                 {index % 2 === 0 ? (
-                                    <div className="absolute left-12 -top-12 w-24 h-24 rounded-full bg-sky-400/20 blur-xl"></div>
+                                    <div className="absolute left-12 top-12 w-24 h-24 rounded-full bg-sky-400/10 blur-xl"></div>
                                 ) : (
-                                    <div className="absolute -right-12 top-44 w-44 h-44 rounded-full bg-blue-400/20 blur-xl"></div>
+                                    <div className="absolute right-12 top-44 w-44 h-44 rounded-full bg-blue-400/20 blur-xl"></div>
                                 )}
 
                                 {index + 2 === 2 ? (
-                                    <>
-                                        <div className="absolute -left-12 top-12 w-24 h-24 rounded-full bg-sky-400/20 blur-xl"></div>
-                                        <div className="absolute left-12 -top-12 w-24 h-32 rounded-full bg-sky-400/20 blur-xl"></div>
-                                    </>
+                                    <div className="absolute left-12 -top-12 w-24 h-32 rounded-full bg-sky-400/10 blur-xl"></div>
                                 ) : (
-                                    <div className="absolute right-12 -top-12 w-24 h-24 rounded-full bg-blue-400/20 blur-xl"></div>
+                                    <div className="absolute -right-12 -top-12 w-24 h-24 rounded-full bg-blue-400/20 blur-xl"></div>
                                 )}
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
-        </section >
+        </section>
     );
 };
 
@@ -91,6 +66,7 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
         'bg-purple-50 text-purple-600',
         'bg-amber-50 text-amber-600',
     ];
+
     const hoverColors = [
         'hover:bg-blue-100',
         'hover:bg-green-100',
@@ -98,30 +74,41 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
         'hover:bg-amber-100',
     ];
 
+    // Safely get color classes
+    const colorClass = colors[index % colors.length] || colors[0];
+    const hoverColor = hoverColors[index % hoverColors.length] || hoverColors[0];
+    const [bgColor, textColor] = colorClass.split(' ');
+
+    // Get only the first 5 features
+    const displayedFeatures = service.features.slice(0, 5);
+
+    // Fixed type handling for dynamic icons
+    const IconComponent = service.icon
+        ? (LucideIcons as unknown as Record<string, React.ComponentType<LucideProps>>)[service.icon]
+        : undefined;
+
     return (
-        <div
-            className={`rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-2 ${hoverColors[index % hoverColors.length]} border border-gray-100 shadow-sm`}
-        >
+        <div className={`h-full rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-2 ${hoverColor} border border-gray-100 shadow-sm flex flex-col`}>
             <div className={`flex items-center justify-center mb-4`}>
-                <div className={`w-12 h-12 rounded-lg ${colors[index % colors.length]} flex items-center justify-center mb-4`}>
-                    {service.icon}
+                <div className={`w-12 h-12 rounded-lg ${colorClass} flex items-center justify-center mb-4`}>
+                    {IconComponent && <IconComponent className='h-8 w-8' />}
                 </div>
                 <h3 className="text-xl ml-2 font-semibold text-gray-900 mb-2">{service.title}</h3>
             </div>
             <p className="text-gray-600 mb-4">{service.description}</p>
 
-            <ul className="space-y-2 mb-6">
-                {service.features.map((feature, i) => (
+            <ul className="space-y-2 mb-6 flex-grow">
+                {displayedFeatures.map((feature, i) => (
                     <li key={i} className="flex items-start">
-                        <CheckCircle2 className={`flex-shrink-0 w-5 h-5 ${colors[index % colors.length].split(' ')[1]} mr-2 mt-0.5`} />
+                        <CheckCircle2 className={`flex-shrink-0 w-5 h-5 ${textColor} mr-2 mt-0.5`} />
                         <span className="text-gray-700">{feature}</span>
                     </li>
                 ))}
             </ul>
 
             <a
-                href={service.link}
-                className={`inline-flex items-center font-medium ${colors[index % colors.length].split(' ')[1]} hover:underline`}
+                href={`/services`}
+                className={`inline-flex items-center font-medium ${textColor} hover:underline mt-auto`}
             >
                 Learn more
                 <svg
