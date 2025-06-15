@@ -69,8 +69,8 @@ export default function ServiceShow({ services, featureIcons }: ServiceShowProps
                 </Head>
 
                 {/* Hero Section */}
-                <div className="relative bg-gray-900 rounded-br-[80%] md:rounded-br-full py-14">
-                    <div className="absolute inset-0 overflow-hidden rounded-br-[80%] md:rounded-br-full">
+                <div className="relative bg-gray-900 rounded-br-[70%] md:rounded-br-full py-14">
+                    <div className="absolute inset-0 overflow-hidden rounded-br-[70%] md:rounded-br-full">
                         <img
                             src={services.service?.image}
                             alt={services.service?.title}
@@ -189,7 +189,7 @@ export default function ServiceShow({ services, featureIcons }: ServiceShowProps
                         </div>
 
                         {/* Sidebar */}
-                        <div className="space-y-8">
+                        <div id='features' className="space-y-8">
                             <div className="bg-gray-50 p-6 rounded-lg sticky top-40">
                                 <h3 className="text-lg font-medium text-gray-900 mb-4">Service Highlights</h3>
                                 <ul className="space-y-4">
@@ -224,19 +224,16 @@ export default function ServiceShow({ services, featureIcons }: ServiceShowProps
                                             { title: "Customs Clearance", link: "/services/customs-clearance" },
                                             { title: "Out Sourcing", link: "/services/outsourcing" }
                                         ].map((related, i) => (
-                                            (related.title == services.service.title) ?
-                                                <>
-
-                                                </> :
-                                                <li key={i}>
-                                                    <Link
-                                                        href={related.link}
-                                                        className="flex items-center text-blue-600 hover:text-blue-800 hover:underline"
-                                                    >
-                                                        <ArrowRight className="h-4 w-4 mr-2" />
-                                                        {related.title}
-                                                    </Link>
-                                                </li>
+                                            (related.title !== services.service.title) &&
+                                            <li key={i}>
+                                                <Link
+                                                    href={related.link}
+                                                    className="flex items-center text-blue-600 hover:text-blue-800 hover:underline"
+                                                >
+                                                    <ArrowRight className="h-4 w-4 mr-2" />
+                                                    {related.title}
+                                                </Link>
+                                            </li>
                                         ))}
                                     </ul>
                                 </div>

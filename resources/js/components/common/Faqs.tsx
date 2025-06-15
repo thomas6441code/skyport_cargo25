@@ -5,6 +5,7 @@ interface Faqs {
     'id': number;
     'question': string;
     'answer': string;
+    'category': string;
 }
 
 interface FetchingState {
@@ -28,7 +29,7 @@ const FaqSection = ({ faqs }: { faqs: Faqs[] }) => {
                     Choose the perfect logistics solution for your business needs, We are here to answer you.
                 </p>
             </div>
-            <TrackingHelp faqs={faqs} />
+            <TrackingHelp title='' faqs={faqs} />
         </div>
 
     );

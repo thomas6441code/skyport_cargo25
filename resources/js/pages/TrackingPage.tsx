@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react";
 import { ArrowRight } from "lucide-react";
 import TrackingInput from "@/components/Tracking/TrackingInput";
 import TrackingHelp from "@/components/Tracking/TrackingHelp";
-import TrackingStepper from "@/components/Tracking/TrackingStepper";
+//import TrackingStepper from "@/components/Tracking/TrackingStepper";
 
 interface faq {
     id: number;
@@ -12,14 +12,20 @@ interface faq {
     category: string;
 };
 
+interface Image {
+    id: number;
+    title: string;
+    slide_url: string;
+}
 
 interface TrackProps {
 
     faqs: faq[];
+    image: Image;
 
 }
 
-export default function TrackingPage({ faqs }: TrackProps) {
+export default function TrackingPage({ faqs, image }: TrackProps) {
     // Sample data - replace with real API calls
     const sampleTrackingData = {
         trackingNumber: 'SKY123456789',
@@ -63,13 +69,11 @@ export default function TrackingPage({ faqs }: TrackProps) {
         ]
     };
 
-    console.log(faqs)
-
     return (
         <MainLayout>
 
             {/* Top Section */}
-            <div className="relative h-[90vh] min-h-[200px] max-h-[530px] pt-24 py-3">
+            <div className="relative h-[90vh] md:min-h-[600px] max-h-[630px] pt-24 py-3">
                 {/* 3D World Animation Container */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center">
                     <div className="relative w-full h-full">
@@ -77,7 +81,7 @@ export default function TrackingPage({ faqs }: TrackProps) {
                         <div
                             className={`w-full h-full bg-cover object-cover inset-0 absolute bg-center transition-transform duration-1000`}
                             style={{
-                                backgroundImage: `url('/images/worldwid.jpg')`,
+                                backgroundImage: `url('/images/slides/${image?.slide_url}')`,
                                 filter: 'brightness(0.8)'
                             }}
                         />
@@ -95,7 +99,7 @@ export default function TrackingPage({ faqs }: TrackProps) {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/95 rounded-b-sm flex items-center">
                     <div className="container mx-auto px-4 text-white">
                         <div className="max-w-5xl pt-5 relative z-10">
-                            <h1 className="text-3xl md:mt-3 lg:text-6xl font-bold leading-tight">
+                            <h1 className="text-5xl md:mt-3 lg:text-6xl font-bold leading-tight">
                                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
                                     Track Your Shipment
                                 </span>
@@ -114,7 +118,7 @@ export default function TrackingPage({ faqs }: TrackProps) {
                     </div>
                 </div>
 
-                <div className="absolute hidden border-gradient-to-b from-bg-white to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-2xl px-4 z-30">
+                <div className="absolute hidden md:flex shadow-xl bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-lg px-4 z-30">
                     <h1 className="text-2xl text-black md:text-4xl py-5 text-center w-full font-bold" >
                         Your Shipments
                     </h1>
@@ -131,14 +135,14 @@ export default function TrackingPage({ faqs }: TrackProps) {
                             </p>
                         </div>
 
-                        <div className='mx-auto max-w-2xl'>
+                        <div className='mx-auto md:max-w-2xl w-full'>
                             <TrackingInput
                                 className="mb-12"
-                                initialValue={sampleTrackingData.trackingNumber}
+                                initialValue='SPC0123456789'
                             />
                         </div>
 
-                        {sampleTrackingData.trackingNumber && (
+                        {/*  {sampleTrackingData.trackingNumber && (
                             <>
                                 <div className="bg-gray-50 p-6 rounded-lg mb-8">
                                     <div className="flex flex-wrap justify-between items-center">
@@ -158,7 +162,7 @@ export default function TrackingPage({ faqs }: TrackProps) {
                                     statusHistory={sampleTrackingData.history}
                                 />
                             </>
-                        )}
+                        )} */}
 
                         <TrackingHelp
                             faqs={faqs}

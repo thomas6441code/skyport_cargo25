@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Phone, Mail, Plane, Ship, Warehouse, Globe, LucideMessageCircleQuestion, Building2Icon } from 'lucide-react';
+import { Menu, X, Phone, Mail, Plane, Warehouse, Globe, LucideMessageCircleQuestion, Building2Icon } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
 type MegaMenuValue = 'mobile-services' | 'other-menu' | 'services' | null;
@@ -12,7 +12,7 @@ export default function Header() {
         { icon: <Plane className="w-5 h-5" />, title: 'Air Freight', items: ['Express Air', 'Charter Services', 'Perishables'] },
         { icon: <Building2Icon className="w-5 h-5" />, title: 'Export Services', items: ['FCL', 'LCL', 'Bulk Cargo'] },
         { icon: <Warehouse className="w-5 h-5" />, title: 'Out Sourcing', items: ['Warehousing', 'Distribution', 'Inventory'] },
-        { icon: <Globe className="w-5 h-5" />, title: 'Customs', items: ['Clearance', 'Documentation', 'Compliance', 'Support'] }
+        { icon: <Globe className="w-5 h-5" />, title: 'Customs', items: ['Clearance', 'Documentation', 'Support'] }
     ];
 
     return (
@@ -40,10 +40,16 @@ export default function Header() {
                             <Mail className="w-4 h-4 mr-1" /> info@skyport.com
                         </a>
                     </div>
-                    <div className="hidden md:flex items-center space-x-4">
-                        <span>Track Your Shipment</span>
-                        <Link href="/track" className=" bg-sky-600 text-white hover:text-gray-300 px-3 py-1 rounded transition-colors">
-                            Track Now
+                    <div className="hidden md:flex items-center space-x-3">
+                        <span className="text-gray-200">Tracking ID?</span>
+                        <Link
+                            href="/tracking"
+                            className="border border-sky-50 text-sky-50 hover:bg-sky-500 px-4 py-1.5 rounded-md transition-colors duration-200 flex items-center"
+                        >
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            Track Shipment
                         </Link>
                     </div>
                 </div>
@@ -59,7 +65,7 @@ export default function Header() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex space-x-2 h-full">
-                        {['Home', 'About Us', 'Tracking', 'Services', 'Get Quote', 'Pricing', 'Contact'].map((item) => {
+                        {['Home', 'About Us', 'Tracking', 'Services', 'Get Quote', 'Contact'].map((item) => {
                             if (item === 'Services') {
                                 return (
                                     <div
@@ -73,20 +79,6 @@ export default function Header() {
                                             Services <Menu className="ml-1 h-4 w-4" />
                                         </button>
                                         <div className="absolute right-0 bottom-0 left-0 h-1 origin-left scale-x-0 transform bg-indigo-600 transition-transform group-hover:scale-x-100"></div>
-                                    </div>
-                                );
-                            } else if (item === 'Pricing') {
-                                return (
-                                    <div key={item} className="relative h-full flex items-center group">
-                                        <Link
-                                            href={`/#${item.toLowerCase().replace(' ', '-')}`}
-                                            className="font-medium hover:text-indigo-600 transition-colors h-full flex items-center px-4 rounded-md bg-white/0 hover:bg-white/90"
-                                        >
-                                            {item}
-                                        </Link>
-                                        <div
-                                            className="absolute bottom-0 left-0 right-0 h-1 bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
-                                        ></div>
                                     </div>
                                 );
                             } else if (item === 'Get Quote') {
@@ -140,7 +132,7 @@ export default function Header() {
                         className="md:hidden text-gray-700 p-2 rounded-md hover:bg-white/90 transition-colors"
                         onClick={() => setMobileMenuOpen(true)}
                     >
-                        <Menu className="h-6 w-6" />
+                        <Menu className="h-8 w-8" />
                     </button>
                 </div>
 
@@ -235,19 +227,8 @@ export default function Header() {
                             </div>
                         )}
 
-                        {['About Us', 'Tracking', 'Get Quote', 'Pricing', 'Contact'].map((item) => {
-                            if (item === 'Pricing') {
-                                return (
-                                    <Link
-                                        key={item}
-                                        href={`/#${item.toLowerCase().replace(' ', '-')}`}
-                                        className="py-3 px-4 rounded-md hover:bg-white text-lg font-medium"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                    >
-                                        {item}
-                                    </Link>
-                                );
-                            } else if (item === 'Get Quote') {
+                        {['About Us', 'Tracking', 'Get Quote', 'Contact'].map((item) => {
+                            if (item === 'Get Quote') {
                                 return (
                                     <Link
                                         key={item}
@@ -275,11 +256,11 @@ export default function Header() {
 
                     <div className="p-4 mt-4 border-t bg-white/80">
                         <a
-                            href="tel:+255764419171"
+                            href="tel:+255746696695"
                             className="flex items-center py-3 px-4 rounded-md hover:bg-white"
                         >
                             <Phone className="w-5 h-5 mr-3 text-indigo-600" />
-                            <span>+255 (764) 419 171</span>
+                            <span>+255 (746) 696-695</span>
                         </a>
                         <a
                             href="mailto:info@skyport.com"

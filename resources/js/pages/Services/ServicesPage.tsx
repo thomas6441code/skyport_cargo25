@@ -1,6 +1,7 @@
 import MainLayout from "@/layouts/MainLayout";
 import ServicesCard from '@/components/common/ServicesCard';
 import IconComponent from '@/components/common/IconComponent';
+import { motion } from "framer-motion";
 
 interface Service {
     id: number;
@@ -33,72 +34,36 @@ interface Service2 {
     ctaLink?: string;
 }
 
+interface Image {
+    id: number;
+    title: string;
+    slide_url: string;
+}
+
 interface Props {
+
     services: Service[];
     services2: Service2[];
     stats: Stats[];
+    image: Image;
 
 }
 
-const ServicesIndex = ({ services, stats }: Props) => {
-
-    const services2: Service2[] = [
-        {
-            id: 1,
-            title: 'International Shipping',
-            description: 'Reliable global shipping solutions with real-time tracking and customs clearance.',
-            imageUrl: '/images/services/international-shipping.jpg',
-            features: [
-                'Door-to-door delivery',
-                'Customs clearance included',
-                'Real-time tracking',
-                'Dedicated account manager'
-            ],
-            ctaText: 'Get a Quote',
-            ctaLink: '/quote'
-        },
-        {
-            id: 2,
-            title: 'Warehousing Solutions',
-            description: 'Secure storage facilities with inventory management and distribution services.',
-            imageUrl: '/images/services/warehousing.jpg',
-            features: [
-                'Climate-controlled facilities',
-                '24/7 security monitoring',
-                'Inventory management system',
-                'Just-in-time delivery'
-            ],
-            ctaText: 'View Facilities',
-            ctaLink: '/warehousing'
-        },
-        {
-            id: 3,
-            title: 'Local Distribution',
-            description: 'Efficient last-mile delivery network for your local shipments.',
-            imageUrl: '/images/services/local-distribution.jpg',
-            features: [
-                'Same-day delivery available',
-                'Fleet of modern vehicles',
-                'Professional handling',
-                'Proof of delivery'
-            ]
-        }
-    ];
-
+const ServicesIndex = ({ services, stats, image }: Props) => {
 
     return (
         <MainLayout>
 
-            <div className="min-h-screen pt-10 bg-white">
+            <div className="min-h-screen md:pt-10 bg-white">
                 {/* Top Section */}
-                <div className="relative h-[90vh] min-h-[200px] max-h-[530px] rounded-b-[5rem] pt-24 py-3">
+                <div className="relative h-[90vh] min-h-[200px] max-h-[530px] md:rounded-b-[5rem] rounded-b-[2.5rem] pt-24 py-3">
                     {/* 3D World Animation Container */}
-                    <div className="absolute inset-0 w-full h-full overflow-hidden rounded-b-[5rem] flex items-center justify-center">
+                    <div className="absolute inset-0 w-full h-full overflow-hidden md:rounded-b-[5rem] rounded-b-[2.5rem] flex items-center justify-center">
                         <div className="relative w-full h-full">
                             <div
                                 className={`w-full h-full bg-cover object-cover inset-0 absolute bg-center transition-transform duration-1000`}
                                 style={{
-                                    backgroundImage: `url('/images/transport-logistics.webp')`,
+                                    backgroundImage: `url('/images/slides/${image?.slide_url}')`,
                                     filter: 'brightness(0.8)'
                                 }}
                             />
@@ -111,7 +76,7 @@ const ServicesIndex = ({ services, stats }: Props) => {
                     </div>
 
                     {/* Content Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/95 rounded-b-[5rem] flex items-center">
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/95 md:rounded-b-[5rem] rounded-b-[2.5rem] flex items-center">
                         <div className="container mx-auto px-4 flex flex-col items-center text-center text-gray-100">
                             <h1 className="text-4xl md:text-5xl font-bold mb-6 ">China-Tanzania Logistics Solutions</h1>
                             <p className="text-xl max-w-2xl mb-8 opacity-90">
@@ -119,7 +84,7 @@ const ServicesIndex = ({ services, stats }: Props) => {
                             </p>
                             <div className="flex gap-4">
                                 <a
-                                    href="/quote"
+                                    href="/quotes"
                                     className="px-6 py-3 bg-white text-sky-700 rounded-lg font-medium hover:bg-gray-100 transition"
                                 >
                                     Get a Quote
@@ -130,7 +95,7 @@ const ServicesIndex = ({ services, stats }: Props) => {
                 </div>
 
                 {/* Stats Bar */}
-                <div className="container mx-auto  md:w-full w-[85%] px-4 -mt-10 z-10 relative">
+                <div className="container mx-auto w-full px-4 -mt-10 z-10 relative">
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
                         {stats.map((stat, index) => (
                             <div key={index} className="bg-white/20 backdrop-blur-xs hover:bg-white/10 p-6 rounded-xl shadow-xl flex items-center">
@@ -147,12 +112,12 @@ const ServicesIndex = ({ services, stats }: Props) => {
                 </div>
 
                 {/* Services Section */}
-                <section className="relative py-10 overflow-hidden bg-white">
+                <section className="relative pt-10 overflow-hidden bg-white">
                     {/* Diagonal background */}
                     <div className="absolute inset-0 -z-10">
                         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-sky-100 to-blue-50 transform -skew-y-6 origin-top-left"></div>
                     </div>
-                    <div className="px-4">
+                    <div className="md:px-4">
                         <div className="text-center mb-5">
                             <h2 className="text-3xl font-bold text-gray-900 mb-3">Our Core Services</h2>
                             <div className="w-16 h-1 bg-sky-500 mx-auto mb-4"></div>
@@ -165,62 +130,101 @@ const ServicesIndex = ({ services, stats }: Props) => {
                     </div>
                 </section>
 
-
-                <section className="py-16 bg-gray-50">
+                {/*  */}
+                <section className="py-16 px-2 bg-gray-50">
+                    <div className="text-center mb-5">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-3">Our Logistics</h2>
+                        <div className="w-16 h-1 bg-sky-500 mx-auto mb-4"></div>
+                    </div>
                     <div className="container mx-auto px-4">
-                        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-                            Our Logistics Services
-                        </h2>
-
-                        <div className="space-y-24">
-                            {services2.map((service, index) => (
-                                <div
+                        <div className="md:space-y-32 space-y-16 py-12">
+                            {services.map((service, index) => (
+                                <motion.div
                                     key={service.id}
-                                    className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} md:gap-12 gap-2 items-center`}
                                 >
-                                    {/* Image Section */}
-                                    <div className="w-full md:w-1/2 h-96 overflow-hidden rounded-xl shadow-lg">
+                                    {/* Image Section with Hover Effect */}
+                                    <div className="w-full md:w-1/2 h-[28rem] overflow-hidden rounded-2xl shadow-xl group relative">
                                         <img
-                                            src={service.imageUrl}
+                                            src={service.image}
                                             alt={service.title}
-                                            className="w-full h-full object-cover object-center"
+                                            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                                             loading="lazy"
                                         />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     </div>
 
                                     {/* Content Section */}
-                                    <div className="w-full md:w-1/2 space-y-4">
-                                        <h3 className="text-3xl font-bold text-gray-800">{service.title}</h3>
-                                        <p className="text-lg text-gray-600">{service.description}</p>
+                                    <div className="w-full md:w-1/2 space-y-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className={`h-1 w-12 ${index % 2 === 0 ? 'bg-blue-600' : 'bg-emerald-500'}`} />
+                                            <span className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+                                                Service {index + 1}
+                                            </span>
+                                        </div>
 
-                                        <ul className="space-y-2 mt-6">
+                                        <h3 className="text-4xl font-bold text-gray-900">
+                                            {service.title}
+                                        </h3>
+
+                                        <p className="text-xl text-gray-600 leading-relaxed">
+                                            {service.description}
+                                        </p>
+
+                                        <ul className="space-y-3 mt-8">
                                             {service.features.map((feature, i) => (
-                                                <li key={i} className="flex items-start">
-                                                    <svg className="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                    <span className="text-gray-700">{feature}</span>
-                                                </li>
+                                                <motion.li
+                                                    key={i}
+                                                    initial={{ opacity: 0, x: -20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: 0.2 + (i * 0.1) }}
+                                                    className="flex items-start"
+                                                >
+                                                    <div className={`flex-shrink-0 p-1 rounded-full ${index % 2 === 0 ? 'bg-blue-100' : 'bg-emerald-100'}`}>
+                                                        <svg
+                                                            className={`h-5 w-5 ${index % 2 === 0 ? 'text-blue-600' : 'text-emerald-500'}`}
+                                                            fill="currentColor"
+                                                            viewBox="0 0 20 20"
+                                                        >
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                    </div>
+                                                    <span className="ml-3 text-lg text-gray-700">{feature}</span>
+                                                </motion.li>
                                             ))}
                                         </ul>
 
-                                        {service.ctaText && service.ctaLink && (
-                                            <div className="mt-8">
+                                        {service.slug && (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ delay: 0.5 }}
+                                                className="mt-10"
+                                            >
                                                 <a
-                                                    href={service.ctaLink}
-                                                    className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-300"
+                                                    href={`/services/${service.slug}`}
+                                                    className={`inline-flex items-center px-8 py-3.5 text-base font-medium rounded-lg shadow-sm transition-all duration-300 ${index % 2 === 0
+                                                        ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md'
+                                                        : 'bg-white text-gray-900 border-2 border-gray-200 hover:border-emerald-500 hover:text-emerald-600'
+                                                        }`}
                                                 >
-                                                    {service.ctaText}
+                                                    Learn more
+                                                    <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                    </svg>
                                                 </a>
-                                            </div>
+                                            </motion.div>
                                         )}
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </section>
-
 
                 {/* CTA Section */}
                 <section className="py-16 bg-sky-700 text-white">

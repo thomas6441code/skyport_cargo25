@@ -83,15 +83,6 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
             </div>
             <p className="text-gray-600 mb-4">{service.description}</p>
 
-            <ul className="space-y-2 mb-6 flex-grow">
-                {displayedFeatures.map((feature, i) => (
-                    <li key={i} className="flex items-start">
-                        <CheckCircle2 className={`flex-shrink-0 w-5 h-5 ${textColor} mr-2 mt-0.5`} />
-                        <span className="text-gray-700">{feature}</span>
-                    </li>
-                ))}
-            </ul>
-
             <a
                 href={`/services/${service.slug}`}
                 className={`inline-flex items-center font-medium ${textColor} hover:underline mt-auto`}

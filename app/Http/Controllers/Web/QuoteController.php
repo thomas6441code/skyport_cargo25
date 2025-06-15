@@ -7,8 +7,9 @@ ini_set('display_errors', 1);
 
 use Inertia\Inertia;
 use App\Models\Quote;
-use App\Models\CargoType;
+use App\Models\Slider;
 use App\Mail\QuoteReply;
+use App\Models\CargoType;
 use Illuminate\Http\Request;
 use App\Mail\QuoteConfirmation;
 use App\Mail\NewQuoteNotification;
@@ -24,9 +25,10 @@ class QuoteController extends Controller
 
         return Inertia::render('QuotePage', [
             'cargoTypes'=> CargoType::all(),
+            'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
         ]);
     }
-
+    
     public function indexquotes()
     {
         $quotes = Quote::all();
@@ -46,6 +48,8 @@ class QuoteController extends Controller
             'defaultOrigin' => 'China',
             'defaultDestination' => 'Tanzania',
             'cargoTypes' => CargoType::all(),
+            'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
+
         ]);
     }
 

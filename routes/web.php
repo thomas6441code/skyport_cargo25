@@ -1,10 +1,12 @@
 <?php
 
-use Inertia\Inertia;
-use App\Models\Service;
-use App\Models\Quote;
-use App\Models\Message;
 use App\Models\Faq;
+use Inertia\Inertia;
+use App\Models\Quote;
+use App\Models\Slider;
+use App\Models\Service;
+use App\Models\Message;
+use App\Models\VisionValue;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\{
     HomeController,
@@ -23,6 +25,7 @@ use App\Http\Controllers\{
     MessageController,
     MemberController,
     CargoTypeController,
+    CompanyValueController,
     OfficeController
 };
 
@@ -33,6 +36,7 @@ Route::get('/about-us', [AboutController::class, 'index'])->name('about');
 Route::get('/tracking', function () {
     return Inertia::render('TrackingPage',[
         'faqs'=> Faq::where('category', '0')->get(),
+        'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
     ]);
 })->name('track');
 
@@ -46,7 +50,6 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 
 
-// routes/web.php
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
     
@@ -65,6 +68,13 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         ]);
 
     })->name('admin.dashboard');
+
+    Route::post('/company-values/reorder', [CompanyValueController::class, 'reorder']);
+    Route::get('/company-values', [CompanyValueController::class, 'index'])->name('admin.company-values.index');
+    Route::post('/company-values', [CompanyValueController::class, 'store'])->name('admin.company-values.store');
+    Route::put('/company-values/{companyValue}', [CompanyValueController::class, 'update'])->name('admin.company-values.update');
+    Route::delete('/company-values/{companyValue}', [CompanyValueController::class, 'destroy'])->name('admin.company-values.destroy');
+    Route::post('/company-values/reorder', [CompanyValueController::class, 'reorder'])->name('admin.company-values.reorder');
 
     Route::get('/slides',[SliderController::class, 'index'])->name('admin.slides.slidesAdmin');
     Route::get('/slides/create',[SliderController::class, 'create'])->name('admin.slides.create');
@@ -146,6 +156,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/services/edit/{service}', [ServicesLogiController::class, 'edit'])->name('admin.services.edit');
     Route::put('/services/{service}', [ServicesLogiController::class, 'update'])->name('admin.services.update');
     Route::delete('/services/{service}', [ServicesLogiController::class, 'destroy'])->name('admin.services.destroy');
+
 });
 
 

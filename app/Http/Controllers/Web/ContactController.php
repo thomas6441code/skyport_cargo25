@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Inertia\Inertia;
 use App\Models\Office;
+use App\Models\Slider;
 use App\Models\Message;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class ContactController extends Controller
         return Inertia::render('ContactPage', [
             'offices' => $offices,
             'departments' => $department,
+            'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
         ]);
     }
 

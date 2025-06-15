@@ -4,8 +4,8 @@ import { StatsBanner } from "@/components/common/StatsBanner";
 import TestimonialSection from "@/components/common/Testimonials";
 import MainLayout from "@/layouts/MainLayout";
 import ImageSlider from "@/components/common/Slider";
-import Pricing from "@/components/Home/Pricing";
-import FaqSection from '@/components/common/Faqs';
+import { Check, GlobeIcon, GoalIcon, ShieldBanIcon } from 'lucide-react';
+import TrackingHelp from '@/components/Tracking/TrackingHelp';
 
 interface Slide {
     id: number;
@@ -26,6 +26,7 @@ interface Faqs {
     'id': number;
     'question': string;
     'answer': string;
+    'category': string;
 }
 
 interface Stats {
@@ -62,15 +63,99 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
 
             <StatsBanner stats={stats} />
 
-            <ServiceCards services={services} />
+
+            <div className="text-center py-14">
+                <div className="text-center mb-14">
+                    <span className="inline-block px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-medium uppercase tracking-wider mb-3">
+                        Our Philosophy
+                    </span>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                        Driving Logistics Forward
+                    </h2>
+                    <div className="relative max-w-2xl mx-auto">
+                        <p className="text-gray-600 leading-relaxed">
+                            To revolutionize global logistics through innovative technology, unparalleled service,
+                            and sustainable practices that connect businesses and communities worldwide.
+                        </p>
+                        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-sky-500"></div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 mx-auto container">
+                    {/* Vision Card */}
+                    <div className="py-10 grid grid-cols-1 gap-6">
+                        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div className="flex items-center mb-4">
+                                <div className="bg-sky-100 p-2 rounded-lg mr-3">
+                                    <GlobeIcon className="w-6 h-6 text-sky-600" />
+                                </div>
+                                <h3 className="text-xl font-semibold text-gray-900">Our Vision</h3>
+                            </div>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                                To be the most trusted logistics partner by redefining speed, reliability, and transparency
+                                in global supply chains through cutting-edge technology and customer-centric solutions.
+                            </p>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div className="flex items-center mb-4">
+                                <div className="bg-sky-100 p-2 rounded-lg mr-3">
+                                    <GoalIcon className="w-6 h-6 text-sky-600" />
+                                </div>
+                                <h3 className="text-xl font-semibold text-gray-900">Our Goal</h3>
+                            </div>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                                To be the most trusted logistics partner by redefining speed, reliability, and transparency
+                                in global supply chains through cutting-edge technology and customer-centric solutions.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Values Card */}
+                    <div className="bg-white md:m-10 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                        <div className="flex items-center mb-4">
+                            <div className="bg-sky-100 p-2 rounded-lg mr-3">
+                                <ShieldBanIcon className="w-6 h-6 text-sky-600" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-gray-900">Our Values</h3>
+                        </div>
+                        <ul className="space-y-3">
+                            {[
+                                "Customer-first approach that anticipates needs",
+                                "Operational excellence in every process",
+                                "Sustainable growth with eco-conscious practices",
+                                "Innovative solutions that disrupt the status quo",
+                                "Integrity in all business relationships"
+                            ].map((value, index) => (
+                                <li key={index} className="flex items-start">
+                                    <div className="mt-1 mr-2 flex-shrink-0">
+                                        <Check className="w-4 h-4 text-sky-500" />
+                                    </div>
+                                    <span className="text-gray-600 text-sm">{value}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {/* <Pricing /> */}
 
             <HeroWithVideos />
 
-            <Pricing />
+            <ServiceCards services={services} />
 
             <section className="py-16 bg-gray-50">
                 <TestimonialSection testimonials={testimonials} />
-                <FaqSection faqs={faqs} />
+
+                <div className="mx-auto pt-10 md:max-w-[80vw] w-[100vw] px-3">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-3">Mostly Asked Question</h2>
+                        <div className="w-16 h-1 bg-sky-500 mx-auto mb-4"></div>
+                        <p className="text-gray-600 max-w-2xl mx-auto">
+                            Choose the perfect logistics solution for your business needs, We are here to answer you.
+                        </p>
+                    </div>
+                    <TrackingHelp title="Overall Asked Questions" faqs={faqs} />
+                </div>
             </section>
 
             {/* CTA Section */}

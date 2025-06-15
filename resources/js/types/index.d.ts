@@ -48,6 +48,22 @@ export interface NavGroup {
     items: NavItem[];
 }
 
+// types/company-values.d.ts
+export interface CompanyValue {
+    id?: number;
+    type: 'mission' | 'vision' | 'value';
+    title?: string;
+    content: string;
+    icon?: string;
+    sort_order?: number;
+}
+
+export interface CompanyValuesPageProps {
+    mission?: CompanyValue;
+    vision?: CompanyValue;
+    values: CompanyValue[];
+}
+
 declare module 'lucide-react' {
     export const icons: Record<string, React.ComponentType<LucideProps>>;
 }

@@ -22,11 +22,11 @@ const TrackingInput = ({ className = '', initialValue = '' }) => {
 
     return (
         <div className={`${className} w-full`}>
-            <div className={`md:w-full w-[20rem] md:px-3 px-2`}>
+            <div className={`md:w-full w-[23.5rem] px-3`}>
 
                 <form
                     onSubmit={handleSubmit}
-                    className={`bg-white rounded-4xl shadow-2xl md:p-2 p-1  transition-all  duration-300 ${isFocused ? 'ring-2 ring-indigo-500' : 'ring-1 ring-gray-200'
+                    className={`bg-white rounded-4xl shadow-2xl p-2  transition-all  duration-300 ${isFocused ? 'ring-2 ring-indigo-500' : 'ring-1 ring-gray-200'
                         }`}
                 >
 

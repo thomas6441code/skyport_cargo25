@@ -46,16 +46,16 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     </div>
 
                     <div className="my-6 flex items-center justify-start">
-                        <Button className="w-full" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        <Button className="w-full bg-sky-400" disabled={processing}>
+                            {processing && <LoaderCircle className="h-4 w-4 bg-sky-600 animate-spin" />}
                             Email password reset link
                         </Button>
                     </div>
                 </form>
 
-                <div className="text-muted-foreground space-x-1 text-center text-sm">
+                <div className="text-gray-700 space-x-1 text-center text-sm">
                     <span>Or, return to</span>
-                    <TextLink href={route('login')}>log in</TextLink>
+                    <TextLink className='text-black' href={route('login')}>log in</TextLink>
                 </div>
             </div>
         </AuthLayout>

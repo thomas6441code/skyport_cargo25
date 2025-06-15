@@ -2,7 +2,34 @@
 @import 'leaflet/dist/leaflet.css';
 @plugin 'tailwindcss-animate';
 
+/* Custom styles */
+.icon-container {
+    @apply p-3 rounded-lg;
 
+    &.mission {
+        @apply bg-blue-100 text-blue-600;
+    }
+
+    &.vision {
+        @apply bg-purple-100 text-purple-600;
+    }
+
+    &.value {
+        @apply bg-green-100 text-green-600;
+    }
+}
+
+.handle {
+    @apply cursor-move hover:text-gray-600;
+}
+
+.input-field {
+    @apply border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.btn-primary {
+    @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-blue-400;
+}
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

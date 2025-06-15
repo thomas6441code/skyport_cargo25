@@ -23,72 +23,73 @@ export default function HeroWithVideo() {
 
     return (
         <div className="relative h-[97vh] min-h-[600px] overflow-hidden py-10 md:py-3">
-            {/* 3D World Animation Container */}
+            {/* Video Background Container - Now more visible */}
             <div className="absolute inset-0 w-full h-full flex items-center justify-center">
                 <div className="relative w-full h-full">
-                    {/* Sample 3D World Animation - Replace with your actual 3D asset */}
                     <video
                         ref={videoRef}
                         autoPlay
                         loop
                         muted
                         playsInline
-                        className="absolute inset-0 w-full h-full opacity-20 object-cover"
-                        style={{ filter: 'brightness(0.8)' }}
+                        className="absolute inset-0 w-full h-full object-cover"
                     >
                         <source
-                            src="/videosd/earth.mp4"
+                            src="/videos/earth.mp4"
                             type="video/mp4"
                         />
                     </video>
-
-                    {/* Animated route lines overlay */}
-                    <div className="absolute inset-0">
-                        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                        <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
-                        <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-
-                        {/* Animated route lines */}
-                        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M25% 25% Q 50% 40%, 75% 33%"
-                                stroke="rgba(96, 165, 250, 0.7)"
-                                strokeWidth="2"
-                                fill="none"
-                                strokeDasharray="5,5"
-                            >
-                                <animate
-                                    attributeName="stroke-dashoffset"
-                                    from="100"
-                                    to="0"
-                                    dur="8s"
-                                    repeatCount="indefinite"
-                                />
-                            </path>
-                            <path
-                                d="M15% 60% Q 40% 50%, 65% 70%"
-                                stroke="rgba(248, 113, 113, 0.7)"
-                                strokeWidth="2"
-                                fill="none"
-                                strokeDasharray="5,5"
-                            >
-                                <animate
-                                    attributeName="stroke-dashoffset"
-                                    from="100"
-                                    to="0"
-                                    dur="6s"
-                                    repeatCount="indefinite"
-                                />
-                            </path>
-                        </svg>
-                    </div>
                 </div>
             </div>
 
-            {/* Content Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex items-center">
+            {/* Dark overlay to make content stand out */}
+            <div className="absolute inset-0 bg-black/60"></div>
+
+            {/* Animated elements overlay */}
+            <div className="absolute inset-0">
+                <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+
+                {/* Animated route lines */}
+                <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M25% 25% Q 50% 40%, 75% 33%"
+                        stroke="rgba(96, 165, 250, 0.7)"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeDasharray="5,5"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="100"
+                            to="0"
+                            dur="8s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                    <path
+                        d="M15% 60% Q 40% 50%, 65% 70%"
+                        stroke="rgba(248, 113, 113, 0.7)"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeDasharray="5,5"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="100"
+                            to="0"
+                            dur="6s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                </svg>
+            </div>
+
+            {/* Content Overlay - Now with darker background */}
+            <div className="absolute inset-0 flex items-center z-10 bg-black/60 p-8">
                 <div className="container mx-auto px-4 text-white">
-                    <div className="max-w-2xl relative md:ml-5 z-10">
+                    <div className="max-w-2xl relative md:ml-5">
                         <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
                                 China-Tanzania
@@ -104,7 +105,7 @@ export default function HeroWithVideo() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 max-w-[15rem]">
-                            <Link href='/get-quote' className="bg-blue-600 hover:bg-blue-700 px-6 py-4 rounded-lg font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <Link href='/quotes' className="bg-blue-600 hover:bg-blue-700 px-6 py-4 rounded-lg font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg">
                                 Get Instant Quote <ArrowRight className="ml-2 h-5 w-5" />
                             </Link>
                         </div>

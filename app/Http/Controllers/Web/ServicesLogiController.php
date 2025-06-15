@@ -5,6 +5,7 @@ namespace App\Http\Controllers\web;
 use Inertia\Inertia;
 use App\Models\Faq;
 use App\Models\Stat;
+use App\Models\Slider;
 use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Support\Str;
@@ -24,7 +25,9 @@ class ServicesLogiController extends Controller
 
         return Inertia::render('Services/ServicesPage', [
             'services' => $service,
-            'stats' => $stats
+            'stats' => $stats,
+            'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
+
         ]);
     }
 
@@ -38,7 +41,7 @@ class ServicesLogiController extends Controller
     public function show(Service $service)
     {
         $faqs = Faq::where('category', $service->id)->get();
-        $testimonials = Testimonial::take(4)->get();
+        $testimonials = Testimonial::where('category', $service->id)->get();
 
         return Inertia::render('Services/show', [
             'services' => [

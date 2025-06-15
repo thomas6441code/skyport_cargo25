@@ -21,21 +21,28 @@ interface departments {
     'description': string;
 }
 
+interface Image {
+    id: number;
+    title: string;
+    slide_url: string;
+}
+
 interface OfficeProps {
+    image: Image;
     offices?: offices[];
     departments?: departments[];
 }
 
 
-const ContactPage: React.FC<OfficeProps> = ({ offices, departments }) => {
+const ContactPage: React.FC<OfficeProps> = ({ offices, departments, image }) => {
 
     return (
         <MainLayout>
 
             <div className="bg-white text-gray-800">
 
-                Top Section
-                <div className="relative h-[90vh] min-h-[100px] max-h-[525px] pb-10 z-30">
+                {/* Top Section */}
+                <div className="relative h-[90vh] md:min-h-[600px] max-h-[630px] pb-10 z-30">
                     3D World Animation Container
                     <div
                         className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center">
@@ -44,7 +51,7 @@ const ContactPage: React.FC<OfficeProps> = ({ offices, departments }) => {
                             <div
                                 className={`w-full h-full bg-cover object-cover inset-0 absolute bg-center transition-transform duration-1000`}
                                 style={{
-                                    backgroundImage: `url('/images/sebastian.jpg')`,
+                                    backgroundImage: `url('/images/slides/${image?.slide_url}')`,
                                     filter: 'brightness(0.8)'
                                 }}
                             />
@@ -61,12 +68,12 @@ const ContactPage: React.FC<OfficeProps> = ({ offices, departments }) => {
                         </div>
                     </div>
 
-                    Content Overlay
+                    {/*  Content Overlay */}
                     <div
                         className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/95 flex items-center">
                         <div className="container mx-auto px-4 text-white">
                             <div className="max-w-5xl relative z-10">
-                                <h1 className="text-3xl lg:text-6xl font-bold leading-tight">
+                                <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
                                     <span
                                         className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
                                         Contact Us
@@ -88,7 +95,7 @@ const ContactPage: React.FC<OfficeProps> = ({ offices, departments }) => {
                     </div>
 
                     <div
-                        className="absolute hidden md:flex border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-3xl px-2 z-30">
+                        className="absolute hidden md:flex border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-lg px-2 z-30">
                         <h2 className="text-2xl text-black md:text-4xl py-5 text-center w-full font-bold">
                             Get in Touch with Us
                         </h2>

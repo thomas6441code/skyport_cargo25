@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use Inertia\Inertia;
 use App\Models\Stat;
 use App\Models\Member;
+use App\Models\Slider;
 use App\Models\Service;
 use App\Http\Controllers\Controller;
 
@@ -14,6 +15,7 @@ class AboutController extends Controller
     {
         return Inertia::render('AboutPage', [
             'stats' => Stat::latest()->get(),
+            'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
             'services' => Service::latest()->get(),
             'teamMembers' => Member::latest()->get(),
             'history' => [
