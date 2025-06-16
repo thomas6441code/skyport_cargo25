@@ -64,7 +64,7 @@ const OfficeForm: React.FC<OfficeProps> = ({ office }) => {
                 <CardHeader>
                     <CardTitle className='text-black'>Basic Offices Information</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-3 gap-6 bg-wite">
+                <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-wite">
                     <TextInput
                         label="Country Title"
                         value={data.country}
