@@ -8,7 +8,7 @@ import {
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
-    Atom, ChartBarDecreasingIcon,
+    Atom, ChartBarDecreasingIcon, PlaneTakeoff, 
     Folder, GalleryThumbnails, LayoutGrid, LocateFixed,
     LucideGitPullRequestDraft, MessageCircleIcon, PackageOpen, SettingsIcon,
     ShieldQuestion, StarIcon, Users2Icon, WorkflowIcon
@@ -65,6 +65,11 @@ const mainNavItems: NavItem[] = [
         title: 'Departments',
         href: '/admin/departments',
         icon: ChartBarDecreasingIcon,
+    },
+    {
+        title: 'Philosophy',
+        href: '/admin/company/mission-vision',
+        icon: PlaneTakeoff,
     },
     {
         title: 'Offices',

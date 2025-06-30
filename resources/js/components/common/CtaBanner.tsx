@@ -21,7 +21,7 @@ export default function CtaBanner(
     };
 
     return (
-        <div className={`${bgColors[variant] || bgColors.primary} text-white py-16`}>
+        <div className={`${bgColors[variant] || bgColors.primary} z-40 text-white py-16`}>
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-3xl font-bold mb-4">{title}</h2>

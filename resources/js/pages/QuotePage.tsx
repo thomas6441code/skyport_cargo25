@@ -113,10 +113,10 @@ export default function QuotePage({ cargoTypes, image }: cargoTypeProps) {
                                             Our logistics experts are available 24/7 to assist with your quote.
                                         </p>
                                         <a
-                                            href="tel:+255774419171"
+                                            href="tel:+255794341226"
                                             className="text-blue-600 font-medium text-sm hover:underline"
                                         >
-                                            +255 77 441 7191
+                                            +255 794 341 226
                                         </a>
                                     </div>
                                 </div>

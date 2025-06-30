@@ -206,7 +206,7 @@ const MessageTable: React.FC = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Messages" />
-            <div className="container text-black mx-auto px-4 py-8">
+            <div className="text-black md:px-6 px-4 py-8">
                 <div className="flex justify-between items-center mb-2">
                     <div className="mb-4 sm:mb-0">
                         <h1 className="text-2xl font-bold mb-4">Messages Management</h1>

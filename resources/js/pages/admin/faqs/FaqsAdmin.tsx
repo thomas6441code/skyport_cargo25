@@ -38,7 +38,7 @@ export default function faqsIndex({ faqs, services }: FaqsProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Faqs" />
 
-            <div className="px-4 py-8">
+            <div className="md:px-6 px-4 py-8">
 
                 {/* Flash messages */}
                 {flash?.success && (

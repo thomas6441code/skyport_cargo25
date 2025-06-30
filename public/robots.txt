@@ -1,2 +1,14 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://skyportcargo.co.tz/sitemap.xml
+User-agent: Googlebot
+Allow: /favicon.ico
+Disallow: 
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /app/admin/
+
+Sitemap: https://skyportcargo.co.tz/sitemap.xml

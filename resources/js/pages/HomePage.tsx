@@ -48,15 +48,24 @@ interface Service {
     process_Steps?: string[];
 }
 
+interface CompanyData {
+    id?: number;
+    vision: string;
+    mission: string;
+    core_values: string[];
+}
+
 interface Props {
     faqs: Faqs[];
     stats: Stats[];
+    companydata: CompanyData; 
     slides: Slide[];
     services: Service[];
     testimonials: Testimonial[];
 }
 
-export default function HomePage({ testimonials, slides, faqs, stats, services }: Props) {
+export default function HomePage({ companydata, testimonials, slides, faqs, stats, services }: Props) {
+
     return (
         <MainLayout>
             <ImageSlider images={slides} />
@@ -64,19 +73,19 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
             <StatsBanner stats={stats} />
 
 
-            <div className="text-center py-14">
+             <div className="bg-white text-center py-14 z-30">
                 <div className="text-center mb-14">
                     <span className="inline-block px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-medium uppercase tracking-wider mb-3">
                         Our Philosophy
                     </span>
                     <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                        Driving Logistics Forward
+                        Precision in Motion
                     </h2>
                     <div className="relative max-w-2xl mx-auto">
                         <p className="text-gray-600 leading-relaxed">
-                            To revolutionize global logistics through innovative technology, unparalleled service,
-                            and sustainable practices that connect businesses and communities worldwide.
-                        </p>
+		          Redefining global logistics with intelligent technology, precision execution,
+			 and sustainable innovation - moving businesses forward while bringing the world closer together.                            
+                       </p>
                         <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-sky-500"></div>
                     </div>
                 </div>
@@ -90,9 +99,8 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
                                 </div>
                                 <h3 className="text-xl font-semibold text-gray-900">Our Vision</h3>
                             </div>
-                            <p className="text-gray-600 text-sm leading-relaxed">
-                                To be the most trusted logistics partner by redefining speed, reliability, and transparency
-                                in global supply chains through cutting-edge technology and customer-centric solutions.
+                            <p className="text-gray-600 text-left text-sm leading-relaxed">
+				{companydata.vision}
                             </p>
                         </div>
                         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
@@ -102,9 +110,8 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
                                 </div>
                                 <h3 className="text-xl font-semibold text-gray-900">Our Goal</h3>
                             </div>
-                            <p className="text-gray-600 text-sm leading-relaxed">
-                                To be the most trusted logistics partner by redefining speed, reliability, and transparency
-                                in global supply chains through cutting-edge technology and customer-centric solutions.
+                            <p className="text-gray-600 text-sm text-left leading-relaxed">
+				{companydata.mission}
                             </p>
                         </div>
                     </div>
@@ -118,18 +125,12 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
                             <h3 className="text-xl font-semibold text-gray-900">Our Values</h3>
                         </div>
                         <ul className="space-y-3">
-                            {[
-                                "Customer-first approach that anticipates needs",
-                                "Operational excellence in every process",
-                                "Sustainable growth with eco-conscious practices",
-                                "Innovative solutions that disrupt the status quo",
-                                "Integrity in all business relationships"
-                            ].map((value, index) => (
+                            {companydata?.core_values?.map((value, index) => (
                                 <li key={index} className="flex items-start">
                                     <div className="mt-1 mr-2 flex-shrink-0">
                                         <Check className="w-4 h-4 text-sky-500" />
                                     </div>
-                                    <span className="text-gray-600 text-sm">{value}</span>
+                                    <span className="text-gray-600 text-sm text-left">{value}</span>
                                 </li>
                             ))}
                         </ul>
@@ -143,7 +144,7 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
 
             <ServiceCards services={services} />
 
-            <section className="py-16 bg-gray-50">
+            <section className="py-16 bg-gray-50 z-30">
                 <TestimonialSection testimonials={testimonials} />
 
                 <div className="mx-auto pt-10 md:max-w-[80vw] w-[100vw] px-3">
@@ -159,7 +160,7 @@ export default function HomePage({ testimonials, slides, faqs, stats, services }
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 bg-sky-500 text-white">
+            <section className="py-16 bg-skyblue text-white z-30">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold mb-6">Ready to Ship With Us?</h2>
                     <p className="text-sky-100 max-w-2xl mx-auto mb-8">

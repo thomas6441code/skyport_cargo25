@@ -39,7 +39,7 @@ export default function ServicesIndex({ testimonials, services }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Testimonials" />
 
-            <div className="px-4 py-8">
+            <div className="px-4 md:px-6 py-8">
                 {/* Header with actions */}
                 <div className="sm:flex sm:items-center sm:justify-between mb-8">
                     <div className="mb-4 sm:mb-0">

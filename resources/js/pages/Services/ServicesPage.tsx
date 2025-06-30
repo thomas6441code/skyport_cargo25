@@ -83,12 +83,7 @@ const ServicesIndex = ({ services, stats, image }: Props) => {
                                 Connecting your business to the world with reliable, efficient transportation
                             </p>
                             <div className="flex gap-4">
-                                <a
-                                    href="/quotes"
-                                    className="px-6 py-3 bg-white text-sky-700 rounded-lg font-medium hover:bg-gray-100 transition"
-                                >
-                                    Get a Quote
-                                </a>
+                           
                             </div>
                         </div>
                     </div>

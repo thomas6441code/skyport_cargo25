@@ -8,6 +8,7 @@ use App\Models\Stat;
 use App\Models\Slider;
 use App\Models\Service;
 use App\Models\Testimonial;
+use App\Models\CompanyMissionVision;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -18,12 +19,14 @@ class HomeController extends Controller
         $stats = Stat::all();
         $slides = Slider::all();
         $services = Service::all();
+        $companydata = CompanyMissionVision::all()->first();
         $testimonials = Testimonial::take(5)->get();
 
         return Inertia::render('HomePage', [
             'faqs'=> $faqs,
             'stats'=> $stats,
             'slides'=> $slides,
+	    'companydata'=> $companydata,
             'services'=> $services,
             'testimonials'=> $testimonials,
             'banner' => [

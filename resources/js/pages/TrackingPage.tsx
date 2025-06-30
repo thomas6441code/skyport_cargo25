@@ -21,11 +21,11 @@ interface Image {
 interface TrackProps {
 
     faqs: faq[];
-    image: Image;
+    images: Image;
 
 }
 
-export default function TrackingPage({ faqs, image }: TrackProps) {
+export default function TrackingPage({ faqs, images }: TrackProps) {
     // Sample data - replace with real API calls
     const sampleTrackingData = {
         trackingNumber: 'SKY123456789',
@@ -69,6 +69,7 @@ export default function TrackingPage({ faqs, image }: TrackProps) {
         ]
     };
 
+
     return (
         <MainLayout>
 
@@ -81,7 +82,7 @@ export default function TrackingPage({ faqs, image }: TrackProps) {
                         <div
                             className={`w-full h-full bg-cover object-cover inset-0 absolute bg-center transition-transform duration-1000`}
                             style={{
-                                backgroundImage: `url('/images/slides/${image?.slide_url}')`,
+                                backgroundImage: `url('/images/slides/${images?.slide_url}')`,
                                 filter: 'brightness(0.8)'
                             }}
                         />

@@ -42,11 +42,11 @@ class StatController extends Controller
             
             $stat = Stat::create($validated);
     
-            return redirect()->route('admin.faqs.FaqsAdmin')->with('success', 'Stat submited successfully!');
+            return redirect()->route('admin.stats.StatsAdmin')->with('success', 'Stat submited successfully!');
 
         } catch (\Exception $e) {
         
-            return redirect()->route('admin.faqs.FaqsAdmin')->with('success', 'Stat creation failed!');
+            return redirect()->route('admin.stats.StatsAdmin')->with('success', 'Stat creation failed!');
         }
 
     }
@@ -83,7 +83,7 @@ class StatController extends Controller
 
         $stat->update($validated);
 
-        return redirect()->route('admin.faqs.FaqsAdmin')->with('success', 'Stat updated successfully!');
+        return redirect()->route('admin.stats.StatsAdmin')->with('success', 'Stat updated successfully!');
     }
 
     /**
@@ -92,6 +92,6 @@ class StatController extends Controller
     public function destroy(Stat $stat)
     {
         $stat->delete();
-        return redirect()->route('admin.faqs.FaqsAdmin')->with('success', 'Stat deleted successfully!');
+        return redirect()->route('admin.stats.StatsAdmin')->with('success', 'Stat deleted successfully!');
     }
 }

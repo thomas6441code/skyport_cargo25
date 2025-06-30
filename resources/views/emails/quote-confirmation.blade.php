@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SkyPort Logistics Quote Request</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style type="text/css">
         /* Base Styles */
         body {
@@ -12,25 +15,23 @@
             padding: 0;
             color: #374151;
             line-height: 1.6;
-            background-color: #f9fafb;
+            background-color: #ffffff;
         }
-        
-        /* Layout Container */
+
         .email-container {
             max-width: 600px;
             margin: 0 auto;
-            background: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	    border-radius: 0px 0px 8px 8px;
+            color: #374151;
+            line-height: 1.6;
         }
-        
+
         /* Sky-500 Color Scheme */
         .sky-primary {
-            color: #0ea5e9;
+            color: #00b2e2;
         }
         .sky-bg {
-            background-color: #0ea5e9;
+            background-color: #000;
         }
         .sky-border {
             border-color: #0ea5e9;
@@ -47,17 +48,12 @@
             text-align: center;
             border-radius: 8px 8px 0 0;
         }
-        
-        .logo {
-            height: 50px;
-            width: auto;
-            margin-bottom: 15px;
-        }
-        
+
         /* Content */
         .email-body {
             padding: 30px;
-        }
+            background-color: #eff3ea;
+}
         
         h1 {
             font-size: 24px;
@@ -80,7 +76,6 @@
         /* Details Card */
         .details-card {
             background-color: #f0f9ff;
-            border-left: 4px solid #0ea5e9;
             border-radius: 0 6px 6px 0;
             padding: 20px;
             margin: 25px 0;
@@ -90,7 +85,7 @@
             font-size: 18px;
             margin-top: 0;
             margin-bottom: 15px;
-            color: #0ea5e9;
+            color: #00b2e2;
         }
         
         .detail-item {
@@ -107,6 +102,8 @@
         .email-footer {
             padding: 20px;
             text-align: center;
+            max-width: 600px;
+	    border-radius: 0px 0px 8px 8px;
             border-top: 1px solid #e5e7eb;
             background-color: #f9fafb;
         }
@@ -146,18 +143,26 @@
     </style>
 </head>
 <body>
-    <div class="email-header">
-        <img src="/images/logo.svg" alt="SkyPort Logistics Logo" class="logo">
-        <h2>Thank You for Your Quote Request!</h2>
-    </div>
 
     <!-- Email Body -->
     <div class="email-container">
-        <div class="email-body">
-            
+
+
+	<div class="email-header" style="background-color: #16404d !important; max-width: 600px; padding: 20px 0; text-align: center; border-bottom: 1px solid #eee;">
+	    <img src="https://skyportcargo.co.tz/images/blogo.png"
+	         alt="SkyPort Cargo Logo"
+	         class="logo"
+	         style="max-width: 180px; height: auto; display: block; margin: 0 auto 15px;">
+	    <h1 style="color: #ffffff; font-size: 22px; font-weight: 600; margin: 0; line-height: 1.3;">
+	        Thank You for Your Quote Request!
+	    </h1>
+	</div>
+
+
+    <div class="email-body">
+
             <p>Dear {{ $quote->name }},</p>
-            
-            <p>
+	      <p>
                 We've received your quote request for shipping from 
                 <strong class="sky-primary">{{ $quote->origin }}</strong> to 
                 <strong class="sky-primary">{{ $quote->destination }}</strong>.
@@ -194,34 +199,42 @@
             </p>
             <p>
                 If you have any urgent questions, please contact our customer service team at
-                <a href="tel:+255774417191" style="color: #0ea5e9; text-decoration: none;">
-                    <strong>+255 77 441 7191</strong>
+                <a href="tel:+255794341226" style="color: #0ea5e9; text-decoration: none;">
+                    <strong>+255 794 341 226</strong>
                 </a>.
             </p>
-            
-            <a href="{{ route('home') }}" class="button">Visit Our Website</a>
-            
+    		<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin: 20px 0;">
+		  <tr>
+		    <td align="center" style="border: 2px solid #0ea5e9; border-radius: 8px;">
+		      <a href="{{ route('home') }}" target="_blank" style="background-color: #ffffff; border-radius: 6px; color: #0ea5e9; font-family: Inter, sans-serif; font-size: 16px; font-weight: 600; line-height: 1.5; padding: 10px 22px; text-decoration: none; display: inline-block;">
+		        Visit Our Website
+		      </a>
+		    </td>
+		  </tr>
+		</table>
+
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                <p style="margin-bottom: 8px;">Thank you for choosing <strong class="sky-primary">SkyPort Logistics</strong>!</p>
-                
+                <p style="margin-bottom: 8px;">Thank you for choosing <strong class="sky-primary">SkyPort Logistics</strong>.</p>
+
                 <p style="margin-bottom: 4px;">
                     <strong>SkyPort Logistics Team</strong>
                 </p>
                 <p style="margin-bottom: 4px;">
-                    <a href="mailto:info@skyport.or.tz" style="color: #0ea5e9; text-decoration: none;">info@skyport.or.tz</a>
+                    <a href="mailto:skyportlogistics25@gmail.com" style="color: #0ea5e9; text-decoration: none;">skyportlogistics25@gmail.com</a>
                 </p>
                 <p style="margin-bottom: 0;">
-                    +255 77 441 7191
+                    +255 794 341 226
                 </p>
             </div>
         </div>
-    </div>
 
-    <div class="email-footer">
+	    <div class="email-footer">
         <p class="footer-text">© {{ date('Y') }} SkyPort Logistics. All rights reserved.</p>
         <p class="footer-text" style="margin-top: 10px; font-size: 12px;">
             If you didn't request this quote, please ignore this email.
         </p>
     </div>
+    </div>
+
 </body>
 </html>

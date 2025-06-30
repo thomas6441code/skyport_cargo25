@@ -1,133 +1,284 @@
-import { ArrowRight } from 'lucide-react';
-import { useRef, useEffect } from 'react';
+import { 
+  ArrowRight, 
+  Plane, 
+  ShieldCheck, 
+  Clock, 
+  MapPin, 
+  Box,
+  Globe,
+  BarChart2,
+  Warehouse,
+  CalendarCheck,
+  RadioTower,
+  Cloud,
+  PackageCheck
+} from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
 import { Link } from "@inertiajs/react";
 
-export default function HeroWithVideo() {
+export default function SpaceCargoHero() {
+  const [currentFeature, setCurrentFeature] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const playbackRate = 0.5;
+  const features = [
+    {
+      icon: <Plane className="w-6 h-6 md:w-8 md:h-8" />,
+      title: "Fastest Transit",
+      desc: "12-15 hour direct flights"
+    },
+    {
+      icon: <ShieldCheck className="w-6 h-6 md:w-8 md:h-8" />,
+      title: "Secure Shipping",
+      desc: "100% cargo insurance"
+    },
+    {
+      icon: <Box className="w-6 h-6 md:w-8 md:h-8" />,
+      title: "All Cargo Types",
+      desc: "Documents to machinery"
+    }
+  ];
 
-    useEffect(() => {
-        if (videoRef.current) {
-            try {
-                videoRef.current.playbackRate = playbackRate;
-                console.assert(
-                    videoRef.current.playbackRate === playbackRate,
-                    `Failed to set playback rate to ${playbackRate}`
-                );
-            } catch (error) {
-                console.error('Error setting playback rate:', error);
-            }
-        }
-    }, [playbackRate]);
+  useEffect(() => {
+    // Check if mobile device
+    setIsMobile(/Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 768);
+    
+    // Set up feature rotation
+    const timer = setInterval(() => {
+      setCurrentFeature((prev) => (prev + 1) % features.length);
+    }, 3000);
+    
+    return () => clearInterval(timer);
+  }, [features.length]);
 
-    return (
-        <div className="relative h-[97vh] min-h-[600px] overflow-hidden py-10 md:py-3">
-            {/* Video Background Container - Now more visible */}
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-                <div className="relative w-full h-full">
-                    <video
-                        ref={videoRef}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="absolute inset-0 w-full h-full object-cover"
-                    >
-                        <source
-                            src="/videos/earth.mp4"
-                            type="video/mp4"
-                        />
-                    </video>
-                </div>
+  return (
+    <div className="relative md:px-16 md:py-10 py-5 w-full min-h-[80vh] overflow-hidden rounded-xl border border-gray-700 shadow-xl">
+      {/* GIF Background - Earth Rotation */}
+      <div className="absolute inset-0 z-0 overflow-hidden rounded-xl">
+        <img
+          src="/videos/earth-rotation.gif"
+          alt="Rotating Earth"
+          className="absolute inset-0 w-full h-full object-cover rounded-xl"
+        />
+        <div className="absolute inset-0 bg-black/70 rounded-xl"></div>
+      </div>
+
+      {/* Content Overlay */}
+      <div className="relative z-10 w-full min-h-[80vh] flex flex-col p-4 md:p-6">
+        {/* Navigation */}
+        <header className="flex justify-between items-center mb-4 md:mb-6">
+          <div className="flex items-center space-x-2">
+            <RadioTower className="text-blue-400 w-6 h-6 md:w-8 md:h-8" />
+            <span className="text-xl md:text-2xl font-bold text-white">SkyPort Cargo</span>
+          </div>
+          {/* <Link 
+            href="/login" 
+            className="px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-blue-400 text-blue-300 hover:bg-blue-400/10 transition-colors duration-300 text-sm md:text-base"
+          >
+            Client Portal
+          </Link> */}
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-grow flex flex-col lg:flex-row items-center gap-4">
+          {/* Left Content */}
+          <div className="w-full lg:w-1/2 space-y-4 md:space-y-6 py-4 md:py-6 lg:py-0">
+            <div className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-blue-500/20 border border-blue-400/50 text-blue-300 text-sm md:text-base">
+              <PackageCheck className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              <span>Intercontinental Air Transport</span>
             </div>
-
-            {/* Dark overlay to make content stand out */}
-            <div className="absolute inset-0 bg-black/60"></div>
-
-            {/* Animated elements overlay */}
-            <div className="absolute inset-0">
-                <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
-                <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-
-                {/* Animated route lines */}
-                <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M25% 25% Q 50% 40%, 75% 33%"
-                        stroke="rgba(96, 165, 250, 0.7)"
-                        strokeWidth="2"
-                        fill="none"
-                        strokeDasharray="5,5"
-                    >
-                        <animate
-                            attributeName="stroke-dashoffset"
-                            from="100"
-                            to="0"
-                            dur="8s"
-                            repeatCount="indefinite"
-                        />
-                    </path>
-                    <path
-                        d="M15% 60% Q 40% 50%, 65% 70%"
-                        stroke="rgba(248, 113, 113, 0.7)"
-                        strokeWidth="2"
-                        fill="none"
-                        strokeDasharray="5,5"
-                    >
-                        <animate
-                            attributeName="stroke-dashoffset"
-                            from="100"
-                            to="0"
-                            dur="6s"
-                            repeatCount="indefinite"
-                        />
-                    </path>
-                </svg>
+            
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-cyan-200">
+                China-Tanzania
+              </span>
+              <br />
+              <span className="text-2xl md:text-3xl font-medium">
+                Air Cargo Specialists
+              </span>
+            </h1>
+            
+            <p className="text-base md:text-lg text-white/80 max-w-lg leading-relaxed">
+              Premium air cargo solutions with real-time tracking and customs clearance.
+		Premium air cargo solutions with real-time tracking and customs clearance.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <Link 
+                href="/quotes" 
+                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 text-sm md:text-base"
+              >
+                Get Quote <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
+              </Link>
+              <Link 
+                href="/tracking" 
+                className="flex items-center justify-center gap-2 bg-transparent hover:bg-white/10 px-6 py-3 rounded-lg font-bold text-white border border-white/20 transition-all duration-300 text-sm md:text-base"
+              >
+                Live Tracking
+              </Link>
             </div>
+          </div>
 
-            {/* Content Overlay - Now with darker background */}
-            <div className="absolute inset-0 flex items-center z-10 bg-black/60 p-8">
-                <div className="container mx-auto px-4 text-white">
-                    <div className="max-w-2xl relative md:ml-5">
-                        <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
-                                China-Tanzania
-                            </span>
-                            <br />
-                            <span className="text-3xl lg:text-4xl" >
-                                Air and Ocean Freight Specialists
-                            </span>
-                        </h1>
-
-                        <p className="text-lg md:text-xl mb-8 max-w-lg leading-relaxed">
-                            Accelerate your supply chain with our premium air cargo solutions featuring real-time tracking and customs clearance.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 max-w-[15rem]">
-                            <Link href='/quotes' className="bg-blue-600 hover:bg-blue-700 px-6 py-4 rounded-lg font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg">
-                                Get Instant Quote <ArrowRight className="ml-2 h-5 w-5" />
-                            </Link>
-                        </div>
-
-                        <div className="mt-12 flex flex-wrap md:flex gap-4">
-                            {['24-Hours of Work', 'Customs Cleared', 'Real-Time Tracking', 'Dedicated Support'].map((item, index) => (
-                                <div key={index} className="bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10 flex items-center">
-                                    <div className="w-2 h-2 bg-blue-400 md:text-sm text-xs rounded-full mr-2 animate-pulse"></div>
-                                    <span>{item}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Scrolling indicator */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-                    <div className="w-1 h-2 bg-white rounded-full"></div>
-                </div>
-            </div>
+          {/* Right Content - Now visible on mobile */}
+          <div className="w-full lg:w-1/2 relative lg:pl-6">
+            <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-400/10 backdrop-blur-md rounded-xl border border-white/20 p-4 md:p-6 overflow-hidden min:h-80">
+              <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 flex items-center">
+                <MapPin className="text-blue-300 w-5 h-5 md:w-6 md:h-6 mr-2" />
+                Active Flight Route
+              </h2>
+              
+           
+<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+  {[
+    {
+      origin: { city: "Shanghai", code: "PVG" },
+      destination: { city: "Dar es Salaam", code: "DAR" },
+      time: "12h",
+      active: true,
+      connections: 0,
+      departure: "08:00",
+      arrival: "20:00"
+    },
+    {
+      origin: { city: "Guangzhou", code: "CAN" },
+      destination: { city: "Zanzibar", code: "ZNZ" },
+      time: "14h",
+      active: true,
+      connections: 1,
+      departure: "10:30",
+      arrival: "00:30"
+    },
+    {
+      origin: { city: "Beijing", code: "PEK" },
+      destination: { city: "Kilimanjaro", code: "JRO" },
+      time: "15h",
+      active: false,
+      connections: 0,
+      departure: "14:00",
+      arrival: "05:00"
+    },
+    {
+      origin: { city: "Shenzhen", code: "SZX" },
+      destination: { city: "Mwanza", code: "MWZ" },
+      time: "16h",
+      active: true,
+      connections: 2,
+      departure: "16:45",
+      arrival: "08:45"
+    }
+  ].map((route, i) => (
+    <div 
+      key={i} 
+      className={`p-3 rounded-lg transition-all duration-300 ${
+        route.active 
+          ? 'bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/30' 
+          : 'bg-white/5 hover:bg-white/10 border border-white/10'
+      }`}
+    >
+      <div className="flex justify-between items-start">
+        <div className="flex-1">
+          <div className="flex items-center space-x-2">
+            <div className={`w-2 h-2 rounded-full ${
+              route.active ? 'bg-green-400 animate-pulse' : 'bg-gray-500'
+            }`} />
+            <span className="font-medium text-white text-sm">
+              {route.origin.city} ({route.origin.code})
+            </span>
+          </div>
+          <div className="flex items-center space-x-2 ml-4 mt-1">
+            <Plane className="w-3 h-3 text-blue-300 rotate-90" />
+            <span className="text-xs text-blue-300">
+              {route.departure} → {route.arrival} (+1)
+            </span>
+          </div>
+          <div className="flex items-center space-x-2 mt-1">
+            <div className="w-2 h-2 rounded-full bg-blue-400" />
+            <span className="font-medium text-white text-sm">
+              {route.destination.city} ({route.destination.code})
+            </span>
+          </div>
         </div>
-    );
+        
+        <div className="text-right">
+          <div className="text-blue-300 font-medium text-sm">
+            {route.time}
+          </div>
+          {route.connections > 0 && (
+            <div className="text-xs text-white/70 mt-1">
+              {route.connections} {route.connections === 1 ? 'stop' : 'stops'}
+            </div>
+          )}
+          {!route.active && (
+            <div className="text-xs text-amber-400 mt-1">
+              Coming soon
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {route.active && (
+        <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center">
+          <span className="text-xs text-white/70">
+            Daily flights
+          </span>
+          <Link 
+            href="#" 
+            className="text-xs text-blue-300 hover:text-blue-200 transition-colors"
+          >
+            Track shipment →
+          </Link>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+   
+              {/* Rotating Features */}
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <div className="relative h-20 md:h-24">
+                  {features.map((feature, index) => (
+                    <div 
+                      key={index}
+                      className={`absolute inset-0 transition-opacity duration-500 ${index === currentFeature ? 'opacity-100' : 'opacity-0'} px-2`}
+                    >
+                      <div className="flex items-start">
+                        <div className="bg-white/10 p-2 rounded-lg mr-2">
+                          {feature.icon}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-white text-sm">{feature.title}</h3>
+                          <p className="text-xs text-white/80">{feature.desc}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        {/* Stats Bar */}
+        <div className="mt-auto pt-7">
+          <div className="bg-white/5 backdrop-blur-md rounded-lg p-3 grid grid-cols-2 md:grid-cols-4 gap-3 border border-white/10">
+            {[
+              { icon: <CalendarCheck className="w-5 h-5" />, value: "24/7", label: "Operations" },
+              { icon: <Clock className="w-5 h-5" />, value: "12h", label: "Fastest" },
+              { icon: <ShieldCheck className="w-5 h-5" />, value: "100%", label: "Secure" },
+              { icon: <Plane className="w-5 h-5" />, value: "12", label: "Flights" }
+            ].map((stat, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <div className="bg-blue-500/20 p-1.5 rounded-lg">
+                  {stat.icon}
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-white">{stat.value}</p>
+                  <p className="text-xs text-white/80">{stat.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

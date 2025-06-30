@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Clock, Globe, Trophy, Shield, Truck, Plane, Ship, Warehouse, ArrowRight, Check, ShieldBanIcon, GlobeIcon, VenusIcon, LucideGoal } from 'lucide-react';
+import { GoalIcon, Clock, Globe, Trophy, Shield, Truck, Plane, Ship, Warehouse, ArrowRight, Check, ShieldBanIcon, GlobeIcon, VenusIcon, LucideGoal } from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
 import { Link } from "@inertiajs/react";
 import IconComponent from '@/components/common/IconComponent';
@@ -41,14 +41,22 @@ interface Image {
     slide_url: string;
 }
 
+interface CompanyData {
+    id?: number;
+    vision: string;
+    mission: string;
+    core_values: string[];
+}
+
 interface Props {
     image: Image;
+    companydata:CompanyData; 
     stats: Stats[];
     services: Service[];
     teamMembers: Team[];
 }
 
-export default function AboutUs({ services, stats, teamMembers, image }: Props) {
+export default function AboutUs({ companydata, services, stats, teamMembers, image }: Props) {
     const [activeTimelineItem, setActiveTimelineItem] = useState(3);
 
     const milestones = [
@@ -167,78 +175,71 @@ export default function AboutUs({ services, stats, teamMembers, image }: Props) 
 
                     </div>
 
-                    <div className="text-center bg-white py-10">
-                        <div className="text-center mb-14">
-                            <span className="inline-block px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-medium uppercase tracking-wider mb-3">
-                                Our Philosophy
-                            </span>
-                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                                Driving Logistics Forward
-                            </h2>
-                            <div className="relative max-w-2xl mx-auto">
-                                <p className="text-gray-600 leading-relaxed">
-                                    To revolutionize global logistics through innovative technology, unparalleled service,
-                                    and sustainable practices that connect businesses and communities worldwide.
-                                </p>
-                                <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-sky-500"></div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-6 gap-2 px-4 mx-auto container">
-                            {/* Vision Card */}
-                            <div className="py-10 grid grid-cols-1 gap-6">
-                                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
-                                    <div className="flex items-center mb-4">
-                                        <div className="bg-sky-100 p-2 rounded-lg mr-3">
-                                            <GlobeIcon className="w-6 h-6 text-sky-600" />
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-gray-900">Our Vision</h3>
-                                    </div>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        To be the most trusted logistics partner by redefining speed, reliability, and transparency
-                                        in global supply chains through cutting-edge technology and customer-centric solutions.
-                                    </p>
-                                </div>
-                                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
-                                    <div className="flex items-center mb-4">
-                                        <div className="bg-sky-100 p-2 rounded-lg mr-3">
-                                            <LucideGoal className="w-6 h-6 text-sky-600" />
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-gray-900">Our Goal</h3>
-                                    </div>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        To be the most trusted logistics partner by redefining speed, reliability, and transparency
-                                        in global supply chains through cutting-edge technology and customer-centric solutions.
-                                    </p>
-                                </div>
-                            </div>
 
-                            {/* Values Card */}
-                            <div className="bg-white md:m-10 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
-                                <div className="flex items-center mb-4">
-                                    <div className="bg-sky-100 p-2 rounded-lg mr-3">
-                                        <ShieldBanIcon className="w-6 h-6 text-sky-600" />
-                                    </div>
-                                    <h3 className="text-xl font-semibold text-gray-900">Our Values</h3>
-                                </div>
-                                <ul className="space-y-3">
-                                    {[
-                                        "Customer-first approach that anticipates needs",
-                                        "Operational excellence in every process",
-                                        "Sustainable growth with eco-conscious practices",
-                                        "Innovative solutions that disrupt the status quo",
-                                        "Integrity in all business relationships"
-                                    ].map((value, index) => (
-                                        <li key={index} className="flex items-start">
-                                            <div className="mt-1 mr-2 flex-shrink-0">
-                                                <Check className="w-4 h-4 text-sky-500" />
-                                            </div>
-                                            <span className="text-gray-600 text-sm">{value}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
+		   <div className="bg-white text-center py-14 z-30">
+	                <div className="text-center mb-14">
+	                    <span className="inline-block px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-medium uppercase tracking-wider mb-3">                        			Our Philosophy
+	                    </span>
+	                    <h2 className="text-3xl font-bold text-gray-900 mb-4">
+	                        Precision in Motion
+	                    </h2>
+	                    <div className="relative max-w-2xl mx-auto">
+	                        <p className="text-gray-600 leading-relaxed">
+	                          Redefining global logistics with intelligent technology, precision execution,
+	                         and sustainable innovation - moving businesses forward while bringing the world closer together.
+                                </p>
+	                        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-sky-500"></div>
+	                    </div>
+	                </div>
+	                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 mx-auto container">
+	                    {/* Vision Card */}
+	                    <div className="py-10 grid grid-cols-1 gap-6">
+	                        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+	                            <div className="flex items-center mb-4">
+	                                <div className="bg-sky-100 p-2 rounded-lg mr-3">
+	                                    <GlobeIcon className="w-6 h-6 text-sky-600" />
+	                                </div>
+	                                <h3 className="text-xl font-semibold text-gray-900">Our Vision</h3>
+	                            </div>
+	                            <p className="text-gray-600 text-sm text-left leading-relaxed">
+	                                {companydata.vision}
+	                            </p>
+	                        </div>
+	                        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+	                            <div className="flex items-center mb-4">
+	                                <div className="bg-sky-100 p-2 rounded-lg mr-3">
+	                                    <GoalIcon className="w-6 h-6 text-sky-600" />
+	                                </div>
+	                                <h3 className="text-xl font-semibold text-gray-900">Our Goal</h3>
+	                            </div>
+	                            <p className="text-gray-600 text-sm text-left leading-relaxed">
+	                                {companydata.mission}
+	                            </p>
+	                        </div>
+	                    </div>
+
+	                     {/* Values Card */}
+	                    <div className="bg-white md:m-10 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+	                        <div className="flex items-center mb-4">
+	                            <div className="bg-sky-100 p-2 rounded-lg mr-3">
+	                                <ShieldBanIcon className="w-6 h-6 text-sky-600" />
+	                            </div>
+	                            <h3 className="text-xl font-semibold text-gray-900">Our Values</h3>
+	                        </div>
+	                        <ul className="space-y-3">
+	                            {companydata?.core_values?.map((value, index) => (
+	                                <li key={index} className="flex items-start">
+	                                    <div className="mt-1 mr-2 flex-shrink-0">
+	                                        <Check className="w-4 h-4 text-sky-500" />
+	                                    </div>
+	                                    <span className="text-gray-600 text-sm text-left">{value}</span>
+	                                </li>
+	                            ))}
+	                        </ul>
+	                    </div>
+	                </div>
+	            </div>
 
                     <WhatWeDoSection services={services} />
 
@@ -266,7 +267,7 @@ export default function AboutUs({ services, stats, teamMembers, image }: Props) 
                         </div>
                     </section>
 
-                    {/* Team Section */}
+                    {/* Team Section
                     <section className="py-20 backdrop-blur-sm text-black">
                         <div className="container mx-auto px-4">
                             <h2 className="text-3xl font-bold text-center text-white mb-4">Meet Our Leadership</h2>
@@ -291,7 +292,7 @@ export default function AboutUs({ services, stats, teamMembers, image }: Props) 
                                 ))}
                             </div>
                         </div>
-                    </section>
+                    </section> */}
 
                     {/* Services Section */}
                     <section className="py-20 bg-gray-50 hover-text-black text-white">

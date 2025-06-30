@@ -1,12 +1,10 @@
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { DivIcon } from 'leaflet';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
-// Type definitions
-
-interface offices {
+interface Office {
     id: number;
     coordinates: [number, number];
     country: string;
@@ -19,13 +17,14 @@ interface offices {
 }
 
 interface ContactMapProps {
-    offices?: offices[];
+    offices?: Office[];
     className?: string;
     showRoute?: boolean;
     mapStyle?: React.CSSProperties;
+    zoomPadding?: [number, number];
+    maxZoom?: number;
 }
 
-// Custom icon creation with TypeScript
 const createCustomIcon = (iconColor: string = '#0056b3'): DivIcon => {
     return L.divIcon({
         html: `
@@ -40,14 +39,66 @@ const createCustomIcon = (iconColor: string = '#0056b3'): DivIcon => {
     });
 };
 
+const AutoZoomToMarkers: React.FC<{ 
+    coordinates: [number, number][]; 
+    padding?: [number, number];
+    maxZoom?: number;
+}> = ({ coordinates, padding = [50, 50], maxZoom = 15 }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        if (coordinates.length > 0) {
+            const bounds = L.latLngBounds(coordinates.map(coord => [coord[0], coord[1]]));
+            map.fitBounds(bounds, { padding, maxZoom });
+            
+            // For single marker, set a reasonable zoom level
+            if (coordinates.length === 1) {
+                map.setView(coordinates[0], 13);
+            }
+        }
+    }, [coordinates, map, padding, maxZoom]);
+
+    return null;
+};
+
+const renderPopupContent = (office: Office): ReactNode => (
+    <div className="min-w-[200px] space-y-2">
+        <h3 className="font-bold text-lg">{office.city}</h3>
+        <div className="flex items-center text-gray-600">
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>{office.country}</span>
+        </div>
+        {office.address && (
+            <p className="text-sm text-gray-500 flex items-start">
+                <svg className="w-4 h-4 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                {office.address}
+            </p>
+        )}
+        {office.phone && (
+            <a href={`tel:${office.phone}`} className="block text-sm text-blue-600 hover:underline flex items-center">
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                {office.phone}
+            </a>
+        )}
+    </div>
+);
+
 const ContactMap: React.FC<ContactMapProps> = ({
     offices = [],
     className = '',
     showRoute = true,
-    mapStyle = { height: '500px', width: '100%' }
+    mapStyle = { height: '500px', width: '100%' },
+    zoomPadding = [50, 50],
+    maxZoom = 15
 }) => {
-    // Default offices if none provided
-    const defaultOffices: offices[] = [
+    const defaultOffices: Office[] = [
         {
             id: 1,
             coordinates: [31.2304, 121.4737], // Shanghai
@@ -67,90 +118,65 @@ const ContactMap: React.FC<ContactMapProps> = ({
     ];
 
     const displayOffices = offices.length > 0 ? offices : defaultOffices;
-
-    // Create route between offices if more than one exists
-    const routeCoordinates = displayOffices.length > 1
-        ? displayOffices.map(office => office.coordinates)
+    const coordinates = displayOffices.map(office => office.coordinates);
+    const routeCoordinates = showRoute && displayOffices.length > 1 
+        ? displayOffices.map(office => office.coordinates) 
         : [];
 
     const openGoogleMaps = (coords: [number, number]): void => {
         window.open(`https://maps.google.com?q=${coords.join(',')}`);
     };
 
-    const renderPopupContent = (office: offices): ReactNode => (
-        <div className="min-w-[200px] space-y-2">
-            <h3 className="font-bold text-lg">{office.city}</h3>
-            <div className="flex items-center text-gray-600">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>{office.country}</span>
-            </div>
-            {office.address && (
-                <p className="text-sm text-gray-500 flex items-start">
-                    <svg className="w-4 h-4 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    {office.address}
-                </p>
-            )}
-            {office.phone && (
-                <a href={`tel:${office.phone}`} className="block text-sm text-primary hover:underline flex items-center">
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    {office.phone}
-                </a>
-            )}
-        </div>
-    );
-
     return (
         <div className={`${className} rounded-xl overflow-hidden shadow-lg relative`}>
             <MapContainer
-                center={[20, 80]}
-                zoom={3}
+                center={[0, 0]}
+                zoom={2}
                 style={mapStyle}
                 scrollWheelZoom={true}
                 doubleClickZoom={true}
+                className="z-0"
             >
-                {/* Light-themed base map */}
+                <AutoZoomToMarkers 
+                    coordinates={coordinates} 
+                    padding={zoomPadding}
+                    maxZoom={maxZoom}
+                />
+
                 <TileLayer
                     url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
 
-                {/* Show route between offices if enabled */}
-                {showRoute && routeCoordinates.length > 1 && (
+                {routeCoordinates.length > 1 && (
                     <Polyline
                         positions={routeCoordinates}
                         color="#0056b3"
                         weight={2}
                         dashArray="5, 5"
-                        className="animate-dash"
                     />
                 )}
 
-                {/* Office markers */}
                 {displayOffices.map((office) => (
                     <Marker
                         key={office.id}
                         position={office.coordinates}
                         icon={createCustomIcon(office.color)}
+                        eventHandlers={{
+                            click: () => openGoogleMaps(office.coordinates)
+                        }}
                     >
-                        <Popup className="custom-popup">
+                        <Popup className="custom-popup" closeButton={false}>
                             {renderPopupContent(office)}
                         </Popup>
                     </Marker>
                 ))}
             </MapContainer>
 
-            {/* Map controls overlay */}
             <div className="absolute top-4 right-4 z-[1000] space-y-2">
                 <button
                     className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
-                    onClick={() => openGoogleMaps(displayOffices[0].coordinates)}
+                    onClick={() => coordinates.length > 0 && openGoogleMaps(coordinates[0])}
                     aria-label="Open in Google Maps"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

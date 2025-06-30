@@ -235,7 +235,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                 {/* Location */}
                 <div>
                     <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                        Location
+                        Location(Opt)
                     </label>
                     <div className="mt-1 relative rounded-md shadow-sm">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -249,7 +249,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                                 }`}
                             value={formData.location}
                             onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                            required
+                            
                         />
                     </div>
                     {submissionState.fieldErrors?.location && (
@@ -257,7 +257,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                     )}
                 </div>
 
-                {/* Zip Code */}
+                {/* Zip Code 
                 <div>
                     <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
                         ZIP/Postal Code
@@ -274,13 +274,13 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                                 }`}
                             value={formData.zipCode}
                             onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
-                            required
+                            
                         />
                     </div>
                     {submissionState.fieldErrors?.zipCode && (
                         <p className="mt-1 text-sm text-red-600">{submissionState.fieldErrors.zipCode[0]}</p>
                     )}
-                </div>
+                </div>*/}
             </div>
 
             <h3 className="text-lg font-medium text-gray-900">Shipment Details</h3>
@@ -431,7 +431,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
                                 }`}
                             value={formData.dimensions}
                             onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
-                            required
+                            
                         />
                     </div>
                     {submissionState.fieldErrors?.dimensions && (
@@ -465,7 +465,7 @@ export function QuoteForm({ defaultOrigin = '', defaultDestination = '', cargoTy
             {/* Special Requirements */}
             <div>
                 <label htmlFor="specialRequirements" className="block text-sm font-medium text-gray-700">
-                    Special Requirements
+                    Special Requirements(Opt)
                 </label>
                 <div className="mt-1">
                     <textarea

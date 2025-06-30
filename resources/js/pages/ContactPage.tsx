@@ -95,7 +95,7 @@ const ContactPage: React.FC<OfficeProps> = ({ offices, departments, image }) => 
                     </div>
 
                     <div
-                        className="absolute hidden md:flex border-gradient-to-l from-bg-sky-300 to-bg-gray-800 border-2 bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-lg px-2 z-30">
+                        className="absolute hidden md:flex -l shadow-2xl bg-white rounded-4xl bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-full max-w-lg px-2 z-30">
                         <h2 className="text-2xl text-black md:text-4xl py-5 text-center w-full font-bold">
                             Get in Touch with Us
                         </h2>

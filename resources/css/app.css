@@ -2,16 +2,68 @@
 @import 'leaflet/dist/leaflet.css';
 @plugin 'tailwindcss-animate';
 
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-100px) translateX(20px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes border-spin {
+  0% { border-color: rgba(96, 165, 250, 0.5); }
+  25% { border-color: rgba(103, 232, 249, 0.5); }
+  50% { border-color: rgba(167, 139, 250, 0.5); }
+  75% { border-color: rgba(249, 168, 212, 0.5); }
+  100% { border-color: rgba(96, 165, 250, 0.5); }
+}
+
+.animate-float1 {
+  animation: float 15s ease-in-out infinite;
+}
+
+.animate-float2 {
+  animation: float 20s ease-in-out infinite reverse;
+}
+
+.animate-spin-slow {
+  animation: spin 30s linear infinite;
+}
+
+.animate-border-spin {
+  animation: border-spin 8s linear infinite;
+}
+
+
+.bg-skyblue {
+    background-color: #00B2E2;
+}
+.text-skyblue {
+    color: #00B2E2;
+}
+.border-skyblue {
+    border-color: #00B2E2;
+}
+
 /* Custom styles */
 .icon-container {
     @apply p-3 rounded-lg;
 
     &.mission {
-        @apply bg-blue-100 text-blue-600;
+        @apply bg-sky-100 text-sky-600;
     }
 
     &.vision {
-        @apply bg-purple-100 text-purple-600;
+        @apply bg-purple-100 text-sky-600;
     }
 
     &.value {

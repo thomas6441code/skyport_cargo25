@@ -29,7 +29,7 @@ export default function StatsIndex({ stats }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Faqs & Stats " />
 
-            <div className="px-4 py-8">
+            <div className="md:px-6 px-4 py-8">
                 {/* Header with actions */}
                 <div className="sm:flex sm:items-center sm:justify-between mb-8">
                     <div className="mb-4 sm:mb-0">

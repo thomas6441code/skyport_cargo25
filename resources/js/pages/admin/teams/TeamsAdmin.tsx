@@ -245,8 +245,8 @@ const teamsAdmin: FC = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Members" />
-            <div className="min-h-screen bg-gray-100 text-black py-8 p-4">
-                <div className="max-w-7xl mx-auto">
+            <div className="min-h-screen bg-gray-100 text-black md:px-6 py-8 p-4">
+                <div className="">
                     <div className="mb-4 sm:mb-0 sticky top-20 mb-2">
                         <h1 className="text-2xl font-bold text-gray-900 dar:text-white">Members Management</h1>
                         <p className="mt-1 text-sm text-gray-500 dar:text-gray-400">

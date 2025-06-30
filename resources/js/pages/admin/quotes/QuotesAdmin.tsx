@@ -37,7 +37,7 @@ export default function AdminQuotesPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState<{ key: keyof Quote; direction: 'ascending' | 'descending' } | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const quotesPerPage = 10;
+    const quotesPerPage = 15;
 
     useEffect(() => {
         fetchQuotes();
@@ -119,8 +119,8 @@ export default function AdminQuotesPage() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Quotes" />
 
-            <div className="min-h-screen bg-gray-50 py-8 p-4">
-                <div className="max-w-7xl mx-auto">
+            <div className="min-h-screen bg-gray-50 py-8 md:px-6 p-4">
+                <div>
                     <div className="flex justify-between items-center mb-8">
                         <div className="mb-4 sm:mb-0">
                             <h1 className="text-2xl font-bold text-gray-800">Shipping Quotes Management</h1>

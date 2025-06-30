@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\web;
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 use Inertia\Inertia;
 use App\Models\Quote;
 use App\Models\Slider;
 use App\Mail\QuoteReply;
 use App\Models\CargoType;
 use Illuminate\Http\Request;
+use Illuminate\Mail\SentMessage;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use App\Mail\QuoteConfirmation;
 use App\Mail\NewQuoteNotification;
 use Illuminate\Support\Facades\Log;
@@ -28,11 +27,11 @@ class QuoteController extends Controller
             'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
         ]);
     }
-    
+
     public function indexquotes()
     {
-        $quotes = Quote::all();
-        return response()->json($quotes, 201);
+	 $quotes = Quote::orderBy('created_at', 'desc')->get();
+	 return response()->json($quotes, 200);
     }
 
     public function adminindex()
@@ -42,8 +41,6 @@ class QuoteController extends Controller
 
     public function create()
     {
-
-
         return Inertia::render('QuotePage', [
             'defaultOrigin' => 'China',
             'defaultDestination' => 'Tanzania',
@@ -68,14 +65,14 @@ class QuoteController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'phone' => 'required|string|max:20',
-                'location' => 'required|string|max:255',
-                'zipCode' => 'required|string|max:20',
+                'location' => 'nullable|string|max:255',
+                'zipCode' => 'nullable|string|max:20',
                 'origin' => 'required|string|max:255',
                 'destination' => 'required|string|max:255',
                 'cargoType' => 'required|string|max:255',
                 'cargoDescription' => 'required|string',
                 'weight' => 'required|string|max:50',
-                'dimensions' => 'required|string|max:100',
+                'dimensions' => 'nullable|string|max:100',
                 'readyDate' => 'required|date_format:Y-m-d',
                 'specialRequirements' => 'nullable|string',
             ]);
@@ -84,40 +81,62 @@ class QuoteController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'phone' => $validated['phone'],
-                'location' => $validated['location'],
-                'zip_code' => $validated['zipCode'],
+                'location' => $validated['location'] ?? null,
+                'zip_code' => $validated['zipCode'] ?? null,
                 'origin' => $validated['origin'],
                 'destination' => $validated['destination'],
                 'cargo_type' => $validated['cargoType'],
                 'cargo_description' => $validated['cargoDescription'],
                 'weight' => $validated['weight'],
-                'dimensions' => $validated['dimensions'],
+                'dimensions' => $validated['dimensions'] ?? null,
                 'ready_date' => $validated['readyDate'],
                 'special_requirements' => $validated['specialRequirements'] ?? null,
             ];
 
-            $quote = Quote::create($quoteData);
-            
-            try {
+	    $quote = Quote::create($quoteData);
 
-                Mail::to('hopeshayo1@gmail.com')->send(new NewQuoteNotification($quote));
-                
-                Mail::to($quote->email)->send(new QuoteConfirmation($quote));
-                
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Thank you for your quote request! We will contact you shortly.',
-                    'data' => $quote
-                ]);
+		// 1️⃣ Send admin notification
+	    try {
 
-            } catch (\Exception $e) {
+	        $adminSent = Mail::to('skyportlogistics25@gmail.com')
+	            ->send(new NewQuoteNotification($quote));
 
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Email sending failed: ' . $e->getMessage(),
-                ]);
+	        if (! ($adminSent instanceof SentMessage) ) {
+	            return response()->json([
+	                'success' => false,
+	                'message' => 'Failed to send notification to admin.'
+	            ], 500);
+	        }
 
-            }
+	        // 2️⃣ Send customer confirmation
+	        $customerSent = Mail::to($quoteData['email'])
+	            ->send(new QuoteConfirmation($quote));
+
+	        if (! ($customerSent instanceof SentMessage) ) {
+	            return response()->json([
+	                'success' => false,
+	                'message' => 'Failed to send confirmation to customer.'
+	            ], 500);
+	        }
+
+	    } catch (TransportExceptionInterface $e) {
+	        return response()->json([
+	            'success' => false,
+	            'message' => 'Email transport error: ' . $e->getMessage()
+	        ], 500);
+
+	    } catch (\Exception $e) {
+	        return response()->json([
+	            'success' => false,
+	            'message' => 'Unexpected error sending email: ' . $e->getMessage()
+	        ], 500);
+	    }
+
+	    return response()->json([
+	        'success' => true,
+	        'message' => 'Thank you for your quote request! We will contact you shortly.',
+	        'data' => $quote
+	    ], 201);
 
         } catch (ValidationException $e) {
             return response()->json([
