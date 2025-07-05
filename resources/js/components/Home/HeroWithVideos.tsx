@@ -77,6 +77,7 @@ export default function SpaceCargoHero({routes}:Props) {
     return () => clearInterval(timer);
   }, [features.length]);
 
+
   return (
     <div className="relative md:px-10 md:py-10 py-5 w-full min-h-[80vh] overflow-hidden rounded-xl border border-gray-700 shadow-xl">
       {/* GIF Background - Earth Rotation */}
@@ -114,7 +115,7 @@ export default function SpaceCargoHero({routes}:Props) {
         {/* Main Content */}
         <main className="flex-grow flex flex-col lg:flex-row items-center gap-2">
           {/* Left Content */}
-          <div className="w-full lg:w-1/2 space-y-4 md:space-y-6 py-4 md:py-6 px-2 lg:py-0">
+          <div className="w-full md:w-1/3 space-y-4 md:space-y-6 py-4 md:py-6 px-2 lg:py-0">
             <div className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-blue-500/20 border border-blue-400/50 text-blue-300 text-sm md:text-base">
               <PackageCheck className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               <span>Intercontinental Air Transport</span>
@@ -130,13 +131,13 @@ export default function SpaceCargoHero({routes}:Props) {
               </span>
             </h1>
             
-		<p className="text-base md:text-lg text-white/80 max-w-lg leading-relaxed">
-		  Our premium air cargo solutions provide fast, reliable global shipping with end-to-end visibility. 
-		  Benefit from real-time  tracking, temperature-controlled options for sensitive shipments, 
-		  and expedited customs clearance . We assist customers in paying their suppliers when purchasing goods from China. We also provide local delivery services in Tanzania once the goods arrive  
-		  with transit times as fast as 48 hours for urgent shipments.
-		</p>
-            
+	<p className="text-base md:text-sm text-white/80 max-w-lg leading-relaxed">
+	  Our premium air cargo solutions provide fast, reliable global shipping with end-to-end visibility. 
+	  Benefit from real-time  tracking, temperature-controlled options for sensitive shipments, 
+	  and expedited customs clearance . We assist customers in paying their suppliers when purchasing goods from China. We also provide local delivery services in Tanzania once the goods arrive  
+	  with transit times as fast as 48 hours for urgent shipments.
+	</p>
+             
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link 
                 href="/quotes" 
@@ -154,7 +155,7 @@ export default function SpaceCargoHero({routes}:Props) {
           </div>
 
           {/* Right Content - Now visible on mobile */}
-          <div className="w-full lg:w-1/2 relative lg:pl-6">
+          <div className="w-full md:w-2/3 relative md:pl-6">
             <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-400/10 backdrop-blur-md rounded-xl border border-white/20 p-4 overflow-hidden min:h-80">
               <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 flex items-center">
                 <MapPin className="text-blue-300 w-5 h-5 md:w-6 md:h-6 mr-2" />
@@ -183,14 +184,15 @@ export default function SpaceCargoHero({routes}:Props) {
 		          </div>
 		          
 		          {/* Flight path with stops */}
-		          <div className="ml-4 mt-2 space-y-1">
-		            <div className="flex items-center space-x-2">
+		          <div className="ml-2 mt-2 space-y-1">
+
+                            {route.departure_time && (<div className="flex items-center space-x-2">
 		              <Plane className="w-3 h-3 text-blue-300 rotate-90" />
 		              <span className="text-xs text-blue-300">
 		                Departs: {route.departure_time}
 		              </span>
-		            </div>
-		            
+		            </div>)}
+
 		            {route.stops.map((stop, index) => (
 		              <div key={stop.id} className="flex items-center space-x-2 ml-4">
 		                <div className="w-2 h-2 rounded-full bg-amber-400" />
@@ -199,13 +201,14 @@ export default function SpaceCargoHero({routes}:Props) {
 		                </span>
 		              </div>
 		            ))}
-		            
-		            <div className="flex items-center space-x-2">
+
+                            {route.arrival_time && (<div className="flex items-center space-x-2">
 		              <Plane className="w-3 h-3 text-blue-300 rotate-90" />
 		              <span className="text-xs text-blue-300">
-				 Arrives: {route.arrival} (+{Math.floor(parseInt(route.duration)/24)})
+				 Arrives: {route.arrival_time} (+{Math.floor(parseInt(route.duration)/24)})
 		              </span>
-		            </div>
+		            </div>)}
+		            
 		          </div>
 		          
 		          <div className="flex items-center space-x-2 mt-2">

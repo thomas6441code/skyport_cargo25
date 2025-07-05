@@ -96,7 +96,7 @@ export default function HomePage({ companydata, routes, testimonials, slides, fa
             <StatsBanner stats={stats} />
 
 
-             <div className="bg-white text-center py-14 z-30">
+             <div className="bg-white text-center py-14 z-30 md:px-6">
                 <div className="text-center mb-14">
                     <span className="inline-block px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-medium uppercase tracking-wider mb-3">
                         Our Philosophy

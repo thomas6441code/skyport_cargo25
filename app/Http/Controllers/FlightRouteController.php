@@ -35,8 +35,8 @@ class FlightRouteController extends Controller
             'destination_code' => 'required|string|size:3',
             'duration' => 'required|string',
             'active' => 'boolean',
-            'departure_time' => 'required|string',
-            'arrival_time' => 'required|string',
+            'departure_time' => 'nullable|string',
+            'arrival_time' => 'nullable|string',
             'stops' => 'sometimes|array',
             'stops.*.location' => 'required|string',
             'stops.*.code' => 'required|string|size:3',
@@ -54,7 +54,8 @@ class FlightRouteController extends Controller
             }
         }
 
-        return response()->json($route->load('stops'), 201);
+        return redirect()->route('admin.flight-routes.index')->with('success', 'Route created successfully');
+
     }
 
 
@@ -79,8 +80,8 @@ class FlightRouteController extends Controller
             'destination_code' => 'sometimes|string|size:3',
             'duration' => 'sometimes|string',
             'active' => 'sometimes|boolean',
-            'departure_time' => 'sometimes|string',
-            'arrival_time' => 'sometimes|string',
+            'departure_time' => 'nullable|sometimes|string',
+            'arrival_time' => 'nullable|sometimes|string',
             'stops' => 'sometimes|array',
             'stops.*.id' => 'sometimes|integer',
             'stops.*.location' => 'required_with:stops|string',
@@ -116,12 +117,12 @@ class FlightRouteController extends Controller
             }
         }
 
-        return response()->json($flightRoute->load('stops'));
+         return redirect()->route('admin.flight-routes.index')->with('success', 'Route Updated successfully');
     }
 
     public function destroy(FlightRoute $flightRoute)
     {
         $flightRoute->delete();
-        return response()->json(null, 204);
+        return redirect()->route('admin.flight-routes.index')->with('success', 'Route deleted successfully');
     }
 }

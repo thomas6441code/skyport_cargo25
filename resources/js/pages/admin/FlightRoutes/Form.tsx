@@ -1,14 +1,14 @@
 import { Link, Head, useForm, usePage } from '@inertiajs/react';
 import { X, Plane, Plus, Minus } from 'lucide-react';
 
- interface RouteStop {
+interface RouteStop {
   id?: number;
   location: string;
   code: string;
   order?: number;
 }
 
- interface FlightRoute {
+interface FlightRoute {
   id?: number;
   origin_city: string;
   origin_code: string;
@@ -16,13 +16,12 @@ import { X, Plane, Plus, Minus } from 'lucide-react';
   destination_code: string;
   duration: string;
   active: boolean;
-  departure_time: string;
-  arrival_time: string;
+  departure_time: string | null;
+  arrival_time: string | null;
   stops: RouteStop[];
   created_at?: string;
   updated_at?: string;
 }
-
 
 interface Props {
   routee?: FlightRoute;
@@ -38,8 +37,8 @@ export default function Form({ routee }: Props) {
     destination_code: routee?.destination_code || '',
     duration: routee?.duration || '',
     active: routee?.active ?? true,
-    departure_time: routee?.departure_time || '',
-    arrival_time: routee?.arrival_time || '',
+    departure_time: routee?.departure_time || null,
+    arrival_time: routee?.arrival_time || null,
     stops: routee?.stops || [],
   });
 
@@ -67,6 +66,10 @@ export default function Form({ routee }: Props) {
     const updatedStops = [...data.stops];
     updatedStops[index] = { ...updatedStops[index], [field]: value };
     setData('stops', updatedStops);
+  };
+
+  const handleTimeChange = (field: 'departure_time' | 'arrival_time', value: string) => {
+    setData(field, value === '' ? null : value);
   };
 
   return (
@@ -186,8 +189,8 @@ export default function Form({ routee }: Props) {
                 </label>
                 <input
                   type="time"
-                  value={data.departure_time}
-                  onChange={(e) => setData('departure_time', e.target.value)}
+                  value={data.departure_time || ''}
+                  onChange={(e) => handleTimeChange('departure_time', e.target.value)}
                   className="w-full rounded-md border-gray-300 shadow-sm py-3 px-2"
                 />
                 {errors.departure_time && (
@@ -201,8 +204,8 @@ export default function Form({ routee }: Props) {
                 </label>
                 <input
                   type="time"
-                  value={data.arrival_time}
-                  onChange={(e) => setData('arrival_time', e.target.value)}
+                  value={data.arrival_time || ''}
+                  onChange={(e) => handleTimeChange('arrival_time', e.target.value)}
                   className="w-full rounded-md border-gray-300 shadow-sm py-3 px-2"
                 />
                 {errors.arrival_time && (
