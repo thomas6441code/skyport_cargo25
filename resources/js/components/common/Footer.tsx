@@ -129,11 +129,11 @@ const Footer = () => {
                 {/* Bottom strip */}
                 <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
                     <p className="text-gray-500 text-sm my-4 md:mb-0">
-                        © {new Date().getFullYear()} SkyPort. All rights reserved.
+                        © {new Date().getFullYear()} SkyPort Cargo. All rights reserved.
                     </p>
                     <div className="flex space-x-6">
-                        <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>
-                        <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Terms of Service</a>
+                        <a href="/policies" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>
+                        <a href="/terms" className="text-gray-500 hover:text-white text-sm transition-colors duration-300">Terms of Service</a>
                     </div>
                 </div>
 

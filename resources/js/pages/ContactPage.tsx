@@ -42,7 +42,7 @@ const ContactPage: React.FC<OfficeProps> = ({ offices, departments, image }) => 
             <div className="bg-white text-gray-800">
 
                 {/* Top Section */}
-                <div className="relative h-[90vh] md:min-h-[600px] max-h-[630px] pb-10 z-30">
+                <div className="relative h-[70vh] md:min-h-[600px] max-h-[630px]  pb-10 z-30">
                     3D World Animation Container
                     <div
                         className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center">
@@ -78,16 +78,11 @@ const ContactPage: React.FC<OfficeProps> = ({ offices, departments, image }) => 
                                         className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
                                         Contact Us
                                     </span>
-                                    <br />
-                                    <span className="text-xl md:text-2xl max-w-xl leading-relaxed">
-                                        Get in touch with our logistics experts for your
-                                        China-Tanzania shipping needs.
-                                    </span>
                                 </h1>
 
                                 <p className="text-lg md:text-xl max-w-xl leading-relaxed">
-                                    From humble beginnings to global logistics leader - delivering excellence since 2010
-                                    Join thousands of businesses who trust us with their supply chain needs.
+	Get in touch with our logistics experts for customized shipping solutions, urgent inquiries, 
+	or partnership opportunities. Reach out today – every request receives a response within 2 business hours.
                                 </p>
 
                             </div>

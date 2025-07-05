@@ -27,7 +27,7 @@ export default function QuotePage({ cargoTypes, image }: cargoTypeProps) {
     return (
         <MainLayout>
             {/* Top Section */}
-            <div className="relative h-[90vh] md:min-h-[600px] max-h-[630px] rounded-b-sm pt-24 py-3">
+            <div className="relative h-[70vh] md:min-h-[600px] max-h-[630px] rounded-b-sm md:pt-24 pt-20 md:py-3">
                 {/* 3D World Animation Container */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden rounded-b-sm flex items-center justify-center">
                     <div className="relative w-full h-full">
@@ -56,11 +56,11 @@ export default function QuotePage({ cargoTypes, image }: cargoTypeProps) {
                                 </span>
                             </h1>
                             <p className="text-lg md:text-xl max-w-xl leading-relaxed">
-                                From humble beginnings to global logistics leader - delivering excellence since 2010
-                                Join thousands of businesses who trust us with their supply chain needs
+				Excellence engineered for your supply chain, redefining logistics standards since 2023
+				Partner with the fastest-growing cargo network between China and Tanzania.
                             </p>
-                            <div className="flex flex-col mt-5 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 max-w-[15rem]">
-                                <Link href='/#' className="bg-blue-600 hover:bg-blue-700 px-4 py-4 rounded-lg font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <div className="flex flex-col mt-5 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-2 max-w-[15rem]">
+                                <Link href='/#' className="bg-blue-600 hover:bg-blue-700 md:px-4 py-4 rounded-lg font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg">
                                     Get Consultation <ArrowRight className="ml-2 h-5 w-5" />
                                 </Link>
                             </div>

@@ -45,6 +45,18 @@ Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 
+Route::get('/policies', function () {
+    return Inertia::render('policy_terms/policy');
+})->name('policies');
+
+Route::get('/terms', function () {
+    return Inertia::render('policy_terms/terms');
+})->name('terms');
+
+Route::get('/more_SkyPort', function () {
+    return Inertia::render('aboutSkyport/moreOfSkyPort');
+})->name('aboutSkyport');
+
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
       return Inertia::render('admin/dashboard', [

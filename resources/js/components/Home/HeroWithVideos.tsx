@@ -24,7 +24,7 @@ export default function SpaceCargoHero() {
     {
       icon: <Plane className="w-6 h-6 md:w-8 md:h-8" />,
       title: "Fastest Transit",
-      desc: "12-15 hour direct flights"
+      desc: "48 hour direct flights"
     },
     {
       icon: <ShieldCheck className="w-6 h-6 md:w-8 md:h-8" />,
@@ -45,7 +45,7 @@ export default function SpaceCargoHero() {
     // Set up feature rotation
     const timer = setInterval(() => {
       setCurrentFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
+    }, 5000);
     
     return () => clearInterval(timer);
   }, [features.length]);
@@ -54,12 +54,18 @@ export default function SpaceCargoHero() {
     <div className="relative md:px-16 md:py-10 py-5 w-full min-h-[80vh] overflow-hidden rounded-xl border border-gray-700 shadow-xl">
       {/* GIF Background - Earth Rotation */}
       <div className="absolute inset-0 z-0 overflow-hidden rounded-xl">
-        <img
-          src="/videos/earth-rotation.gif"
-          alt="Rotating Earth"
-          className="absolute inset-0 w-full h-full object-cover rounded-xl"
-        />
-        <div className="absolute inset-0 bg-black/70 rounded-xl"></div>
+
+	 <video
+	        autoPlay
+	        loop
+	        muted
+	        playsInline
+	        className="absolute inset-0 w-full h-full object-cover rounded-xl"
+	      >
+	        <source src="/videos/earth_hero_bg.webm" type="video/webm" />
+        </video>
+      
+	  <div className="absolute inset-0 bg-black/70 rounded-xl"></div>
       </div>
 
       {/* Content Overlay */}
@@ -97,10 +103,12 @@ export default function SpaceCargoHero() {
               </span>
             </h1>
             
-            <p className="text-base md:text-lg text-white/80 max-w-lg leading-relaxed">
-              Premium air cargo solutions with real-time tracking and customs clearance.
-		Premium air cargo solutions with real-time tracking and customs clearance.
-            </p>
+		<p className="text-base md:text-lg text-white/80 max-w-lg leading-relaxed">
+		  Our premium air cargo solutions provide fast, reliable global shipping with end-to-end visibility. 
+		  Benefit from real-time  tracking, temperature-controlled options for sensitive shipments, 
+		  and expedited customs clearance . We assist customers in paying their suppliers when purchasing goods from China. We also provide local delivery services in Tanzania once the goods arrive  
+		  with transit times as fast as 48 hours for urgent shipments.
+		</p>
             
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link 
@@ -120,57 +128,65 @@ export default function SpaceCargoHero() {
 
           {/* Right Content - Now visible on mobile */}
           <div className="w-full lg:w-1/2 relative lg:pl-6">
-            <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-400/10 backdrop-blur-md rounded-xl border border-white/20 p-4 md:p-6 overflow-hidden min:h-80">
+            <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-400/10 backdrop-blur-md rounded-xl border border-white/20 p-4 overflow-hidden min:h-80">
               <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 flex items-center">
                 <MapPin className="text-blue-300 w-5 h-5 md:w-6 md:h-6 mr-2" />
                 Active Flight Route
               </h2>
               
-           
-<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+           	<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
   {[
     {
+      id: 1,
       origin: { city: "Shanghai", code: "PVG" },
       destination: { city: "Dar es Salaam", code: "DAR" },
-      time: "12h",
+      duration: "48hrs",
       active: true,
-      connections: 0,
+      stops: [],
       departure: "08:00",
       arrival: "20:00"
     },
     {
+      id: 2,
       origin: { city: "Guangzhou", code: "CAN" },
       destination: { city: "Zanzibar", code: "ZNZ" },
-      time: "14h",
+      duration: "52hrs",
       active: true,
-      connections: 1,
+      stops: [
+        { id: 1, location: "Addis Ababa", code: "ADD" }
+      ],
       departure: "10:30",
       arrival: "00:30"
     },
     {
+      id: 3,
       origin: { city: "Beijing", code: "PEK" },
       destination: { city: "Kilimanjaro", code: "JRO" },
-      time: "15h",
+      duration: "60hrs",
       active: false,
-      connections: 0,
+      stops: [],
       departure: "14:00",
       arrival: "05:00"
     },
     {
+      id: 4,
       origin: { city: "Shenzhen", code: "SZX" },
       destination: { city: "Mwanza", code: "MWZ" },
-      time: "16h",
+      duration: "72hrs",
       active: true,
-      connections: 2,
+      stops: [
+        { id: 1, location: "Nairobi", code: "NBO" },
+        { id: 2, location: "Kigali", code: "KGL" }
+      ],
       departure: "16:45",
       arrival: "08:45"
     }
-  ].map((route, i) => (
-    <div 
-      key={i} 
-      className={`p-3 rounded-lg transition-all duration-300 ${
-        route.active 
-          ? 'bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/30' 
+  ].map((route) => (
+    <div
+      key={route.id}
+      className={`p-4 rounded-lg transition-all duration-300 ${
+        route.active
+          ? 'bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/30'
           : 'bg-white/5 hover:bg-white/10 border border-white/10'
       }`}
     >
@@ -184,29 +200,57 @@ export default function SpaceCargoHero() {
               {route.origin.city} ({route.origin.code})
             </span>
           </div>
-          <div className="flex items-center space-x-2 ml-4 mt-1">
-            <Plane className="w-3 h-3 text-blue-300 rotate-90" />
-            <span className="text-xs text-blue-300">
-              {route.departure} → {route.arrival} (+1)
-            </span>
+          
+          {/* Flight path with stops */}
+          <div className="ml-4 mt-2 space-y-1">
+            <div className="flex items-center space-x-2">
+              <Plane className="w-3 h-3 text-blue-300 rotate-90" />
+              <span className="text-xs text-blue-300">
+                Departs: {route.departure}
+              </span>
+            </div>
+            
+            {route.stops.map((stop, index) => (
+              <div key={stop.id} className="flex items-center space-x-2 ml-4">
+                <div className="w-2 h-2 rounded-full bg-amber-400" />
+                <span className="text-xs text-white/80">
+                  Stop {index + 1}: {stop.location} ({stop.code})
+                </span>
+              </div>
+            ))}
+            
+            <div className="flex items-center space-x-2">
+              <Plane className="w-3 h-3 text-blue-300 rotate-90" />
+              <span className="text-xs text-blue-300">
+ Arrives: {route.arrival} (+{Math.floor(parseInt(route.duration)/24)})
+              </span>
+            </div>
           </div>
-          <div className="flex items-center space-x-2 mt-1">
+          
+          <div className="flex items-center space-x-2 mt-2">
             <div className="w-2 h-2 rounded-full bg-blue-400" />
             <span className="font-medium text-white text-sm">
               {route.destination.city} ({route.destination.code})
             </span>
           </div>
         </div>
-        
-        <div className="text-right">
+
+        <div className="text-right space-y-1">
           <div className="text-blue-300 font-medium text-sm">
-            {route.time}
+            {route.duration}
           </div>
-          {route.connections > 0 && (
-            <div className="text-xs text-white/70 mt-1">
-              {route.connections} {route.connections === 1 ? 'stop' : 'stops'}
-            </div>
-          )}
+          <div className="text-xs text-white/70">
+            {route.stops.length > 0 ? (
+              <>
+                {route.stops.length} {route.stops.length === 1 ? 'stop' : 'stops'}
+                <div className="mt-1 text-white/60 text-[11px]">
+                  via {route.stops.map(s => s.location).join(', ')}
+                </div>
+              </>
+            ) : (
+              'Non-stop'
+            )}
+          </div>
           {!route.active && (
             <div className="text-xs text-amber-400 mt-1">
               Coming soon
@@ -214,24 +258,27 @@ export default function SpaceCargoHero() {
           )}
         </div>
       </div>
-      
+
       {route.active && (
-        <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center">
+        <div className="mt-3 pt-3 border-t border-white/10 flex justify-between items-center">
           <span className="text-xs text-white/70">
-            Daily flights
+            {route.stops.length > 0 ? (
+`Total transit: ${Math.floor(parseInt(route.duration)/24) - 1} days`
+            ) : (
+              'Direct flight'
+            )}
           </span>
-          <Link 
-            href="#" 
+          <Link
+            href="/quotes"
             className="text-xs text-blue-300 hover:text-blue-200 transition-colors"
           >
-            Track shipment →
+            Get Quote →
           </Link>
         </div>
       )}
     </div>
   ))}
 </div>
-   
               {/* Rotating Features */}
               <div className="mt-4 pt-4 border-t border-white/10">
                 <div className="relative h-20 md:h-24">
@@ -262,7 +309,7 @@ export default function SpaceCargoHero() {
           <div className="bg-white/5 backdrop-blur-md rounded-lg p-3 grid grid-cols-2 md:grid-cols-4 gap-3 border border-white/10">
             {[
               { icon: <CalendarCheck className="w-5 h-5" />, value: "24/7", label: "Operations" },
-              { icon: <Clock className="w-5 h-5" />, value: "12h", label: "Fastest" },
+              { icon: <Clock className="w-5 h-5" />, value: "48h", label: "Fastest" },
               { icon: <ShieldCheck className="w-5 h-5" />, value: "100%", label: "Secure" },
               { icon: <Plane className="w-5 h-5" />, value: "12", label: "Flights" }
             ].map((stat, index) => (

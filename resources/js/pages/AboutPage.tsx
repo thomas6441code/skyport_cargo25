@@ -161,8 +161,9 @@ export default function AboutUs({ companydata, services, stats, teamMembers, ima
                                     </h1>
 
                                     <p className="text-lg md:text-xl max-w-xl leading-relaxed">
-                                        From humble beginnings to global logistics leader - delivering excellence since 2010
-                                        Join thousands of businesses who trust us with their supply chain needs
+					We don’t just move cargo – we engineer supply chain solutions that give businesses a competitive edge. 
+					Our blend of cutting-edge technology and hands-on expertise ensures your shipments arrive faster, safer,
+					 and more cost-effectively.
                                     </p>
                                     <div className="flex flex-col mt-5 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 max-w-[15rem]">
                                         <Link href='/' className="bg-blue-600 hover:bg-blue-700 px-4 py-4 rounded-lg font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg">
