@@ -37,16 +37,6 @@ const mainNavItems: NavItem[] = [
         icon: MessageCircleIcon,
     },
     {
-        title: 'Faqs',
-        href: '/admin/faqs',
-        icon: ShieldQuestion,
-    },
-    {
-        title: 'Stats',
-        href: '/admin/stats',
-        icon: Atom,
-    },
-    {
         title: 'Team-Members',
         href: '/admin/teams',
         icon: Users2Icon,
@@ -61,6 +51,7 @@ const mainNavItems: NavItem[] = [
         href: '/admin/slides',
         icon: GalleryThumbnails,
     },
+
     {
         title: 'Departments',
         href: '/admin/departments',

@@ -7,6 +7,7 @@ use App\Models\Faq;
 use App\Models\Stat;
 use App\Models\Slider;
 use App\Models\Service;
+use App\Models\FlightRoute;
 use App\Models\Testimonial;
 use App\Models\CompanyMissionVision;
 use Inertia\Inertia;
@@ -21,9 +22,11 @@ class HomeController extends Controller
         $services = Service::all();
         $companydata = CompanyMissionVision::all()->first();
         $testimonials = Testimonial::take(5)->get();
+	$routes = FlightRoute::with('stops')->get();
 
         return Inertia::render('HomePage', [
             'faqs'=> $faqs,
+            'routes'=>$routes,
             'stats'=> $stats,
             'slides'=> $slides,
 	    'companydata'=> $companydata,

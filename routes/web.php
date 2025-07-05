@@ -25,6 +25,7 @@ use App\Http\Controllers\{
     TrackingController,
     MessageController,
     MemberController,
+FlightRouteController,
     CargoTypeController,
     CompanyValueController,
     OfficeController
@@ -74,6 +75,18 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         ]);
 
     })->name('admin.dashboard');
+
+
+    Route::resource('flight-routes', FlightRouteController::class)
+            ->except(['show'])
+            ->names([
+                'index' => 'admin.flight-routes.index',
+                'create' => 'admin.flight-routes.create',
+                'store' => 'admin.flight-routes.store',
+                'edit' => 'admin.flight-routes.edit',
+                'update' => 'admin.flight-routes.update',
+                'destroy' => 'admin.flight-routes.destroy',
+            ]);
 
     Route::get('/cargotypes',[CargoTypeController::class, 'index'])->name('admin.cargotypes.index');
     Route::get('/cargotypes/create',[CargoTypeController::class, 'create'])->name('admin.cargotypes.create');

@@ -55,16 +55,39 @@ interface CompanyData {
     core_values: string[];
 }
 
+interface RouteStop {
+  id?: number;
+  location: string;
+  code: string;
+  order?: number;
+}
+
+interface FlightRoute {
+  id?: number;
+  origin_city: string;
+  origin_code: string;
+  destination_city: string;
+  destination_code: string;
+  duration: string;
+  active: boolean;
+  departure_time: string;
+  arrival_time: string;
+  stops: RouteStop[];
+  created_at?: string;
+  updated_at?: string;
+}
+
 interface Props {
     faqs: Faqs[];
     stats: Stats[];
     companydata: CompanyData; 
     slides: Slide[];
+    routes: FlightRoute[]; 
     services: Service[];
     testimonials: Testimonial[];
 }
 
-export default function HomePage({ companydata, testimonials, slides, faqs, stats, services }: Props) {
+export default function HomePage({ companydata, routes, testimonials, slides, faqs, stats, services }: Props) {
 
     return (
         <MainLayout>
@@ -140,7 +163,7 @@ export default function HomePage({ companydata, testimonials, slides, faqs, stat
 
             {/* <Pricing /> */}
 
-            <HeroWithVideos />
+            <HeroWithVideos routes={routes} />
 
             <ServiceCards services={services} />
 
