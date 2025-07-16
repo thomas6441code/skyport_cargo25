@@ -96,7 +96,7 @@ const footerNavItems: NavItem[] = [
     },
     {
         title: 'Repository',
-        href: 'https://github.com/thomas6441code/SkyPort_Repoo',
+        href: 'https://github.com/thomas6441code/skyport_cargo25',
         icon: Folder,
     },
 ];

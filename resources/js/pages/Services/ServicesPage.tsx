@@ -222,7 +222,7 @@ const ServicesIndex = ({ services, stats, image }: Props) => {
                 </section>
 
                 {/* CTA Section */}
-                <section className="py-16 bg-sky-700 text-white">
+                <section className="py-16 bg-skyblue text-white">
                     <div className="container mx-auto px-4 text-center">
                         <h2 className="text-3xl font-bold mb-6">Ready to Ship With Us?</h2>
                         <p className="text-sky-100 max-w-2xl mx-auto mb-8">

@@ -254,15 +254,7 @@ const MessageTable: React.FC = () => {
                                 <table className="max-w-full min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th
-                                                className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                                                onClick={() => requestSort('is_read')}
-                                            >
-                                                <div className="flex items-center">
-                                                    Status
-                                                    {getSortIcon('is_read')}
-                                                </div>
-                                            </th>
+                                            
                                             <th
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                                                 onClick={() => requestSort('name')}
@@ -293,9 +285,6 @@ const MessageTable: React.FC = () => {
                                                     {getSortIcon('subject')}
                                                 </div>
                                             </th>
-                                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Message
-                                            </th>
                                             <th
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                                                 onClick={() => requestSort('created_at')}
@@ -316,14 +305,7 @@ const MessageTable: React.FC = () => {
                                                 <tr
                                                     key={message.id}
                                                     className={message.is_read ? 'bg-white' : 'bg-blue-50'}
-                                                >
-                                                    <td className="px-3 py-4 whitespace-nowrap">
-                                                        {message.is_read ? (
-                                                            <MailOpenIcon className="text-gray-400" />
-                                                        ) : (
-                                                            <MailIcon className="text-blue-500" />
-                                                        )}
-                                                    </td>
+                                                >                                                 
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                         <div className="text-sm font-medium text-gray-900">{message.name}</div>
                                                         <div className="text-sm text-gray-500">{message.email}</div>
@@ -337,43 +319,29 @@ const MessageTable: React.FC = () => {
                                                     <td className="px-6 py-4 whitespace-normal text-sm text-gray-500 max-w-[90px]">
                                                         {message.subject}
                                                     </td>
-                                                    <td className="px-3 py-4 whitespace-normal text-sm text-gray-500 max-w-[150px]">
-                                                        <div className="truncate max-w-xs">{message.message}</div>
-                                                    </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {new Date(message.created_at).toLocaleDateString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <div className="flex space-x-2">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">                                                 
+							 <div className="flex space-x-2">
                                                             {message.is_read ? (
-                                                                <button
-                                                                    onClick={() => markAsUnread(message.id)}
-                                                                    className="text-yellow-600 hover:text-yellow-900"
-                                                                    title="Mark as unread"
-                                                                >
-                                                                    <EyeOffIcon />
-                                                                </button>
+                                                               <MailOpenIcon className="text-gray-400 h-4 w-4" />
                                                             ) : (
-                                                                <button
-                                                                    onClick={() => markAsRead(message.id)}
-                                                                    className="text-green-600 hover:text-green-900"
-                                                                    title="Mark as read"
-                                                                >
-                                                                    <Eye />
-                                                                </button>
+                                                               <MailIcon className="text-blue-500 h-4 w-4" />
                                                             )}
+	                                                   
                                                             <button
                                                                 onClick={() => setSelectedMessage(message)}
                                                                 className="text-indigo-600 hover:text-indigo-900 mr-4"
                                                             >
-                                                                <BookOpenCheck className="h-5 w-5" />
+                                                                <BookOpenCheck className="h-4 w-4" />
                                                             </button>
                                                             <button
                                                                 onClick={() => deleteMessage(message.id)}
                                                                 className="text-red-600 hover:text-red-900"
                                                                 title="Delete"
                                                             >
-                                                                <Trash2Icon />
+                                                                <Trash2Icon className="h-4 w-4" />
                                                             </button>
                                                         </div>
                                                     </td>
@@ -445,70 +413,82 @@ const MessageTable: React.FC = () => {
                 )}
 
                 {/* Email Modal */}
-                {selectedMessage && (
-                    <div className="fixed inset-0 backdrop-blur-xs text-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="p-6">
-                                <h2 className="text-xl font-bold mb-4">Send Email to {selectedMessage.name}</h2>
+		{selectedMessage && (
+		    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+		        <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+		            {/* Header */}
+		            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
+		                <div className="flex justify-between items-center">
+		                    <h2 className="text-2xl font-bold">Reply to {selectedMessage.name}</h2>
+		                    <button 
+		                        onClick={() => setSelectedMessage(null)}
+		                        className="text-white/80 hover:text-white transition-colors"
+		                    >
+		                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+		                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+		                        </svg>
+		                    </button>
+		                </div>
+		                <p className="text-blue-100 mt-1">You're responding to a message from {selectedMessage.department} department</p>
+		            </div>
 
-                                <div className="mb-6">
-                                    <h3 className="text-lg font-medium mb-2">Message Details</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <div>
-                                            <p className="text-sm text-gray-500">Name</p>
-                                            <p className="font-medium">{selectedMessage.name}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-gray-500">Email</p>
-                                            <p className="font-medium">{selectedMessage.email}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-gray-500">Department</p>
-                                            <p className="font-medium">{selectedMessage.department}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-gray-500">Subject</p>
-                                            <p className="font-medium">{selectedMessage.subject} kg</p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-500">Messae</p>
-                                        <p className="font-medium">{selectedMessage.message} kg</p>
-                                    </div>
-                                </div>
+		            {/* Message Details */}
+		            <div className="p-6 space-y-6">
+		                <div className="bg-gray-50 rounded-lg p-5 border border-gray-200">
+		                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+		                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+		                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clipRule="evenodd" />
+		                        </svg>
+		                        Message Details
+		                    </h3>
+		                    
+		                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+		                        <div className="space-y-1">
+		                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Name</p>
+		                            <p className="font-medium text-gray-900">{selectedMessage.name}</p>
+		                        </div>
+		                        <div className="space-y-1">
+		                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Email</p>
+		                            <p className="font-medium text-blue-600 hover:underline cursor-pointer">{selectedMessage.email}</p>
+		                        </div>
+		                        <div className="space-y-1">
+		                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Department</p>
+		                            <p className="font-medium text-gray-900">
+		                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+		                                    {selectedMessage.department}
+		                                </span>
+		                            </p>
+		                        </div>
+		                        <div className="space-y-1">
+		                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</p>
+		                            <p className="font-medium text-gray-900">{selectedMessage.subject}</p>
+		                        </div>
+		                    </div>
+		                    
+		                    <div className="space-y-1">
+		                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Message</p>
+		                        <div className="text-gray-700">
+		                            {selectedMessage.message}
+		                        </div>
+		                    </div>
+		           
+				</div>
+			    </div>
 
-                                <div className="flex justify-end space-x-3">
-                                    <button
-                                        onClick={() => {
-                                            setSelectedMessage(null);
-                                        }}
-                                        className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                                    >
-                                        Cancel
-                                    </button>
-                                    {selectedMessage.is_read ? (
-                                        <button
-                                            onClick={() => markAsUnread(selectedMessage.id)}
-                                            className="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-yellow-300 hover:bg-yellow-200"
-                                            title="Mark as unread"
-                                        >
-                                            <EyeOffIcon />
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={() => markAsRead(selectedMessage.id)}
-                                            className="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-green-300 hover:bg-green-200"
-                                            title="Mark as read"
-                                        >
-                                            <Eye />
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
+		            {/* Footer Actions */}
+		            <div className="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+		                <div className="flex space-x-3">
+		                    <button
+		                        onClick={() => setSelectedMessage(null)}
+		                        className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+		                    >
+		                        Cancel
+		                    </button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		)}
             </div>
         </AppLayout>
     );

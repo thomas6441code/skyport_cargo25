@@ -85,9 +85,12 @@ const SlidesAdmin = ({ slides }: { slides: Slide[] }) => {
                     });
                     return;
                 }
-                throw new Error(data.message || 'Failed to submit slide');
-            }
 
+            }
+		
+	    
+            slides = data.slides;          
+  
             resetForm();
             setSubmissionState({
                 loading: false,
@@ -155,10 +158,12 @@ const SlidesAdmin = ({ slides }: { slides: Slide[] }) => {
                     });
                     return;
                 }
-                throw new Error(data.message || 'Failed to delete slide');
-            }
 
-            setSubmissionState({
+            }
+	    
+            slides = data.slides;
+            
+	    setSubmissionState({
                 loading: false,
                 success: true,
                 error: null,

@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class SliderController extends Controller
 {
-  
+
     public function index()
     {
         $slides = Slider::all();
