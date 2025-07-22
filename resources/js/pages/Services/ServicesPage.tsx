@@ -125,101 +125,123 @@ const ServicesIndex = ({ services, stats, image }: Props) => {
                     </div>
                 </section>
 
-                {/*  */}
-                <section className="py-16 px-2 bg-gray-50">
-                    <div className="text-center mb-5">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-3">Our Logistics</h2>
-                        <div className="w-16 h-1 bg-sky-500 mx-auto mb-4"></div>
-                    </div>
-                    <div className="container mx-auto px-4">
-                        <div className="md:space-y-32 space-y-16 py-12">
-                            {services.map((service, index) => (
-                                <motion.div
-                                    key={service.id}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} md:gap-12 gap-2 items-center`}
-                                >
-                                    {/* Image Section with Hover Effect */}
-                                    <div className="w-full md:w-1/2 h-[28rem] overflow-hidden rounded-2xl shadow-xl group relative">
-                                        <img
-                                            src={service.image}
-                                            alt={service.title}
-                                            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                                            loading="lazy"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    </div>
+		{/* Services Showcase Section */}
+		<section className="py-20 px-4 md:px-16 bg-gradient-to-b from-gray-50 to-white">
+		    <div className="max-w-7xl mx-auto">
+		        {/* Section Header */}
+		        <div className="text-center mb-16">
+		            <span className="inline-block px-3 py-1 text-sm font-semibold text-sky-600 bg-sky-100 rounded-full mb-4">
+		                Our Premium Services
+		            </span>
+		            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+		                Seamless <span className="text-sky-600">Logistics</span> Solutions
+		            </h2>
+		            <div className="w-20 h-1.5 bg-gradient-to-r from-sky-400 to-blue-600 mx-auto mb-6 rounded-full"></div>
+		            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+		                Tailored transportation services designed to meet your unique business requirements
+		            </p>
+		        </div>
 
-                                    {/* Content Section */}
-                                    <div className="w-full md:w-1/2 space-y-6">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`h-1 w-12 ${index % 2 === 0 ? 'bg-blue-600' : 'bg-emerald-500'}`} />
-                                            <span className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-                                                Service {index + 1}
-                                            </span>
-                                        </div>
+		        {/* Services Grid */}
+		        <div className="space-y-28">
+		            {services.map((service, index) => (
+		                <motion.div
+		                    key={service.id}
+		                    initial={{ opacity: 0, y: 50 }}
+		                    whileInView={{ opacity: 1, y: 0 }}
+		                    transition={{ duration: 0.6, delay: index * 0.15 }}
+		                    viewport={{ once: true, margin: "-100px" }}
+		                    className={`relative flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-16 items-center`}
+		                >
+		                    {/* Decorative Element */}
+		                    <div className={`absolute hidden md:block -z-10 w-32 h-32 rounded-full opacity-10 ${index % 2 === 0 ? 'bg-blue-500 -left-16 -bottom-16' : 'bg-emerald-500 -right-16 -top-16'}`}></div>
 
-                                        <h3 className="text-4xl font-bold text-gray-900">
-                                            {service.title}
-                                        </h3>
+		                    {/* Image Section */}
+		                    <div className="w-full md:w-1/2 h-80 md:h-[32rem] relative group">
+		                        <div className="absolute inset-0 bg-gradient-to-br from-sky-100 to-blue-50 rounded-2xl shadow-lg transform rotate-1 -z-10"></div>
+		                        <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-xl">
+		                            <img
+		                                src={service.image}
+		                                alt={service.title}
+		                                className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105"
+		                                loading="lazy"
+		                            />
+		                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+		                            <div className="absolute bottom-0 left-0 p-6 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+		                                <span className="inline-block px-3 py-1 text-xs font-medium text-white bg-black/30 backdrop-blur-sm rounded-full border border-white/20">
+		                                    {service.features.length}+ Features
+		                                </span>
+		                            </div>
+		                        </div>
+		                    </div>
 
-                                        <p className="text-xl text-gray-600 leading-relaxed">
-                                            {service.description}
-                                        </p>
+		                    {/* Content Section */}
+		                    <div className="w-full md:w-1/2 space-y-6">
+		                        <div className="flex items-center gap-3">
+		                            <div className={`h-1.5 w-8 rounded-full ${index % 2 === 0 ? 'bg-gradient-to-r from-sky-400 to-blue-600' : 'bg-gradient-to-r from-emerald-400 to-teal-600'}`} />
+		                            <span className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+		                                Service 0{index + 1}
+		                            </span>
+		                        </div>
 
-                                        <ul className="space-y-3 mt-8">
-                                            {service.features.map((feature, i) => (
-                                                <motion.li
-                                                    key={i}
-                                                    initial={{ opacity: 0, x: -20 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    transition={{ delay: 0.2 + (i * 0.1) }}
-                                                    className="flex items-start"
-                                                >
-                                                    <div className={`flex-shrink-0 p-1 rounded-full ${index % 2 === 0 ? 'bg-blue-100' : 'bg-emerald-100'}`}>
-                                                        <svg
-                                                            className={`h-5 w-5 ${index % 2 === 0 ? 'text-blue-600' : 'text-emerald-500'}`}
-                                                            fill="currentColor"
-                                                            viewBox="0 0 20 20"
-                                                        >
-                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                    <span className="ml-3 text-lg text-gray-700">{feature}</span>
-                                                </motion.li>
-                                            ))}
-                                        </ul>
+		                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900">
+		                            {service.title}
+		                        </h3>
 
-                                        {service.slug && (
-                                            <motion.div
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                transition={{ delay: 0.5 }}
-                                                className="mt-10"
-                                            >
-                                                <a
-                                                    href={`/services/${service.slug}`}
-                                                    className={`inline-flex items-center px-8 py-3.5 text-base font-medium rounded-lg shadow-sm transition-all duration-300 ${index % 2 === 0
-                                                        ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md'
-                                                        : 'bg-white text-gray-900 border-2 border-gray-200 hover:border-emerald-500 hover:text-emerald-600'
-                                                        }`}
-                                                >
-                                                    Learn more
-                                                    <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                    </svg>
-                                                </a>
-                                            </motion.div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+		                        <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+		                            {service.description}
+		                        </p>
+
+		                        <ul className="space-y-4 mt-8">
+		                            {service.features.map((feature, i) => (
+		                                <motion.li
+		                                    key={i}
+		                                    initial={{ opacity: 0, x: -20 }}
+		                                    animate={{ opacity: 1, x: 0 }}
+		                                    transition={{ delay: 0.2 + (i * 0.1) }}
+		                                    className="flex items-start group"
+		                                >
+		                                    <div className={`flex-shrink-0 mt-1 p-1.5 rounded-lg ${index % 2 === 0 ? 'bg-blue-100/80 group-hover:bg-blue-200' : 'bg-emerald-100/80 group-hover:bg-emerald-200'} transition-colors duration-300`}>
+		                                        <svg
+		                                            className={`h-5 w-5 ${index % 2 === 0 ? 'text-blue-600' : 'text-emerald-600'}`}
+		                                            fill="currentColor"
+		                                            viewBox="0 0 20 20"
+		                                        >
+		                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+		                                        </svg>
+		                                    </div>
+		                                    <span className="ml-4 text-lg text-gray-700 group-hover:text-gray-900 transition-colors duration-300">{feature}</span>
+		                                </motion.li>
+		                            ))}
+		                        </ul>
+
+		                        {service.slug && (
+		                            <motion.div
+		                                initial={{ opacity: 0 }}
+		                                animate={{ opacity: 1 }}
+		                                transition={{ delay: 0.5 }}
+		                                className="mt-10"
+		                            >
+		                                <a
+		                                    href={`/services/${service.slug}`}
+		                                    className={`inline-flex items-center px-8 py-4 text-lg font-semibold rounded-xl shadow-sm transition-all duration-300 ${index % 2 === 0
+		                                        ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 hover:shadow-lg'
+		                                        : 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700 hover:shadow-lg'
+		                                        } group`}
+		                                >
+		                                    Discover More
+		                                    <svg className="ml-3 -mr-1 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
+		                                        <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+		                                    </svg>
+		                                </a>
+		                            </motion.div>
+		                        )}
+		                    </div>
+		                </motion.div>
+		            ))}
+		        </div>
+		    </div>
+		</section>
 
                 {/* CTA Section */}
                 <section className="py-16 bg-skyblue text-white">
