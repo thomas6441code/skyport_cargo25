@@ -49,6 +49,7 @@ class ServicesLogiController extends Controller
                 'faqs' => $faqs,
                 'testimonials' => $testimonials
             ],
+	    'servicess' => Service::all(),
             'featureIcons' => [
                 '24-48hr delivery' => 'Clock',
                 'Customs clearance' => 'Shield',

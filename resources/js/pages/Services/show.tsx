@@ -53,10 +53,11 @@ interface Service {
 
 interface ServiceShowProps {
     services: Service;
+    servicess: Service[];
     featureIcons: Record<string, keyof typeof iconComponents>;
 }
 
-export default function ServiceShow({ services, featureIcons }: ServiceShowProps) {
+export default function ServiceShow({ services, servicess, featureIcons }: ServiceShowProps) {
 
     return (
 
@@ -218,16 +219,11 @@ export default function ServiceShow({ services, featureIcons }: ServiceShowProps
                                 <div className="bg-gray-50 rounded-lg">
                                     <h3 className="text-lg font-medium text-gray-900 my-4">Related Services</h3>
                                     <ul className="space-y-2">
-                                        {[
-                                            { title: "Air Freight", link: "/services/air-freight" },
-                                            { title: "Export Services", link: "/services/export-services" },
-                                            { title: "Customs Clearance", link: "/services/customs-clearance" },
-                                            { title: "Out Sourcing", link: "/services/outsourcing" }
-                                        ].map((related, i) => (
-                                            (related.title !== services.service.title) &&
+                                        {servicess.map((related, i) => (
+                                            (related.id !== services.service.id) &&
                                             <li key={i}>
                                                 <Link
-                                                    href={related.link}
+                                                    href={`/services/${related.slug}`}
                                                     className="flex items-center text-blue-600 hover:text-blue-800 hover:underline"
                                                 >
                                                     <ArrowRight className="h-4 w-4 mr-2" />
