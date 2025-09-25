@@ -1,41 +1,16 @@
 <?php
 
-use App\Models\Faq;
-use Inertia\Inertia;
-use App\Models\Quote;
-use App\Models\Slider;
-use App\Models\Service;
-use App\Models\Message;
-use App\Models\VisionValue;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\{
-    HomeController,
-    ServicesLogiController,
-    ServiceLastController,
-    QuoteController,
-    ContactController,
-    AboutController
-};
-use App\Http\Controllers\{
-    FaqController,
-    StatController,
-    SliderController,
-    DepartmentController,
-    TestimonialController,
-    TrackingController,
-    MessageController,
-    MemberController,
-FlightRouteController,
-    CargoTypeController,
-    CompanyValueController,
-    OfficeController
-};
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\QuoteController;
+use App\Http\Controllers\Web\AboutController;
+use App\Http\Controllers\Web\ContactController;
+use App\Http\Controllers\Web\TrackingController;
+use App\Http\Controllers\Web\ServicesLogiController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about-us', [AboutController::class, 'index'])->name('about');
-
-Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
 
 Route::get('/services', [ServicesLogiController::class, 'index']);
 Route::get('/services/{service:slug}', [ServicesLogiController::class, 'show']);
@@ -43,154 +18,13 @@ Route::get('/services/{service:slug}', [ServicesLogiController::class, 'show']);
 Route::get('/quotes', [QuoteController::class, 'create'])->name('quote.create');
 Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
 
+Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
-
-Route::get('/policies', function () {
-    return Inertia::render('policy_terms/policy');
-})->name('policies');
-
-Route::get('/terms', function () {
-    return Inertia::render('policy_terms/terms');
-})->name('terms');
-
-Route::get('/more_SkyPort', function () {
-    return Inertia::render('aboutSkyport/moreOfSkyPort');
-})->name('aboutSkyport');
-
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-      return Inertia::render('admin/dashboard', [
-            'stats' => [
-            'totalMessages' => Message::count(),
-            'unreadMessages' => Message::where('is_read', false)->count(),
-            'unreadQuotes' => Quote::where('is_answered', false)->count(),
-            'totalQuotes' => Quote::count(),
-            'repliedQuotes' => Quote::where('is_answered', true)->count(),
-        ],
-        'quotesOverTime' => Quote::selectRaw("DATE(created_at) as date, COUNT(*) as count")
-        ->groupBy('date')->orderBy('date')->get(),
-        'messagesByDepartment' => Message::select('department', \DB::raw('COUNT(*) as count'))
-        ->groupBy('department')->get(),
-        ]);
-
-    })->name('admin.dashboard');
-
-
-    Route::resource('flight-routes', FlightRouteController::class)
-            ->except(['show'])
-            ->names([
-                'index' => 'admin.flight-routes.index',
-                'create' => 'admin.flight-routes.create',
-                'store' => 'admin.flight-routes.store',
-                'edit' => 'admin.flight-routes.edit',
-                'update' => 'admin.flight-routes.update',
-                'destroy' => 'admin.flight-routes.destroy',
-            ]);
-
-    Route::get('/cargotypes',[CargoTypeController::class, 'index'])->name('admin.cargotypes.index');
-    Route::get('/cargotypes/create',[CargoTypeController::class, 'create'])->name('admin.cargotypes.create');
-    Route::post('/cargotypes',[CargoTypeController::class, 'store'])->name('admin.cargotypes.store');
-    Route::get('/cargotypes/edit/{cargoType}',[CargoTypeController::class, 'edit'])->name('admin.cargotypes.edit');
-    Route::put('/cargotypes/{cargoType}',[CargoTypeController::class, 'update'])->name('admin.cargotypes.update');
-    Route::delete('/cargotypes/{cargoType}',[CargoTypeController::class, 'destroy'])->name('admin.cargotypes.destroy');
-
-    Route::get('company/mission-vision', [CompanyValueController::class, 'index'])->name('admin.company.mission');
-    Route::post('company/mission-vision', [CompanyValueController::class, 'store'])->name('admin.company.mission-vision');
-    Route::delete('company/mission-vision/core-values/{index}', [CompanyValueController::class, 'deleteCoreValue'])->name('admin.company.mission-vision.core-values.delete');
-    Route::post('company/mission-vision/core-values', [CompanyValueController::class, 'addCoreValue'])->name('admin.company.mission-vision.core-values.add');
-
-
-    Route::get('/slides',[SliderController::class, 'index'])->name('admin.slides.slidesAdmin');
-    Route::get('/slides/create',[SliderController::class, 'create'])->name('admin.slides.create');
-    Route::post('/slides',[SliderController::class, 'store'])->name('admin.slides.store');
-    Route::get('/slides/edit/{slide}',[SliderController::class, 'edit'])->name('admin.slides.edit');
-    Route::put('/slides/{slide}',[SliderController::class, 'update'])->name('admin.slides.update');
-    Route::delete('/slides/{slide}',[SliderController::class, 'destroy'])->name('admin.slides.destroy');
-
-    Route::get('/offices',[OfficeController::class, 'index'])->name('admin.offices.Index');
-    Route::get('/offices/create',[OfficeController::class, 'create'])->name('admin.offices.create');
-    Route::post('/offices',[OfficeController::class, 'store'])->name('admin.offices.store');
-    Route::get('/offices/edit/{office}',[OfficeController::class, 'edit'])->name('admin.offices.edit');
-    Route::put('/offices/{office}',[OfficeController::class, 'update'])->name('admin.offices.update');
-    Route::delete('/offices/{office}',[OfficeController::class, 'destroy'])->name('admin.offices.destroy');
-
-    Route::get('/departments',[DepartmentController::class, 'index'])->name('admin.departments.Index');
-    Route::get('/departments/create',[DepartmentController::class, 'create'])->name('admin.departments.create');
-    Route::post('/departments',[DepartmentController::class, 'store'])->name('admin.departments.store');
-    Route::get('/departments/edit/{department}',[DepartmentController::class, 'edit'])->name('admin.departments.edit');
-    Route::put('/departments/{department}',[DepartmentController::class, 'update'])->name('admin.departments.update');
-    Route::delete('/departments/{department}',[DepartmentController::class, 'destroy'])->name('admin.departments.destroy');
-
-    Route::get('/stats',[StatController::class, 'index'])->name('admin.stats.StatsAdmin');
-    Route::get('/stats/create',[StatController::class, 'create'])->name('admin.stats.create');
-    Route::post('/stats',[StatController::class, 'store'])->name('admin.stats.store');
-    Route::get('/stats/edit/{stat}',[StatController::class, 'edit'])->name('admin.stats.edit');
-    Route::put('/stats/{stat}',[StatController::class, 'update'])->name('admin.stats.update');
-    Route::delete('/stats/{stat}',[StatController::class, 'destroy'])->name('admin.stats.destroy');
-
-    Route::get('/faqs',[FaqController::class, 'index'])->name('admin.faqs.FaqsAdmin');
-    Route::get('/faqs/create',[FaqController::class, 'create'])->name('admin.faqs.create');
-    Route::post('/faqs',[FaqController::class, 'store'])->name('admin.faqs.store');
-    Route::get('/faqs/edit/{faq}',[FaqController::class, 'edit'])->name('admin.faqs.edit');
-    Route::put('/faqs/{faq}',[FaqController::class, 'update'])->name('admin.faqs.update');
-    Route::delete('/faqs/{faq}',[FaqController::class, 'destroy'])->name('admin.faqs.destroy');
-
-    /* Member protected api Routes /api/ */
-    Route::get('/teams',[MemberController::class, 'index'])->name('admin.teams.teamsAdmin');
-    Route::get('/team',[MemberController::class, 'indexteams']);
-    Route::post('/teams',[MemberController::class, 'store']);
-    Route::put('/teams/{member}',[MemberController::class, 'update']);
-    Route::delete('/teams/{member}',[MemberController::class, 'destroy']);
-
-
-    /* Testimonials protected api Routes /api/ */
-    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('admin.testimonials.index');
-    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('admin.testimonials.create');
-    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('admin.testimonials.store');
-    Route::get('/testimonials/edit/{testimonial}', [TestimonialController::class, 'edit'])->name('admin.testimonials.edit');
-    Route::put('/testimonials/{testimonial}', [TestimonialController::class, 'update'])->name('admin.testimonials.update');
-    Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('admin.testimonials.destroy');
-
-    /* Quotes api protected routes */
-    Route::get('/quote',[QuoteController::class, 'indexquotes']);
-    Route::get('/quotes',[QuoteController::class, 'adminindex'])->name('admin.quotes.quotesAdmin');
-    Route::get('/quotes/emailsQuotes/{quote}',[QuoteController::class, 'Emailindex'])->name('admin.quotes.EmailQuotes');
-    Route::post('/send-email', [QuoteController::class, 'sendEmail'])->name('admin.quotes.send-email');
-    Route::put('/quotes/mark-answered/{quote}', [QuoteController::class, 'markAsAnswered'])->name('admin.quotes.mark-answered');
-
-
-    /* Messages api protected routes */
-    Route::get('/messages',[MessageController::class, 'adminindex'])->name('admin.messages.messagesAdmin');
-    Route::get('/message', [MessageController::class, 'indexmessages']);
-    Route::put('/messages/read/{message}', [MessageController::class, 'markAsRead']);
-    Route::put('/messages/unread/{message}', [MessageController::class, 'markAsUnread']);
-    Route::delete('/messages/{message}', [MessageController::class, 'destroy']);
-
-    Route::get('/services', [ServicesLogiController::class, 'Adminindex'])->name('admin.services.index');
-    Route::get('/services/create', [ServicesLogiController::class, 'create'])->name('admin.services.create');
-    Route::post('/services', [ServicesLogiController::class, 'store'])->name('admin.services.store');
-    Route::get('/services/edit/{service}', [ServicesLogiController::class, 'edit'])->name('admin.services.edit');
-    Route::put('/services/{service}', [ServicesLogiController::class, 'update'])->name('admin.services.update');
-    Route::delete('/services/{service}', [ServicesLogiController::class, 'destroy'])->name('admin.services.destroy');
-
-});
-
-
-Route::prefix('api')->group(function () {
-
-    Route::get('/slides',[SliderController::class, 'indexslides']);
-
-    Route::get('/testimonials',[TestimonialController::class, 'indextestimonials']);
-
-    Route::get('/faqs',[FaqController::class, 'indexfaqs']);
-
-    Route::post('/messages', [ContactController::class, 'store'])->name('message.store');
-
-});
-
-
-
+require __DIR__.'/static.php';
+require __DIR__.'/admin.php';
+require __DIR__.'/api.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
