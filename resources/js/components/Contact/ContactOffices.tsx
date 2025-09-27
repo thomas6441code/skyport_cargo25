@@ -31,22 +31,22 @@ const ContactOffices: React.FC<ContactOfficeProps> = ({ offices = [] }) => {
 
                         <div className="space-y-4">
                             <div className="flex items-start">
-                                <MapPin className="h-5 w-5 text-gray-500 mr-3 mt-0.5 flex-shrink-0" />
+                                <MapPin className="h-5 w-5 text-gray-700 mr-3 mt-0.5 flex-shrink-0" />
                                 <p>{office.address}</p>
                             </div>
 
                             <div className="flex items-center">
-                                <Phone className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0" />
-                                <a href={`tel:${office.phone}`} className="hover:text-primary">{office.phone}</a>
+                                <Phone className="h-5 w-5 text-gray-700 mr-3 flex-shrink-0" />
+                                <a href={`tel:${office.phone}`} className="hover:text-gray-600">{office.phone}</a>
                             </div>
 
                             <div className="flex items-center">
-                                <Mail className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0" />
-                                <a href={`mailto:${office.email}`} className="hover:text-primary">{office.email}</a>
+                                <Mail className="h-5 w-5 text-gray-700 mr-3 flex-shrink-0" />
+                                <a href={`mailto:${office.email}`} className="hover:text-gray-600">{office.email}</a>
                             </div>
 
                             <div className="flex items-center">
-                                <Clock className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0" />
+                                <Clock className="h-5 w-5 text-gray-700 mr-3 flex-shrink-0" />
                                 <p>{office.hours}</p>
                             </div>
                         </div>

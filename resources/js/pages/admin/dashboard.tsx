@@ -1,8 +1,28 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, Legend, AreaChart, Area, CartesianGrid } from 'recharts';
-import { Quote } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, AreaChart, Area, CartesianGrid } from 'recharts';
+import { CalendarArrowDown, CheckCheck, CheckCircle2Icon, Link, LucideChartNoAxesCombined, MessageCircleXIcon, Quote } from 'lucide-react';
+import { CheckboxIndicator } from '@radix-ui/react-checkbox';
+
+interface Quote {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    location: string;
+    zip_code: string;
+    origin: string;
+    destination: string;
+    cargo_type: string;
+    cargo_description: string;
+    weight: number;
+    dimensions: string;
+    ready_date: string;
+    special_requirements: string;
+    is_answered: boolean;
+    created_at: string;
+}
 
 interface DashboardProps {
     stats: {
@@ -13,6 +33,7 @@ interface DashboardProps {
         totalQuotes: number;
     };
     quotesOverTime: { date: string; count: number }[];
+    recentQuotes: Quote[];
     messagesByDepartment: { department: string; count: number }[];
 }
 
@@ -30,7 +51,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: '/admin/dashboard' },
 ];
 
-export default function Dashboard({ stats, quotesOverTime, messagesByDepartment }: DashboardProps) {
+export default function Dashboard({ stats, quotesOverTime, messagesByDepartment, recentQuotes }: Readonly<DashboardProps>) {
     // Combined status data
     const combinedStatusData = [
         { name: 'Unread Messages', value: stats.unreadMessages, type: 'message' },
@@ -52,11 +73,17 @@ export default function Dashboard({ stats, quotesOverTime, messagesByDepartment 
             <div className="p-6 space-y-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
                 {/* Header */}
                 <div className="flex justify-between items-center">
-                    <h1 className="text-3xl font-bold text-gray-800">
-                        Dashboard Overview
-                    </h1>
-                    <div className="text-sm text-gray-500 bg-white/50 backdrop-blur-sm px-3 py-1 rounded-full">
-                        Last updated: {new Date().toLocaleDateString()}
+                    <div className="flex-col items-center space-x-2">
+                        <h1 className="text-sm md:text-xl font-bold text-gray-800">
+                            Dashboard Overview
+                        </h1>
+                        <h1 className="text-sm font-bold text-gray-500">
+                            What's happening today on SkyPortCargo.
+                        </h1>
+                    </div>
+                    <div className="flex justify-between items-center md:text-sm text-xs gap-2 text-gray-700 bg-white/50 backdrop-blur-sm px-3 py-1 rounded-full">
+                        <CalendarArrowDown className="text-gray-700 text-xs md:size-4 size-10" />
+                        Last Logged In: {new Date().toLocaleDateString()}
                     </div>
                 </div>
 
@@ -103,7 +130,7 @@ export default function Dashboard({ stats, quotesOverTime, messagesByDepartment 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Combined Status Chart */}
-                    <div className="bg-white rounded-xl shadow border border-gray-100 p-6 max-w-2xl">
+                    <div className="bg-white rounded-xl shadow border border-gray-100 p-3 max-w-2xl">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-lg font-semibold text-gray-800">Messages & Quotes Status</h3>
                             <div className="flex space-x-4">
@@ -119,7 +146,7 @@ export default function Dashboard({ stats, quotesOverTime, messagesByDepartment 
                         </div>
                         <div className="h-[260px]">
                             <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
+                                <PieChart margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
                                     <Pie
                                         data={combinedStatusData}
                                         dataKey="value"
@@ -171,7 +198,7 @@ export default function Dashboard({ stats, quotesOverTime, messagesByDepartment 
                     </div>
 
                     {/* Messages By Department Column Chart */}
-                    <div className="bg-white rounded-xl shadow border border-gray-100 p-6 max-w-2xl">
+                    <div className="bg-white rounded-xl shadow border border-gray-100 p-3 max-w-2xl">
                         <h3 className="text-lg font-semibold text-gray-800 mb-6">Messages by Department</h3>
                         <div className="h-[300px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -233,56 +260,157 @@ export default function Dashboard({ stats, quotesOverTime, messagesByDepartment 
                 </div>
 
                 {/* Quotes Over Time Area Chart */}
-                <div className="bg-white rounded-xl shadow border border-gray-100 p-6 max-w-2xl">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-6">Quotes Over Time</h3>
-                    <div className="h-[250px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={formattedQuotesOverTime}>
-                                <defs>
-                                    <linearGradient id="colorQuotes" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor={GLOW_COLORS.primary} stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor={GLOW_COLORS.primary} stopOpacity={0.2} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                                <XAxis
-                                    dataKey="date"
-                                    tick={{ fontSize: 12, fill: '#6B7280' }}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    padding={{ left: 20, right: 20 }}
-                                />
-                                <YAxis
-                                    tick={{ fontSize: 12, fill: '#6B7280' }}
-                                    tickLine={false}
-                                    axisLine={false}
-                                />
-                                <Tooltip
-                                    contentStyle={{
-                                        background: 'rgba(255, 255, 255, 0.9)',
-                                        borderRadius: '8px',
-                                        border: '1px solid rgba(229, 231, 235, 0.5)',
-                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                                        padding: '12px',
-                                    }}
-                                    formatter={(value) => [`${value} quotes`, 'Count']}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="count"
-                                    stroke={GLOW_COLORS.primary}
-                                    strokeWidth={2}
-                                    fillOpacity={1}
-                                    fill="url(#colorQuotes)"
-                                    activeDot={{
-                                        r: 6,
-                                        strokeWidth: 2,
-                                        fill: GLOW_COLORS.primary,
-                                        stroke: '#fff',
-                                    }}
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+                <div className="rounded-sm grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="bg-white rounded-xl shadow border border-gray-100 p-3">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-6">Quotes Over Time</h3>
+                        <div className="h-[250px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart data={formattedQuotesOverTime}>
+                                    <defs>
+                                        <linearGradient id="colorQuotes" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor={GLOW_COLORS.primary} stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor={GLOW_COLORS.primary} stopOpacity={0.2} />
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                                    <XAxis
+                                        dataKey="date"
+                                        tick={{ fontSize: 12, fill: '#6B7280' }}
+                                        tickLine={false}
+                                        axisLine={false}
+                                        padding={{ left: 20, right: 20 }}
+                                    />
+                                    <YAxis
+                                        tick={{ fontSize: 12, fill: '#6B7280' }}
+                                        tickLine={false}
+                                        axisLine={false}
+                                    />
+                                    <Tooltip
+                                        contentStyle={{
+                                            background: 'rgba(255, 255, 255, 0.9)',
+                                            borderRadius: '8px',
+                                            border: '1px solid rgba(229, 231, 235, 0.5)',
+                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                            padding: '12px',
+                                        }}
+                                        formatter={(value) => [`${value} quotes`, 'Count']}
+                                    />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="count"
+                                        stroke={GLOW_COLORS.primary}
+                                        strokeWidth={2}
+                                        fillOpacity={1}
+                                        fill="url(#colorQuotes)"
+                                        activeDot={{
+                                            r: 6,
+                                            strokeWidth: 2,
+                                            fill: GLOW_COLORS.primary,
+                                            stroke: '#fff',
+                                        }}
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-xl p-3 shadow border border-gray-50">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-6">Rescent Quotes</h3>
+                        <div className="w-full overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                        >
+                                            <div className="flex items-center">
+                                                Date
+                                                <CalendarArrowDown className="ml-1 h-4 w-4" />
+                                            </div>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                        >
+                                            <div className="flex items-center">
+                                                Name
+                                                <LucideChartNoAxesCombined className="ml-1 h-4 w-4" />
+                                            </div>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                        >
+                                            <div className="flex items-center">
+                                                Origin
+                                            </div>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                        >
+                                            <div className="flex items-center">
+                                                Destination
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Cargo Type
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                        >
+                                            <div className="flex items-center">
+                                                Status
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {recentQuotes.map((quote) => (
+                                        <tr key={quote.id} className={quote.is_answered ? 'bg-gray-50' : 'bg-white'}>
+                                            <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {new Date(quote.created_at).toLocaleDateString()}
+                                            </td>
+                                            <td className="px-3 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-medium text-gray-900">{quote.name}</div>
+                                                <div className="text-sm text-gray-500">{quote.email}</div>
+                                            </td>
+                                            <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {quote.origin}
+                                            </td>
+                                            <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {quote.destination}
+                                            </td>
+                                            <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {quote.cargo_type}
+                                            </td>
+                                            <td className="px-3 py-4 whitespace-nowrap">
+                                                {quote.is_answered ? (
+                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                        Answered
+                                                    </span>
+                                                ) : (
+                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                        Pending
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="px-3 py-4 whitespace-nowrap text-right text-sm flex gap-5 items-center font-medium">
+                                                {quote.is_answered ? (
+                                                    <CheckCheck className="h-5 w-5 text-green-600 hover:text-green-900" />
+                                                ) : (
+                                                    <CheckCheck className="h-5 w-5 text-gray-600 hover:text-gray-900" />
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -298,7 +426,7 @@ function StatCard({
     percentage,
     color,
     glow
-}: {
+}: Readonly<{
     title: string;
     value: number;
     icon?: React.ReactNode;
@@ -306,7 +434,7 @@ function StatCard({
     percentage?: string;
     color: string;
     glow: string;
-}) {
+}>) {
     return (
         <div className={`rounded-xl p-5 ${glow} bg-gradient-to-br ${color} text-white`}>
             <div>

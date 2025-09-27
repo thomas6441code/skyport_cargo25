@@ -16,7 +16,7 @@ class AboutController extends Controller
     {
         return Inertia::render('AboutPage', [
             'stats' => Stat::latest()->get(),
-	    'companydata' => CompanyMissionVision::all()->first(),
+	        'companydata' => CompanyMissionVision::all()->first(),
             'image'=> Slider::inRandomOrder()->take(1)->get()->first(),
             'services' => Service::latest()->get(),
             'teamMembers' => Member::latest()->get(),

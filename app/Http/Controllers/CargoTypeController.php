@@ -32,19 +32,19 @@ class CargoTypeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:254',
             'description' => 'required|string|max:255',
         ]);
 
 
         try {
-            
+
             $cargoType = CargoType::create($validated);
-    
+
             return redirect()->route('admin.cargotypes.index')->with('success', 'CargoType submited successfully!');
 
         } catch (\Exception $e) {
-        
+
             return redirect()->route('admin.cargotypes.create')->with('success', 'CargoType creation failed!');
         }
     }
@@ -72,7 +72,7 @@ class CargoTypeController extends Controller
      */
     public function update(Request $request, CargoType $cargoType)
     {
-        
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',

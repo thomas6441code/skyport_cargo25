@@ -22,7 +22,7 @@ class HomeController extends Controller
         $services = Service::all();
         $companydata = CompanyMissionVision::all()->first();
         $testimonials = Testimonial::take(5)->get();
-	$routes = FlightRoute::with('stops')->get();
+	    $routes = FlightRoute::with('stops')->get();
 
         return Inertia::render('HomePage', [
             'faqs'=> $faqs,

@@ -8,17 +8,18 @@ use App\Models\Slider;
 use App\Mail\QuoteReply;
 use App\Models\CargoType;
 use Illuminate\Http\Request;
-use Illuminate\Mail\SentMessage;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use App\Mail\QuoteConfirmation;
+use Illuminate\Mail\SentMessage;
 use App\Mail\NewQuoteNotification;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class QuoteController extends Controller
 {
+
     public function index()
     {
 
@@ -152,7 +153,7 @@ class QuoteController extends Controller
             ], 500);
         }
     }
-    
+
     public function sendEmail(Request $request)
     {
         $validated = $request->validate([
@@ -161,9 +162,9 @@ class QuoteController extends Controller
             'content' => 'required|string',
             'quote_id' => 'required|exists:quotes,id',
         ]);
-    
+
         $quote = Quote::findOrFail($validated['quote_id']);
-    
+
         try {
             Mail::to($validated['to'])
             ->send(new QuoteReply(
@@ -190,8 +191,9 @@ class QuoteController extends Controller
     public function markAsAnswered(Quote $quote)
     {
         $quote->update(['is_answered' => true]);
-        
+
         return back()->with('success', 'Quote marked as answered');
     }
+
 
 }

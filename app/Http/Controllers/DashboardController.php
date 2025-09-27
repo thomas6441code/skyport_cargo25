@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
@@ -22,6 +22,7 @@ class DashboardController extends Controller
             ],
             'quotesOverTime' => Quote::selectRaw("DATE(created_at) as date, COUNT(*) as count")
                 ->groupBy('date')->orderBy('date')->get(),
+            'recentQuotes' => Quote::take(5)->orderBy('updated_at', 'desc')->get(),
             'messagesByDepartment' => Message::select('department', \DB::raw('COUNT(*) as count'))
                 ->groupBy('department')->get(),
         ]);
