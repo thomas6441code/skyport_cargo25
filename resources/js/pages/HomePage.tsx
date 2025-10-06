@@ -80,9 +80,9 @@ interface FlightRoute {
 interface Props {
     faqs: Faqs[];
     stats: Stats[];
-    companydata: CompanyData; 
+    companydata: CompanyData;
     slides: Slide[];
-    routes: FlightRoute[]; 
+    routes: FlightRoute[];
     services: Service[];
     testimonials: Testimonial[];
 }
@@ -90,13 +90,13 @@ interface Props {
 export default function HomePage({ companydata, routes, testimonials, slides, faqs, stats, services }: Props) {
 
     return (
-        <MainLayout>
+        <MainLayout >
             <ImageSlider images={slides} />
 
             <StatsBanner stats={stats} />
 
 
-             <div className="bg-white text-center py-14 z-30 md:px-6">
+             <div className="bg-white text-center py-14 z-30 md:px-20">
                 <div className="text-center mb-14">
                     <span className="inline-block px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-medium uppercase tracking-wider mb-3">
                         Our Philosophy
@@ -107,7 +107,7 @@ export default function HomePage({ companydata, routes, testimonials, slides, fa
                     <div className="relative max-w-2xl mx-auto">
                         <p className="text-gray-600 leading-relaxed">
 		          Redefining global logistics with intelligent technology, precision execution,
-			 and sustainable innovation - moving businesses forward while bringing the world closer together.                            
+			 and sustainable innovation - moving businesses forward while bringing the world closer together.
                        </p>
                         <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-sky-500"></div>
                     </div>

@@ -12,12 +12,12 @@ use Illuminate\Validation\ValidationException;
 
 class SliderController extends Controller
 {
-  
+
     public function index()
     {
         $slides = Slider::all();
-        return Inertia::render('admin/slides/SlidesAdmin',[
-            'slides'=>$slides
+        return Inertia::render('admin/slides/SlidesAdmin', [
+            'slides' => $slides
         ]);
     }
 
@@ -38,9 +38,9 @@ class SliderController extends Controller
 
             $image = $request->file('slide_url');
             $extension = $image->getClientOriginalExtension();
-            $filename = time().'_'.Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)).'.'.$extension;
+            $filename = time() . '_' . Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $extension;
 
-            $image->move(public_path('images/slides'), $filename);
+            $image->move(public_path('/images/slides'), $filename);
 
             $slide = Slider::create([
                 'title' => $request->title,
@@ -51,10 +51,9 @@ class SliderController extends Controller
 
             return response()->json([
                 'success' => true,
-		'slides'=>$slides,
+                'slides' => $slides,
                 'message' => 'Slide Created Succefuly.',
             ]);
-
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
@@ -67,8 +66,6 @@ class SliderController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-
-
     }
 
     public function update(Request $request, Slider $slide)
@@ -81,7 +78,7 @@ class SliderController extends Controller
 
             if ($request->hasFile('slide_url')) {
                 // Delete old image
-                $oldimage = public_path('images/slides/'). $slide->slide_url;
+                $oldimage = public_path('/images/slides/') . $slide->slide_url;
                 if (file_exists($oldimage)) {
                     unlink($oldimage);
                 }
@@ -89,9 +86,9 @@ class SliderController extends Controller
                 // Store new image
                 $image = $request->file('slide_url');
                 $extension = $image->getClientOriginalExtension();
-                $filename = time().'_'.Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)).'.'.$extension;
+                $filename = time() . '_' . Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $extension;
 
-                $image->move(public_path('images/slides'), $filename);
+                $image->move(public_path('/images/slides'), $filename);
                 $slide->slide_url = $filename;
             }
 
@@ -100,7 +97,7 @@ class SliderController extends Controller
 
             return response()->json([
                 'success' => true,
-		'slides'=>Slider::all(),
+                'slides' => Slider::all(),
                 'message' => 'Slide updated Succefuly.',
             ]);
         } catch (ValidationException $e) {
@@ -123,21 +120,20 @@ class SliderController extends Controller
 
         try {
 
-             // Delete old image
-             $oldimage = public_path('images/slides/'). $slide->slide_url;
-             if (file_exists($oldimage)) {
+            // Delete old image
+            $oldimage = public_path('/images/slides/') . $slide->slide_url;
+            if (file_exists($oldimage)) {
                 unlink($oldimage);
-             }
+            }
 
             $slide->delete();
 
             return response()->json([
                 'success' => true,
-		'slides'=>Slider::all(),
+                'slides' => Slider::all(),
                 'message' => 'Slide deleted Succefuly.',
             ]);
-
-	} catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while deleting your slide request.',

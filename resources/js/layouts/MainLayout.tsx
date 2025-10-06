@@ -10,7 +10,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
             <div className="min-h-screen flex flex-col">
                 {children}
             </div>
-	    <WhatsAppFloater/>
+	        <WhatsAppFloater/>
             <Footer />
         </div>
     );

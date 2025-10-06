@@ -8,7 +8,7 @@ import {
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
-    Atom, ChartBarDecreasingIcon, PlaneTakeoff, 
+    Atom, ChartBarDecreasingIcon, PlaneTakeoff,
     Folder, GalleryThumbnails, LayoutGrid, LocateFixed,
     LucideGitPullRequestDraft, MessageCircleIcon, PackageOpen, SettingsIcon,
     ShieldQuestion, FileText, StarIcon, Users2Icon, WorkflowIcon
@@ -103,7 +103,7 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" className='rounded-lg shadow-2xl' variant="sidebar" >
+        <Sidebar collapsible="icon" className='rounded-lg shadow-2xl hide-scrollbar' variant="sidebar" >
             <SidebarHeader className='backdrop-blur-xs' >
                 <SidebarMenu>
                     <SidebarMenuItem>
